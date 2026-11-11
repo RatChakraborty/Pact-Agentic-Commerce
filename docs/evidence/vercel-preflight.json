@@ -1,0 +1,21 @@
+{
+  "deployed": false,
+  "public_url": null,
+  "phase": "local_implementation_verified_external_deployment_blocked",
+  "vercel_authentication": "CLI logged out (isolated global-config directory)",
+  "vercel_api_access": "Proxy CONNECT 403",
+  "managed_database_binding": "PACT_DATABASE_URL absent; actual local PostgreSQL used only for tests",
+  "backend_passed": 79,
+  "actual_postgresql_tests_passed": 5,
+  "frontend_passed": 5,
+  "distinct_browser_cases_passed": 7,
+  "build_passed": true,
+  "source_and_bundle_secret_scan_passed": true,
+  "paypal_precheck": "Existing sandbox invoice PAID; USD 300 paid, USD 0 due. Read-only check, no new transaction.",
+  "nautilus_resources_modified": false,
+  "hosted_checks_executed": false,
+  "limitations": [
+    "No authenticated Vercel project or managed production database.",
+    "Local concurrency/fresh-process evidence does not establish an actual Vercel cold-start result."
+  ]
+}

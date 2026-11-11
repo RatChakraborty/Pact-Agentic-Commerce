@@ -1,8 +1,16 @@
 # Pact — Agreements, with intent
 
-Pact is a local sandbox commerce demo: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
+Pact is an agent-commerce application with a private sandbox workflow and an anonymous judge-demo mode: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
 
 **Verified:** real sandbox OAuth, invoice creation/read/send, and a provider-confirmed **$300 USD payment** on invoice `INV2-N6CJ-RJXM-96WT-XDVG`. Pact reconciles it to `PAID`. Genuine four-call live AI negotiation and bounded semantic evaluation are also verified. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
+
+## Public judge demo and Vercel
+
+The Vercel function entrypoint, Vite routing, anonymous sample workflow and PostgreSQL persistence are implemented. **No public deployment or URL has been created by this session:** Vercel authentication, a new dedicated managed database, and deployment-host network access are missing. See [exact Vercel setup and verification steps](docs/VERCEL.md).
+
+The public mode needs no visitor accounts or provider credentials. It lets judges negotiate a deterministic sample, accept fingerprint-bound terms, load example evidence, see verification, investigate a blocked recipient change and inspect their audit history. It creates no invoice/payment and uses no paid model calls. Recorded real AI and paid sandbox evidence is clearly separated under Workspace. Sponsor expansion waits for actual public-deployment verification.
+
+`PUBLIC_DEMO=true` selects that mode. `PACT_DATABASE_URL` selects a **new dedicated** PostgreSQL database; generic `DATABASE_URL` and existing Redis bindings are ignored. On Vercel, persistent PostgreSQL and a strong session secret are mandatory; ephemeral SQLite fallback is forbidden. Local SQLite support remains intact.
 
 ## Run locally
 
@@ -76,7 +84,7 @@ PAYPAL_CLIENT_ID= PAYPAL_CLIENT_SECRET= DATABASE_PATH=/tmp/pact-browser.db \
   backend/.venv/bin/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8001
 # Terminal 2, frontend/
 PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://127.0.0.1:8001 \
-  npm run test:e2e -- --grep 'brief,|mobile|session bootstrap'
+  npm run test:e2e -- e2e/workflow.spec.ts --grep 'brief,|mobile|session bootstrap'
 ```
 
 If no system Chromium exists, install the supported Playwright Chromium with `npx playwright install chromium`; omit `PACT_CHROMIUM_PATH`. In restricted cloud images use a writable `PLAYWRIGHT_BROWSERS_PATH` and cache directory. Do not disable download verification.
@@ -89,7 +97,7 @@ PYTHONPATH=backend DATABASE_PATH=/tmp/pact-browser-mock.db \
   backend/.venv/bin/uvicorn browser_server:app --app-dir backend/tests --host 127.0.0.1 --port 8003
 # Terminal 2, frontend/
 PACT_MOCK_PROVIDER=1 PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://127.0.0.1:8003 \
-  npm run test:e2e -- --grep 'full browser'
+  npm run test:e2e -- e2e/workflow.spec.ts --grep 'full browser'
 ```
 
 The harness has a test-only provider status control; it is absent from `app.main:app`. Mocked paid status proves UI/backend integration, not a real payment. Tests use separate SQLite files and never create external invoices.
@@ -106,6 +114,22 @@ The current local ignored `.env` contains **nonsecret development limits only**:
 
 ## Limits and submission
 
-This is a single-browser, local demo, not a multi-user production service. Browser possession authorizes both demo roles. There is no account login, seller identity enrollment, webhook receiver, deployment, dedicated small model, marketplace, escrow or Orders capture integration. Cookies are intended for loopback HTTP; the prepared Render mode adds a tested single-operator password gate, HTTPS-only cookies and exact public-origin checks. It still needs an authorized deployment and platform validation. No production deployment is authorized.
+The private workflow uses browser possession for both demo roles; it is not a multi-user financial service. The new public mode isolates anonymous visitor records in PostgreSQL and blocks provider actions. There is no account login, seller identity enrollment, webhook receiver, deployment, dedicated small model, marketplace, escrow or Orders capture integration. Cookies are intended for loopback HTTP; the prepared Render mode adds a tested single-operator password gate, HTTPS-only cookies and exact public-origin checks. It still needs an authorized deployment and platform validation. A new isolated Vercel deployment is authorized but blocked by missing account/database/network capabilities. No deployment has been performed; other projects remain untouched.
 
 [Demo script](docs/DEMO.md) · [Acceptance matrix](docs/ACCEPTANCE.md) · [Product plan](docs/PLAN.md) · [MIT license](LICENSE)
+
+## PostgreSQL / anonymous demo tests
+
+The full validation run passed **79 backend tests**, **5 frontend tests**, the production build and **7 distinct browser scenarios** (3 public, 3 existing private, 1 explicitly mocked payment). Five backend tests used actual PostgreSQL, including concurrency and a fresh-process budget read. These are local results, not Vercel-hosted results.
+
+For PostgreSQL tests, provide a newly created local test database as `PACT_TEST_DATABASE_URL`; its name must begin `pact_` and end `_test`. Test fixtures deliberately reset only that dedicated database. Do not point this variable at production or Nautilus. Without it, the five PostgreSQL tests are explicitly skipped rather than falsely claimed as verified.
+
+To run public browser checks against a running public-mode test server or a subsequently verified deployment:
+
+```bash
+cd frontend
+PACT_PUBLIC_DEMO=1 PACT_TEST_URL=ACTUAL_TARGET_ORIGIN PACT_CHROMIUM_PATH=/usr/bin/chromium \
+  npm run test:e2e -- e2e/public.spec.ts
+```
+
+The deployment guide includes the no-provider HTTP acceptance probe. Hosted behavior, managed-database TLS and actual Vercel cold starts remain unverified until account access is supplied.

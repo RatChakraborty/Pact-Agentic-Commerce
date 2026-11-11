@@ -43,3 +43,9 @@ Sources inspected:
 A meaningful Studio integration would load only the current browser's agreements, proposals, verification checks and audit events. A bounded investigator could explain blocked offers, filter events and cross-reference a provider status with an accepted fingerprint. It must have **no payment-write tools**, no direct browser API key, and a separate explicit call allowance. It belongs behind the Workspace menu as **Activity & Insights**, with a close action returning to the untouched primary workspace. No persistent dashboard, invented metrics or static-table-as-agent claim is acceptable.
 
 Buyer payment is now verified. Commercial/host prerequisites still prevent the optional Studio/context-plugin integrations. No unused sponsor runtime libraries were added to the product bundle.
+
+## Updated priority: public Vercel deployment first
+
+The new isolated Vercel deployment is authorized, with managed PostgreSQL selected under the explicit reliability fallback. Implementation and local tests are complete; actual deployment is blocked by account/database/network access. Vercel is hosting preparation, **not an asserted hackathon sponsor integration or prize claim**. No existing Nautilus resources were accessed or changed.
+
+Phase 2 remains DEFERRED until the public site is stable and verified. A smaller genuine AG Grid investigator is now permitted by the latest directive if Studio is infeasible, but none has been added or represented as Studio Agent Framework functionality. APIMatic's earlier registration blocker remains; no additional plugin invocation or integration claim was made. Historical Render preparation remains available but is not the selected deployment target, and no Render service or Workflows integration has been executed.

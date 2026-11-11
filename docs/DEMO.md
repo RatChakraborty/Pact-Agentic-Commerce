@@ -43,3 +43,19 @@ React presents one same-origin workspace. FastAPI owns the browser session, type
 ## Final demonstration emphasis
 
 Show the live negotiation evidence, then the accepted fingerprint and a blocked changed-recipient attempt. Explain that real invoice lifecycle and live negotiation were independently verified; do not imply the existing deterministic-run invoice was created by the later live run. Keep payment unpaid/pending until an actual buyer checkout is confirmed. Sponsor claims must match SPONSORS.md: prepared/inspected tooling is not a completed integration or guaranteed eligibility.
+
+## Public website recording sequence — use after deployment gates pass
+
+No public URL is available from this session yet. Do not record a localhost page and describe it as a deployed judge experience. First complete the new-project Preview and stable-URL checks in VERCEL.md.
+
+- **0–20 s:** Open the actual stable URL in a clean browser. Explain agent negotiation needs explicit authorization and verifiable outcomes.
+- **20–50 s:** Start the prefilled **deterministic** sample. Show buyer/seller counteroffers and the clear price/budget panel; do not label this live inference.
+- **50–80 s:** Inspect the fingerprint/wording disclosure, accept terms, then continue to the demo milestone. Explain that this interactive sample creates no invoice or charge.
+- **80–110 s:** Load example evidence and show observed structural checks. Refresh and show persisted state/audit.
+- **110–140 s:** Investigate a blocked recipient substitution through the existing disclosure. Show rejection and its audit event.
+- **140–165 s:** Open Workspace → Recorded real API evidence. Explain the separate actual four-call AI negotiation and real sandbox PAID receipt; do not imply the old invoice came from the later live run or the visitor's sample.
+- **165–175 s:** Close the disclosure and summarize the trustworthy execution boundary. Include the actual tested URL in the submission only after it exists.
+
+The public Devpost narrative should say PostgreSQL-backed anonymous interactive demo only after hosted checks pass. Until then, describe the Vercel deployment as prepared but blocked. Video recording/upload and submission remain human steps; no YouTube URL has been invented.
+
+Until a merge is separately authorized, link judges to the actual implementation source at `https://github.com/RatChakraborty/Pact-Agentic-Commerce/tree/feature/pact-core`, rather than implying default main contains these changes.
