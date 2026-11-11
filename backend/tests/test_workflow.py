@@ -62,6 +62,7 @@ class FakePayPal:
         self.a = None
 
     def create(self, a):
+        self.state = "DRAFT"
         self.a = a
         self.created += 1
         return {"id": "INV2-TEST"}

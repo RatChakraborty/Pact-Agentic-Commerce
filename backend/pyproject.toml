@@ -2,7 +2,7 @@
 name = "pact-backend"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1", "httpx>=0.28,<1", "pydantic-settings>=2.7,<3", "itsdangerous>=2.2,<3", "email-validator>=2,<3"]
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1", "httpx>=0.28,<1", "pydantic-settings>=2.7,<3", "itsdangerous>=2.2,<3", "email-validator>=2,<3", "psycopg[binary]>=3.2,<4"]
 [project.optional-dependencies]
 test = ["pytest>=8,<10"]
 [tool.pytest.ini_options]

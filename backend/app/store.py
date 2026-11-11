@@ -8,6 +8,20 @@ from .domain import Agreement, AuditEvent, now
 
 @contextmanager
 def transaction():
+    if settings.pact_database_url:
+        from .postgres import transaction as postgres_transaction
+
+        with postgres_transaction(
+            settings.pact_database_url, settings.vercel
+        ) as database:
+            yield database
+        return
+    if settings.vercel:
+        from .postgres import StorageUnavailable
+
+        raise StorageUnavailable(
+            "A dedicated PostgreSQL database is required on Vercel."
+        )
     db = sqlite3.connect(settings.database_path, timeout=60)
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys=ON")
@@ -19,6 +33,8 @@ def transaction():
     INSERT OR IGNORE INTO usage VALUES(1,0);
     CREATE TABLE IF NOT EXISTS budget(id INTEGER PRIMARY KEY CHECK(id=1), reserved_usd REAL NOT NULL);
     INSERT OR IGNORE INTO budget VALUES(1,0);
+    CREATE TABLE IF NOT EXISTS sessions(id TEXT PRIMARY KEY, expires INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS throttles(id TEXT PRIMARY KEY, window_id INTEGER NOT NULL, count INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS ai_reservations(seq INTEGER PRIMARY KEY, timestamp TEXT, purpose TEXT, calls INTEGER, reserved_usd REAL);
     CREATE TABLE IF NOT EXISTS ai_observations(seq INTEGER PRIMARY KEY, timestamp TEXT, purpose TEXT, data TEXT);""")
     db.execute("BEGIN IMMEDIATE")

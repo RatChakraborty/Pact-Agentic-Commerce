@@ -24,6 +24,7 @@ class NewAgreement(Strict):
         default=["hero", "features", "contact"], min_length=1, max_length=3
     )
     mode: Literal["deterministic", "live"] = "deterministic"
+    demo: bool = False
 
 
 class Offer(Strict):
@@ -117,6 +118,7 @@ State = Literal[
     "PROPOSED",
     "ACCEPTED",
     "INVOICED",
+    "AWAITING_EVIDENCE",
     "NEEDS_REVIEW",
     "VERIFIED",
     "PAYMENT_PENDING",

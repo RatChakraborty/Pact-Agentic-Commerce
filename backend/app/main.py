@@ -19,6 +19,9 @@ from .critique import review as critique_terms
 from .domain import Approval, Evidence, Negotiate, NewAgreement, Review, now
 from .integrity import IntegrityError, canonical_terms, digest, verify_accepted
 from .paypal import ProviderError, paypal
+from .postgres import StorageUnavailable
+from .public import EXAMPLE_HTML, live_capability, throttle
+from .public import session as ensure_session
 from .store import audit, save, transaction
 from .verification import verify
 
@@ -34,7 +37,13 @@ app.add_middleware(
 
 @app.middleware("http")
 async def protections(request, call_next):
-    if settings.app_access_password and request.url.path != "/api/health":
+    if settings.public_demo and request.url.path.startswith("/__test/"):
+        return JSONResponse({"detail": "Not found."}, status_code=404)
+    if (
+        settings.app_access_password
+        and not settings.public_demo
+        and request.url.path != "/api/health"
+    ):
         authorized = False
         try:
             scheme, encoded = request.headers.get("authorization", "").split(" ", 1)
@@ -74,7 +83,24 @@ async def protections(request, call_next):
             return JSONResponse(
                 {"detail": "Request exceeds artifact size limit."}, status_code=413
             )
-    response = await call_next(request)
+        chunks = []
+        length = 0
+        async for chunk in request.stream():
+            length += len(chunk)
+            if length > 120000:
+                return JSONResponse(
+                    {"detail": "Request exceeds artifact size limit."}, status_code=413
+                )
+            chunks.append(chunk)
+        request._body = b"".join(chunks)
+    try:
+        response = await call_next(request)
+    except StorageUnavailable:
+        return JSONResponse(
+            {"detail": "Persistent storage is unavailable. Please try again later."},
+            status_code=503,
+        )
+
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Content-Security-Policy"] = (
@@ -89,6 +115,7 @@ def owner(request: Request):
         request.session["owner"] = secrets.token_urlsafe(24)
     if request.method != "GET" and request.headers.get("x-pact-action") != "1":
         raise HTTPException(403, "Missing action protection.")
+    ensure_session(request.session["owner"], request)
     return request.session["owner"]
 
 
@@ -149,6 +176,9 @@ def health():
         db.execute("SELECT 1")
     return {
         "status": "ok",
+        "application": "pact",
+        "public_demo": settings.public_demo,
+        "storage": "postgresql" if settings.pact_database_url else "sqlite",
         "paypal_environment": "sandbox",
         "paypal_configured": bool(
             settings.paypal_client_id
@@ -171,7 +201,9 @@ def listing(user: Annotated[str, Depends(owner)]):
 
 
 @app.post("/api/agreements", status_code=201)
-def create(data: NewAgreement, user: Annotated[str, Depends(owner)]):
+def create(data: NewAgreement, request: Request, user: Annotated[str, Depends(owner)]):
+    if settings.public_demo and data.mode != "deterministic":
+        live_capability(request)
     if data.deadline <= datetime.now(UTC):
         raise HTTPException(422, "Choose a future delivery deadline.")
     if data.buyer_email == data.seller_email:
@@ -183,6 +215,7 @@ def create(data: NewAgreement, user: Annotated[str, Depends(owner)]):
     a = {
         "id": str(uuid4()),
         **data.model_dump(mode="json"),
+        "demo": settings.public_demo or data.demo,
         "version": 1,
         "status": "DRAFT",
         "currency": "USD",
@@ -198,8 +231,12 @@ def create(data: NewAgreement, user: Annotated[str, Depends(owner)]):
         count = db.execute(
             "SELECT COUNT(*) FROM agreements WHERE owner=?", (user,)
         ).fetchone()[0]
-        if count >= 30:
-            raise HTTPException(429, "Local demo agreement limit reached.")
+        if count >= (10 if settings.public_demo else 30):
+            raise HTTPException(429, "Demo agreement limit reached.")
+        if settings.public_demo:
+            throttle(db, "daily-agreements", 500, 86400)
+            if db.execute("SELECT COUNT(*) FROM agreements").fetchone()[0] >= 5000:
+                raise HTTPException(429, "Public demo capacity reached.")
         db.execute(
             "INSERT INTO agreements VALUES(?,?,?)", (a["id"], user, json.dumps(a))
         )
@@ -227,12 +264,15 @@ def history(id: str, user: Annotated[str, Depends(owner)]):
 
 
 @app.post("/api/agreements/{id}/negotiate")
-def negotiation(id: str, data: Negotiate, user: Annotated[str, Depends(owner)]):
+def negotiation(
+    id: str, data: Negotiate, request: Request, user: Annotated[str, Depends(owner)]
+):
     # Reserve the maximum live call allowance durably before contacting the model.
     with transaction() as db:
         a = load(db, id, user)
         require(db, a, "DRAFT", "NEGOTIATION_FAILED")
         if a["mode"] == "live":
+            live_capability(request)
             if data.scenario != "normal":
                 raise HTTPException(
                     422, "Failure demonstration uses deterministic mode only."
@@ -295,11 +335,18 @@ def negotiation(id: str, data: Negotiate, user: Annotated[str, Depends(owner)]):
 
 
 @app.post("/api/agreements/{id}/critique")
-def critique(id: str, data: CritiqueRequest, user: Annotated[str, Depends(owner)]):
+def critique(
+    id: str,
+    data: CritiqueRequest,
+    request: Request,
+    user: Annotated[str, Depends(owner)],
+):
     with transaction() as db:
         a = load(db, id, user)
         require(db, a, "PROPOSED")
         fingerprint = digest(a)
+    if data.mode == "live":
+        live_capability(request)
     text = "\n".join(f"{o['role']}: {o['explanation']}" for o in a["offers"])
     result = critique_terms(a, text, data.mode)
     with transaction() as db:
@@ -356,10 +403,15 @@ def accept(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
         return a
 
 
-@app.post("/api/agreements/{id}/invoice")
+@app.post("/api/agreements/{id}/invoice", dependencies=[Depends(live_capability)])
 def invoice(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
     with transaction() as db:
         a = load(db, id, user)
+        if a.get("demo"):
+            raise HTTPException(
+                409,
+                "This is a demonstration agreement; no provider operation is available.",
+            )
         check_approval(a, data)
         if a["invoice"]:
             return a
@@ -407,11 +459,47 @@ def invoice(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
     raise error
 
 
+@app.get("/api/demo/example")
+def demo_example():
+    return {"html": EXAMPLE_HTML}
+
+
+@app.get("/api/evidence")
+def recorded_evidence():
+    # Frozen public receipts only: no runtime provider request or credential data.
+    root = Path(__file__).resolve().parents[2] / "docs" / "evidence"
+    return {
+        "live_negotiation": json.loads((root / "live-negotiation.json").read_text()),
+        "sandbox_payment": json.loads((root / "paypal-readback.json").read_text()),
+        "note": "Recorded real API evidence from separate verified runs. Your interactive demo creates no invoice or payment.",
+    }
+
+
+@app.post("/api/agreements/{id}/demo-milestone")
+def demo_milestone(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
+    with transaction() as db:
+        a = load(db, id, user)
+        if not a.get("demo"):
+            raise HTTPException(409, "Use the provider workflow for this agreement.")
+        check_approval(a, data)
+        if a["status"] == "AWAITING_EVIDENCE":
+            return a
+        require(db, a, "ACCEPTED")
+        change(
+            db,
+            a,
+            "AWAITING_EVIDENCE",
+            "demo_milestone_opened",
+            {"provider_called": False},
+        )
+        return a
+
+
 @app.post("/api/agreements/{id}/evidence")
 def evidence(id: str, data: Evidence, user: Annotated[str, Depends(owner)]):
     with transaction() as db:
         a = load(db, id, user)
-        require(db, a, "INVOICED", "NEEDS_REVIEW", "VERIFIED")
+        require(db, a, "INVOICED", "AWAITING_EVIDENCE", "NEEDS_REVIEW", "VERIFIED")
         a["verification"] = verify(a, data.html)
         change(
             db,
@@ -443,10 +531,17 @@ def review(id: str, data: Review, user: Annotated[str, Depends(owner)]):
         return a
 
 
-@app.post("/api/agreements/{id}/payment-approval")
+@app.post(
+    "/api/agreements/{id}/payment-approval", dependencies=[Depends(live_capability)]
+)
 def payment(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
     with transaction() as db:
         a = load(db, id, user)
+        if a.get("demo"):
+            raise HTTPException(
+                409,
+                "This is a demonstration agreement; no provider operation is available.",
+            )
         check_approval(a, data)
         if a["approved_at"] and a["status"] in {"PAYMENT_PENDING", "PAID"}:
             return a
@@ -502,10 +597,15 @@ def payment(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
     raise error
 
 
-@app.post("/api/agreements/{id}/paypal-status")
+@app.post("/api/agreements/{id}/paypal-status", dependencies=[Depends(live_capability)])
 def refresh(id: str, user: Annotated[str, Depends(owner)]):
     with transaction() as db:
         a = load(db, id, user)
+        if a.get("demo"):
+            raise HTTPException(
+                409,
+                "This is a demonstration agreement; no provider operation is available.",
+            )
         if not a["invoice"]:
             raise HTTPException(409, "Create an invoice first.")
         p = paypal.validate(paypal.get(a["invoice"]["id"]), a)

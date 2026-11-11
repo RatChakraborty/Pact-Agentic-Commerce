@@ -16,3 +16,9 @@ describe("workflow actions", () => {
   });
   it("formats cents", () => expect(money(29999)).toBe("$299.99"));
 });
+
+it("public demo never offers invoice or payment actions", () => {
+  expect(nextAction("ACCEPTED", true)?.action).toBe("demo-milestone");
+  expect(nextAction("VERIFIED", true)).toBeNull();
+  expect(nextAction("AWAITING_EVIDENCE", true)).toBeNull();
+});

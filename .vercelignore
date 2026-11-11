@@ -1,0 +1,16 @@
+.git
+.env
+.env.*
+!.env.example
+.venv
+backend/.venv
+**/node_modules
+**/*.db
+**/*.db-*
+backend/tests
+backend/tools
+frontend/test-results
+frontend/playwright-report
+docs/screenshots
+backend/evaluate.py
+backend/evaluation_cases.json

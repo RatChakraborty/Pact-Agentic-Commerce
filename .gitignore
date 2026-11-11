@@ -229,3 +229,6 @@ node_modules/
 # Browser test outputs
 frontend/test-results/
 frontend/playwright-report/
+
+# Isolated deployment metadata and caches
+.vercel/

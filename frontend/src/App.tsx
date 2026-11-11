@@ -2,6 +2,7 @@ import { useState, useEffect, type FormEvent } from "react";
 import { money, nextAction } from "./workflow";
 type Agreement = {
   id: string;
+  demo?: boolean;
   terms_digest?: string;
   critique?: {
     verdict: string;
@@ -47,7 +48,12 @@ async function api(path: string, body?: unknown, signal?: AbortSignal) {
     headers: { "Content-Type": "application/json", "X-Pact-Action": "1" },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-  const d = await r.json();
+  let d;
+  try {
+    d = await r.json();
+  } catch {
+    throw Error("The service is temporarily unavailable. Please try again.");
+  }
   if (!r.ok)
     throw Error(
       typeof d.detail === "string"
@@ -62,6 +68,7 @@ const labels: Record<string, string> = {
   PROPOSED: "Ready for your review",
   ACCEPTED: "Terms accepted",
   INVOICED: "Awaiting deliverable",
+  AWAITING_EVIDENCE: "Awaiting deliverable",
   VERIFIED: "Ready for payment review",
   NEEDS_REVIEW: "Evidence needs review",
   PAYMENT_PENDING: "Awaiting PayPal payment",
@@ -95,16 +102,22 @@ export default function App() {
     [notice, setNotice] = useState(""),
     [menu, setMenu] = useState(false),
     [fresh, setFresh] = useState(false),
+    [customize, setCustomize] = useState(false),
     [scenario, setScenario] = useState("normal"),
     [events, setEvents] = useState<any[]>([]),
     [review, setReview] = useState(false),
-    [health, setHealth] = useState<any>(null);
+    [health, setHealth] = useState<any>(null),
+    [recorded, setRecorded] = useState<any>(null);
   useEffect(() => {
     const controller = new AbortController();
-    api("/agreements", undefined, controller.signal)
-      .then((l) => {
+    Promise.all([
+      api("/agreements", undefined, controller.signal),
+      api("/health", undefined, controller.signal),
+    ])
+      .then(([l, h]) => {
         if (controller.signal.aborted) return;
         setList(l);
+        setHealth(h);
         setA(l[0] || null);
       })
       .catch((e) => {
@@ -113,9 +126,6 @@ export default function App() {
       .finally(() => {
         if (!controller.signal.aborted) setReady(true);
       });
-    api("/health")
-      .then(setHealth)
-      .catch(() => {});
     return () => controller.abort();
   }, []);
   async function run(fn: () => Promise<Agreement>) {
@@ -139,17 +149,23 @@ export default function App() {
     if (!ready || busy) return;
     const f = new FormData(e.currentTarget);
     run(async () => {
-      const x = await api("/agreements", {
+      let x = await api("/agreements", {
         objective: f.get("objective"),
         budget_minor: Math.round(Number(f.get("budget")) * 100),
         asking_minor: Math.round(Number(f.get("asking")) * 100),
         seller_floor_minor: Math.round(Number(f.get("floor")) * 100),
-        buyer_email: f.get("buyer"),
-        seller_email: f.get("seller"),
+        buyer_email: health?.public_demo
+          ? "buyer@demo.example.com"
+          : f.get("buyer"),
+        seller_email: health?.public_demo
+          ? "seller@demo.example.com"
+          : f.get("seller"),
         deadline: new Date(String(f.get("deadline"))).toISOString(),
         criteria: ["hero", "features", "contact"],
         mode: f.get("mode"),
       });
+      if (health?.public_demo)
+        x = await api(`/agreements/${x.id}/negotiate`, { scenario: "normal" });
       setFresh(false);
       return x;
     });
@@ -171,13 +187,21 @@ export default function App() {
         ),
       );
   }
-  const primary = a ? nextAction(a.status) : null;
+  const primary = a ? nextAction(a.status, a.demo) : null;
+  const displayStatus =
+    a?.demo && a.status === "VERIFIED"
+      ? "Demo verified"
+      : a
+        ? labels[a.status]
+        : "";
   return (
     <>
       <header>
         <a className="brand" href="/">
           <span className="mark">p</span>Pact{" "}
-          <span className="sandbox">Sandbox</span>
+          <span className="sandbox">
+            {health?.public_demo ? "Interactive demo" : "Sandbox"}
+          </span>
         </a>
         <button
           className="quiet"
@@ -214,6 +238,41 @@ export default function App() {
             </button>
           ))}
           <details>
+            <summary>Recorded real API evidence</summary>
+            <p>
+              The interactive sample is deterministic. Separate real AI and
+              sandbox payment runs have also been verified.
+            </p>
+            <button
+              className="quiet"
+              onClick={() =>
+                api("/evidence")
+                  .then(setRecorded)
+                  .catch((e) => setError(e.message))
+              }
+            >
+              Load verified evidence
+            </button>
+            {recorded && (
+              <>
+                <p>
+                  Real AI:{" "}
+                  {
+                    recorded.live_negotiation.runs.find(
+                      (r: any) => r.outcome === "PROPOSED",
+                    )?.successful_calls
+                  }{" "}
+                  successful calls reached a $300 agreement.
+                </p>
+                <p>
+                  Separate PayPal sandbox invoice:{" "}
+                  {recorded.sandbox_payment.status}, $300 USD received. This
+                  recorded receipt is not a payment for your demo agreement.
+                </p>
+              </>
+            )}
+          </details>
+          <details>
             <summary>Connection details</summary>
             <p>
               Sandbox payments:{" "}
@@ -222,8 +281,10 @@ export default function App() {
               {health?.live_ai_configured ? "configured" : "not configured"}.
             </p>
             <p>
-              This local demo owns agreements through this browser session. Use
-              sandbox accounts only.
+              Agreements belong to this browser session.{" "}
+              {health?.public_demo
+                ? "Public demo actions use no live AI or payment services."
+                : "Use sandbox accounts only."}
             </p>
           </details>
         </section>
@@ -236,7 +297,9 @@ export default function App() {
             : "Good work starts\nwith clear terms."}
         </h1>
         <p className="intro">
-          Your agents negotiate. You approve the terms and payment.
+          {health?.public_demo
+            ? "Explore a sample contract. No accounts, charges, or payment requests."
+            : "Your agents negotiate. You approve the terms and payment."}
         </p>
         {error && (
           <div role="alert" className="message error">
@@ -261,109 +324,139 @@ export default function App() {
               <h2>What would you like to build?</h2>
               <span>01 / Brief</span>
             </div>
-            <label>
-              Objective
-              <textarea
-                name="objective"
-                required
-                minLength={10}
-                maxLength={1000}
-                defaultValue="Build a focused landing page for a local design studio."
-              />
-            </label>
-            <div className="form-grid">
+            {health?.public_demo && (
+              <>
+                <p className="scope">
+                  A prefilled landing-page brief, a $300 budget, and three
+                  testable sections. No accounts or payments needed.
+                </p>
+                <button
+                  type="button"
+                  className="quiet"
+                  aria-expanded={customize}
+                  onClick={() => setCustomize(!customize)}
+                >
+                  Customize sample
+                </button>
+              </>
+            )}
+            <div hidden={!!health?.public_demo && !customize}>
               <label>
-                Maximum budget (USD)
-                <input
-                  name="budget"
-                  type="number"
-                  step="0.01"
-                  min="1"
-                  max="1000"
-                  defaultValue="300"
+                Objective
+                <textarea
+                  name="objective"
                   required
+                  minLength={10}
+                  maxLength={1000}
+                  defaultValue="Build a focused landing page for a local design studio."
                 />
               </label>
-              <label>
-                Delivery deadline
-                <input
-                  name="deadline"
-                  type="datetime-local"
-                  required
-                  defaultValue={new Date(Date.now() + 7 * 86400000)
-                    .toISOString()
-                    .slice(0, 16)}
-                />
-              </label>
-              <label>
-                Sandbox buyer email
-                <input
-                  name="buyer"
-                  type="email"
-                  required
-                  placeholder="Buyer test account"
-                />
-              </label>
-              <label>
-                Sandbox merchant email
-                <input
-                  name="seller"
-                  type="email"
-                  required
-                  placeholder="Merchant test account"
-                />
-              </label>
-            </div>
-            <p className="scope">
-              Deliverable: static HTML with hero, features and contact sections.
-              Structural checks only.
-            </p>
-            <details>
-              <summary>Negotiation preferences</summary>
               <div className="form-grid">
                 <label>
-                  Seller asking price (USD)
+                  Maximum budget (USD)
                   <input
-                    name="asking"
-                    type="number"
-                    step="0.01"
-                    min="1"
-                    max="2000"
-                    defaultValue="360"
-                    required
-                  />
-                </label>
-                <label>
-                  Seller minimum (USD)
-                  <input
-                    name="floor"
+                    name="budget"
                     type="number"
                     step="0.01"
                     min="1"
                     max="1000"
-                    defaultValue="240"
+                    defaultValue="300"
                     required
                   />
                 </label>
                 <label>
-                  Agent execution
-                  <select name="mode">
-                    <option value="deterministic">
-                      Deterministic demo · no AI calls
-                    </option>
-                    <option value="live">Live AI · up to 6 turns</option>
-                  </select>
+                  Delivery deadline
+                  <input
+                    name="deadline"
+                    type="datetime-local"
+                    required
+                    defaultValue={new Date(Date.now() + 7 * 86400000)
+                      .toISOString()
+                      .slice(0, 16)}
+                  />
                 </label>
+                {!health?.public_demo && (
+                  <>
+                    <label>
+                      Sandbox buyer email
+                      <input
+                        name="buyer"
+                        type="email"
+                        required
+                        placeholder="Buyer test account"
+                      />
+                    </label>
+                    <label>
+                      Sandbox merchant email
+                      <input
+                        name="seller"
+                        type="email"
+                        required
+                        placeholder="Merchant test account"
+                      />
+                    </label>
+                  </>
+                )}
               </div>
-            </details>
+              <p className="scope">
+                Deliverable: static HTML with hero, features and contact
+                sections. Structural checks only.
+              </p>
+              <details>
+                <summary>Negotiation preferences</summary>
+                <div className="form-grid">
+                  <label>
+                    Seller asking price (USD)
+                    <input
+                      name="asking"
+                      type="number"
+                      step="0.01"
+                      min="1"
+                      max="2000"
+                      defaultValue="360"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Seller minimum (USD)
+                    <input
+                      name="floor"
+                      type="number"
+                      step="0.01"
+                      min="1"
+                      max="1000"
+                      defaultValue="240"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Agent execution
+                    <select name="mode">
+                      <option value="deterministic">
+                        Deterministic demo · no AI calls
+                      </option>
+                      {!health?.public_demo && (
+                        <option value="live">Live AI · up to 6 turns</option>
+                      )}
+                    </select>
+                  </label>
+                </div>
+              </details>
+            </div>
             <div className="action-row">
-              <p>You approve all final terms and payments.</p>
+              <p>
+                {health?.public_demo
+                  ? "Deterministic agents. You approve the final terms."
+                  : "You approve all final terms and payments."}
+              </p>
               <button className="primary" disabled={busy || !ready}>
                 {!ready
                   ? "Loading workspace…"
                   : busy
                     ? "Creating…"
-                    : "Create agreement →"}
+                    : health?.public_demo
+                      ? "Start sample negotiation →"
+                      : "Create agreement →"}
               </button>
               {fresh && (
                 <button
@@ -383,13 +476,15 @@ export default function App() {
                 <span className="eyebrow">CURRENT OBJECTIVE</span>
                 <h2>{a.objective}</h2>
               </div>
-              <span className="status">{labels[a.status] || a.status}</span>
+              <span className="status">{displayStatus || a.status}</span>
             </section>
             <section className="next">
               <div>
                 <span className="eyebrow">YOUR NEXT STEP</span>
                 <h3>
-                  {primary?.label ||
+                  {(a.demo && a.status === "VERIFIED"
+                    ? "Evidence verified — demo complete"
+                    : primary?.label) ||
                     (a.status === "PAYMENT_PENDING"
                       ? "Complete payment in PayPal"
                       : a.status === "INVOICED" || a.status === "NEEDS_REVIEW"
@@ -397,18 +492,25 @@ export default function App() {
                         : labels[a.status])}
                 </h3>
                 <p>
-                  {guidance[a.status] ||
-                    "Review your agreement history for details."}
+                  {a.demo && a.status === "VERIFIED"
+                    ? "Your demo agreement and checks are saved. No invoice or payment was created."
+                    : a.demo && a.status === "ACCEPTED"
+                      ? "Your accepted terms are locked. Continue to inspect a sample deliverable; no PayPal invoice is needed for this demo."
+                      : a.status === "AWAITING_EVIDENCE"
+                        ? "Load the example landing page or submit your own static HTML. It will be inspected, never executed."
+                        : guidance[a.status] ||
+                          "Review your agreement history for details."}
                 </p>
-                {["PROPOSED", "VERIFIED"].includes(a.status) && (
-                  <p className="approval-summary">
-                    {a.status === "PROPOSED" ? "Review" : "Authorize"}{" "}
-                    {money(a.amount_minor!)} to {a.seller_email}.
-                    {a.status === "VERIFIED"
-                      ? " PayPal will ask you to confirm payment."
-                      : " No payment is made by accepting."}
-                  </p>
-                )}
+                {["PROPOSED", "VERIFIED"].includes(a.status) &&
+                  !(a.demo && a.status === "VERIFIED") && (
+                    <p className="approval-summary">
+                      {a.status === "PROPOSED" ? "Review" : "Authorize"}{" "}
+                      {money(a.amount_minor!)} to {a.seller_email}.
+                      {a.status === "VERIFIED"
+                        ? " PayPal will ask you to confirm payment."
+                        : " No payment is made by accepting."}
+                    </p>
+                  )}
               </div>
               {primary && (
                 <button
@@ -434,7 +536,9 @@ export default function App() {
                   Continue in PayPal ↗
                 </a>
               )}
-              {["INVOICED", "NEEDS_REVIEW"].includes(a.status) && (
+              {["INVOICED", "AWAITING_EVIDENCE", "NEEDS_REVIEW"].includes(
+                a.status,
+              ) && (
                 <button
                   className="primary"
                   onClick={() =>
@@ -527,7 +631,7 @@ export default function App() {
                       year: "numeric",
                     })}
                   </dd>
-                  <dt>Pay to</dt>
+                  <dt>{a.demo ? "Seller" : "Pay to"}</dt>
                   <dd>{a.seller_email}</dd>
                   <dt>Buyer</dt>
                   <dd>{a.buyer_email}</dd>
@@ -580,10 +684,28 @@ export default function App() {
                 <small>{a.verification.limitation}</small>
               </details>
             )}
-            {["INVOICED", "NEEDS_REVIEW"].includes(a.status) && (
+            {["INVOICED", "AWAITING_EVIDENCE", "NEEDS_REVIEW"].includes(
+              a.status,
+            ) && (
               <section className="evidence" id="evidence-section">
                 <h2>Submit the landing page</h2>
                 <p>Upload static HTML. It will be inspected, never executed.</p>
+                {a.demo && (
+                  <button
+                    className="primary"
+                    disabled={busy}
+                    onClick={() =>
+                      run(async () => {
+                        const example = await api("/demo/example");
+                        return api(`/agreements/${a.id}/evidence`, {
+                          html: example.html,
+                        });
+                      })
+                    }
+                  >
+                    Load example evidence
+                  </button>
+                )}
                 <label>
                   Landing-page HTML
                   <input
@@ -692,6 +814,32 @@ export default function App() {
               )}
 
               <summary>Agreement history & details</summary>
+              {a.demo && (
+                <button
+                  className="quiet"
+                  disabled={busy}
+                  onClick={() =>
+                    run(async () => {
+                      const x = await api("/agreements", {
+                        objective: a.objective,
+                        budget_minor: a.budget_minor,
+                        buyer_email: "buyer@demo.example.com",
+                        seller_email: "seller@demo.example.com",
+                        deadline: new Date(
+                          Date.now() + 7 * 86400000,
+                        ).toISOString(),
+                        mode: "deterministic",
+                      });
+                      return api(`/agreements/${x.id}/negotiate`, {
+                        scenario: "recipient-swap",
+                      });
+                    })
+                  }
+                >
+                  Investigate a blocked recipient change
+                </button>
+              )}
+
               <p>
                 {a.mode === "live"
                   ? "Live model inference"

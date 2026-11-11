@@ -1,4 +1,7 @@
-export function nextAction(s: string) {
+export function nextAction(s: string, demo = false) {
+  if (demo && s === "ACCEPTED")
+    return { label: "Continue to milestone", action: "demo-milestone" };
+  if (demo && s === "VERIFIED") return null;
   const map: Record<string, [string, string]> = {
     DRAFT: ["Start negotiation", "negotiate"],
     NEGOTIATION_FAILED: ["Try again", "negotiate"],

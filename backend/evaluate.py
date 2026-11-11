@@ -64,7 +64,9 @@ def brief(**overrides):
 def workflow_case(case):
     fake = MockPayPal()
     with patch.object(main, "paypal", fake):
-        c = TestClient(main.app, headers={"X-Pact-Action": "1"})
+        c = TestClient(
+            main.app, base_url="https://testserver", headers={"X-Pact-Action": "1"}
+        )
         a = c.post("/api/agreements", json=brief(**case.get("brief", {}))).json()
         prefix = "/api/agreements/" + a["id"]
         operation = case.get("operation", "legitimate")
@@ -183,7 +185,13 @@ def evaluate(live=False):
     # All payment actions use a local fake and isolated DB, irrespective of the flag.
     for case in cases:
         if case["group"] in {"legitimate", "economic"}:
-            with tempfile.TemporaryDirectory() as d:
+            with (
+                tempfile.TemporaryDirectory() as d,
+                patch.object(settings, "pact_database_url", ""),
+                patch.object(settings, "vercel", False),
+                patch.object(settings, "public_demo", False),
+                patch.object(settings, "app_access_password", ""),
+            ):
                 settings.database_path = str(Path(d) / "evaluation.db")
                 try:
                     passed = workflow_case(case)
