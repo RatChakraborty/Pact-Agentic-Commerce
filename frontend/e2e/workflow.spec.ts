@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 const buyer = "buyer@example.com",
   seller = "seller@example.com";
 async function create(page: any) {
-  await page.goto("/");
+  await page.goto("/?view=workspace");
   await page.getByLabel("Sandbox buyer email").fill(buyer);
   await page.getByLabel("Sandbox merchant email").fill(seller);
   await page.getByRole("button", { name: "Create agreement" }).click();
@@ -141,7 +141,7 @@ test("session bootstrap completes before agreement creation is enabled", async (
       await route.fulfill({ response });
     } else await route.continue();
   });
-  await page.goto("/");
+  await page.goto("/?view=workspace");
   await requested;
   await expect(
     page.getByRole("button", { name: "Loading workspace" }),

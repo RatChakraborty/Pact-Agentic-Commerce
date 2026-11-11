@@ -49,3 +49,8 @@ Buyer payment is now verified. Commercial/host prerequisites still prevent the o
 The new isolated Vercel deployment is authorized, with managed PostgreSQL selected under the explicit reliability fallback. Implementation and local tests are complete; actual deployment is blocked by account/database/network access. Vercel is hosting preparation, **not an asserted hackathon sponsor integration or prize claim**. No existing Nautilus resources were accessed or changed.
 
 Phase 2 remains DEFERRED until the public site is stable and verified. A smaller genuine AG Grid investigator is now permitted by the latest directive if Studio is infeasible, but none has been added or represented as Studio Agent Framework functionality. APIMatic's earlier registration blocker remains; no additional plugin invocation or integration claim was made. Historical Render preparation remains available but is not the selected deployment target, and no Render service or Workflows integration has been executed.
+
+
+## Final deployment/two-sided addendum
+
+The latest directive explicitly defers AG Grid, Astropods and SLM training. No new sponsor runtime was added during recovery. APIMatic remains PARTIAL (installer invoked, actual PayPal context plugin not invoked); AG Studio remains inspected/PARTIAL, not integrated. Render remains configuration-only/PARTIAL; current recovery targets the **existing Vercel/Neon resources**, and no Render deployment or workflow is claimed. PayPal remains the only implemented provider/sponsor integration. Additional licenses/optional tooling credentials are not prerequisites for the anonymous or two-persona demonstration. The report's existing inspection evidence does not establish prize eligibility. No additional credentials are requested.

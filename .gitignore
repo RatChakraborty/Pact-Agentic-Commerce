@@ -227,7 +227,7 @@ node_modules/
 *.sqlite*
 
 # Browser test outputs
-frontend/test-results/
+frontend/test-results*/
 frontend/playwright-report/
 
 # Isolated deployment metadata and caches

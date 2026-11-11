@@ -29,7 +29,7 @@ def pg(monkeypatch):
     monkeypatch.setattr(settings, "public_demo", False)
     with transaction() as db:
         db.execute(
-            "TRUNCATE pact.agreements, pact.audit, pact.usage, pact.budget, pact.ai_reservations, pact.ai_observations, pact.sessions, pact.throttles RESTART IDENTITY CASCADE"
+            "TRUNCATE pact.agreements, pact.audit, pact.usage, pact.budget, pact.ai_reservations, pact.ai_observations, pact.sessions, pact.throttles, pact.demo_records RESTART IDENTITY CASCADE"
         )
     return url
 
@@ -131,3 +131,12 @@ def test_postgres_audit_is_append_only(pg):
         db.execute("DELETE FROM audit")
     with transaction() as db:
         assert db.execute("SELECT COUNT(*) FROM audit").fetchone()[0] > 0
+
+
+def test_postgres_shared_two_persona_lifecycle(pg, monkeypatch):
+    from test_two_sided import (
+        test_two_persona_end_to_end_roles_privacy_and_payment_truth,
+    )
+
+    c = TestClient(app, headers={"X-Pact-Action": "1"})
+    test_two_persona_end_to_end_roles_privacy_and_payment_truth(c, monkeypatch)

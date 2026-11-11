@@ -7,7 +7,7 @@ test.describe("public judge experience", () => {
   test("complete sample, locked terms, example verification, refresh and audit", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("/?view=workspace");
     await expect(
       page.getByRole("button", { name: "Start sample negotiation" }),
     ).toBeEnabled();
@@ -34,6 +34,16 @@ test.describe("public judge experience", () => {
     await expect(
       page.getByText("Evidence verified — demo complete", { exact: true }),
     ).toBeVisible();
+    await page.goto("/?view=agreements");
+    await expect(
+      page.getByRole("heading", { name: "Your agreements" }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: /Build a focused landing page/ })
+      .click();
+    await expect(
+      page.getByText("Evidence verified — demo complete", { exact: true }),
+    ).toBeVisible();
     await page.getByText("Agreement history & details").click();
     await page.getByRole("button", { name: "Load audit history" }).click();
     await expect(
@@ -56,7 +66,7 @@ test.describe("public judge experience", () => {
     browser,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
+    await page.goto("/?view=workspace");
     await page
       .getByRole("button", { name: "Start sample negotiation" })
       .click();
@@ -64,7 +74,7 @@ test.describe("public judge experience", () => {
     const id = (await first.json())[0].id;
     const other = await browser.newContext();
     const stranger = await other.newPage();
-    await stranger.goto("/");
+    await stranger.goto("/?view=workspace");
     const response = await stranger.request.get("/api/agreements/" + id);
     expect(response.status()).toBe(404);
     await other.close();
@@ -95,7 +105,7 @@ test.describe("public judge experience", () => {
         body: "Internal failure details are not a user-facing response",
       }),
     );
-    await page.goto("/");
+    await page.goto("/?view=workspace");
     await expect(page.getByRole("alert")).toContainText(
       "The service is temporarily unavailable. Please try again.",
     );

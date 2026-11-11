@@ -21,8 +21,12 @@ type Agreement = {
   buyer_email: string;
   criteria: string[];
   deadline: string;
+  created_at: string;
   offers: {
     role: string;
+    currency: string;
+    recipient: string;
+    criteria: string[];
     amount_minor: number;
     action: string;
     explanation: string;
@@ -41,7 +45,7 @@ type Agreement = {
     limitation: string;
   };
 };
-async function api(path: string, body?: unknown, signal?: AbortSignal) {
+export async function api(path: string, body?: unknown, signal?: AbortSignal) {
   const r = await fetch("/api" + path, {
     signal,
     method: body === undefined ? "GET" : "POST",
@@ -101,6 +105,9 @@ export default function App() {
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [menu, setMenu] = useState(false),
+    [historyView, setHistoryView] = useState(
+      new URLSearchParams(location.search).get("view") === "agreements",
+    ),
     [fresh, setFresh] = useState(false),
     [customize, setCustomize] = useState(false),
     [scenario, setScenario] = useState("normal"),
@@ -213,9 +220,18 @@ export default function App() {
       </header>
       {menu && (
         <section className="menu">
-          <h2>Your agreements</h2>
+          <h2>Workspace</h2>
           <button
             onClick={() => {
+              setHistoryView(true);
+              setMenu(false);
+            }}
+          >
+            Your agreements
+          </button>
+          <button
+            onClick={() => {
+              setHistoryView(false);
               setFresh(true);
               setMenu(false);
             }}
@@ -227,6 +243,7 @@ export default function App() {
               className="history"
               key={x.id}
               onClick={() => {
+                setHistoryView(false);
                 setA(x);
                 setFresh(false);
                 setMenu(false);
@@ -234,7 +251,11 @@ export default function App() {
               }}
             >
               {x.objective}
-              <small>{labels[x.status]}</small>
+              <small>
+                {x.demo && x.status === "VERIFIED"
+                  ? "Demo verified"
+                  : labels[x.status]}
+              </small>
             </button>
           ))}
           <details>
@@ -318,7 +339,50 @@ export default function App() {
             {notice}
           </p>
         )}
-        {!a || fresh ? (
+        {historyView ? (
+          <section className="evidence">
+            <h1>Your agreements</h1>
+            <p>
+              Saved to this browser session. Open a record to inspect its
+              original offers, evidence and history. This is not an account
+              dashboard.
+            </p>
+            <button
+              disabled={!ready || busy}
+              onClick={() => {
+                setHistoryView(false);
+                setFresh(true);
+              }}
+            >
+              New agreement
+            </button>
+            {!list.length && ready && <p>No agreements yet.</p>}
+            {list.map((x) => (
+              <button
+                className="history"
+                key={x.id}
+                onClick={() => {
+                  setA(x);
+                  setFresh(false);
+                  setHistoryView(false);
+                  setEvents([]);
+                }}
+              >
+                {x.objective}
+                <small>
+                  {x.demo && x.status === "VERIFIED"
+                    ? "Demo verified"
+                    : labels[x.status]}{" "}
+                  ·{" "}
+                  {x.amount_minor == null
+                    ? "Price pending"
+                    : money(x.amount_minor)}{" "}
+                  · {new Date(x.created_at).toLocaleDateString()}
+                </small>
+              </button>
+            ))}
+          </section>
+        ) : !a || fresh ? (
           <form className="setup" onSubmit={create}>
             <div className="section-heading">
               <h2>What would you like to build?</h2>
@@ -583,11 +647,22 @@ export default function App() {
                                 : "Seller agent"}
                             </strong>
                             <span>
-                              {o.action === "accept" ? "Accepts" : "Proposes"}{" "}
+                              {o.action === "accept"
+                                ? "Accepts"
+                                : o.action === "abstain"
+                                  ? "Abstains"
+                                  : "Proposes"}{" "}
                               {money(o.amount_minor)}
                             </span>
                           </div>
                           <p>{o.explanation}</p>
+                          <details>
+                            <summary>Exchanged terms</summary>
+                            <small>
+                              {o.currency} · {o.criteria.join(", ")} ·{" "}
+                              {o.recipient}
+                            </small>
+                          </details>
                           {o.blocked && (
                             <p className="blocked-label">
                               Blocked · {o.blocked}

@@ -1,3 +1,5 @@
+import os
+import re
 from pathlib import Path
 
 from pydantic import Field, model_validator
@@ -26,12 +28,26 @@ class Settings(BaseSettings):
 
     public_demo: bool = False
     enable_live_operations: bool = False
-    pact_database_url: str = ""
+    pact_database_url: str = Field(default="", repr=False)
+    database_url: str = Field(default="", repr=False)
     vercel: bool = False
 
     secure_cookies: bool = False
     public_origin: str = ""
     app_access_password: str = ""
+
+    def mutation_origins(self, base_url):
+        origins = {self.public_origin or base_url.rstrip("/")}
+        if self.vercel:
+            # Platform-owned environment values, never request Host/X-Forwarded-Host.
+            # Branch aliases differ from the immutable deployment URL.
+            for key in ("VERCEL_URL", "VERCEL_BRANCH_URL"):
+                host = os.environ.get(key, "")
+                if re.fullmatch(
+                    r"[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.vercel\.app", host
+                ):
+                    origins.add("https://" + host)
+        return origins
 
     @model_validator(mode="after")
     def validate_hosted_mode(self):
@@ -44,15 +60,15 @@ class Settings(BaseSettings):
                 "Live operator capabilities require a strong operator password."
             )
         if self.vercel:
-            import os
-
             if not self.public_demo:
                 raise ValueError(
                     "Vercel deployment requires public demo mode by default."
                 )
+            if not self.pact_database_url:
+                self.pact_database_url = self.database_url
             if not self.pact_database_url.startswith(("postgresql://", "postgres://")):
                 raise ValueError(
-                    "Configure a new dedicated PACT_DATABASE_URL; ephemeral SQLite is forbidden on Vercel."
+                    "Configure the existing dedicated PACT_DATABASE_URL or DATABASE_URL; ephemeral SQLite is forbidden on Vercel."
                 )
             self.secure_cookies = True
             hostname = (

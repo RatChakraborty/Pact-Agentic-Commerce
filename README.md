@@ -1,16 +1,21 @@
 # Pact — Agreements, with intent
 
+The landing page opens the original **Try interactive demo** workspace, session-based **Your agreements**, and an optional **customer/business two-persona demo**. The latter supports real shared records and separate human confirmations, but uses unverified demo identities, deterministic agents and **no payments**. See [two-sided scope and acceptance](docs/TWO_SIDED.md).
+
+The existing dedicated Vercel project and Neon database were created by the user. Hosted recovery remains **unverified** here because the Preview hostname is denied by the proxy and Neon DNS fails. [Recovery instructions](docs/VERCEL.md) reuse those resources; no new cloud infrastructure is needed. Local PostgreSQL tests are not hosted acceptance.
+
+
 Pact is an agent-commerce application with a private sandbox workflow and an anonymous judge-demo mode: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
 
 **Verified:** real sandbox OAuth, invoice creation/read/send, and a provider-confirmed **$300 USD payment** on invoice `INV2-N6CJ-RJXM-96WT-XDVG`. Pact reconciles it to `PAID`. Genuine four-call live AI negotiation and bounded semantic evaluation are also verified. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
 
 ## Public judge demo and Vercel
 
-The Vercel function entrypoint, Vite routing, anonymous sample workflow and PostgreSQL persistence are implemented. **No public deployment or URL has been created by this session:** Vercel authentication, a new dedicated managed database, and deployment-host network access are missing. See [exact Vercel setup and verification steps](docs/VERCEL.md).
+The Vercel function entrypoint, Vite routing, anonymous sample workflow and PostgreSQL persistence are implemented. **The user-created Preview is not verified here:** Preview proxy access and Neon DNS/TCP access are blocked; Vercel CLI is unauthenticated. Reuse the existing dedicated project and database. See [exact Vercel setup and verification steps](docs/VERCEL.md).
 
 The public mode needs no visitor accounts or provider credentials. It lets judges negotiate a deterministic sample, accept fingerprint-bound terms, load example evidence, see verification, investigate a blocked recipient change and inspect their audit history. It creates no invoice/payment and uses no paid model calls. Recorded real AI and paid sandbox evidence is clearly separated under Workspace. Sponsor expansion waits for actual public-deployment verification.
 
-`PUBLIC_DEMO=true` selects that mode. `PACT_DATABASE_URL` selects a **new dedicated** PostgreSQL database; generic `DATABASE_URL` and existing Redis bindings are ignored. On Vercel, persistent PostgreSQL and a strong session secret are mandatory; ephemeral SQLite fallback is forbidden. Local SQLite support remains intact.
+`PUBLIC_DEMO=true` selects that mode. `PACT_DATABASE_URL` selects the dedicated Pact PostgreSQL database. On Vercel only, the integration-provided `DATABASE_URL` is the fallback; local runs ignore that generic binding. Existing Redis bindings are not consumed. On Vercel, persistent PostgreSQL and a strong session secret are mandatory; ephemeral SQLite fallback is forbidden. Local SQLite support remains intact.
 
 ## Run locally
 
@@ -120,9 +125,9 @@ The private workflow uses browser possession for both demo roles; it is not a mu
 
 ## PostgreSQL / anonymous demo tests
 
-The full validation run passed **79 backend tests**, **5 frontend tests**, the production build and **7 distinct browser scenarios** (3 public, 3 existing private, 1 explicitly mocked payment). Five backend tests used actual PostgreSQL, including concurrency and a fresh-process budget read. These are local results, not Vercel-hosted results.
+The full validation run passed **109 backend tests**, **5 frontend tests**, the production build and **10 distinct browser scenarios** (3 public, 3 existing private, 1 explicitly mocked payment, landing/history and 2 two-persona desktop/mobile flows). Six backend tests used actual PostgreSQL, including concurrency and a fresh-process budget read. These are local results, not Vercel-hosted results.
 
-For PostgreSQL tests, provide a newly created local test database as `PACT_TEST_DATABASE_URL`; its name must begin `pact_` and end `_test`. Test fixtures deliberately reset only that dedicated database. Do not point this variable at production or Nautilus. Without it, the five PostgreSQL tests are explicitly skipped rather than falsely claimed as verified.
+For PostgreSQL tests, provide a newly created local test database as `PACT_TEST_DATABASE_URL`; its name must begin `pact_` and end `_test`. Test fixtures deliberately reset only that dedicated database. Do not point this variable at production or Nautilus. Without it, the six PostgreSQL tests are explicitly skipped rather than falsely claimed as verified.
 
 To run public browser checks against a running public-mode test server or a subsequently verified deployment:
 

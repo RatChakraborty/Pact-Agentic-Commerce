@@ -1,6 +1,6 @@
 # P0 acceptance evidence
 
-Validation performed November 11, 2026. Test mocks are distinct from actual provider calls. This is a local demo, not a production-readiness claim.
+Validation performed November 11, 2026. Test mocks are distinct from actual provider calls. This is a local demo, not a production-readiness claim. The user-created Vercel Preview exists but remains unverified here; see VERCEL.md for the proxy/DNS blockers.
 
 | Gate | Outcome | Evidence / remaining work |
 | --- | --- | --- |
@@ -17,7 +17,7 @@ Validation performed November 11, 2026. Test mocks are distinct from actual prov
 
 ## Automated and browser checks
 
-- Backend: **79 passed**, including provider HTTP contracts, malformed structured output, audit integrity, recovery, policy, payment and verification paths. One upstream Starlette/httpx deprecation warning; no test failures.
+- Backend: **109 passed**, including provider HTTP contracts, malformed structured output, audit integrity, recovery, policy, payment and verification paths. One upstream Starlette/httpx deprecation warning; no test failures.
 - Frontend: **5 passed**; production TypeScript/Vite build passed.
 - Browser: **3 passed** on the credentials-absent product server (desktop acceptance/error/history, mobile blocked recipient substitution, and delayed session initialization). **1 passed** against a separate explicitly mocked provider server (create → negotiate → accept → invoice → upload → authorize → provider refresh → paid).
 - Real sandbox invoice browser view verified at 1440px and 390px widths; mobile horizontal overflow false. Desktop/mobile screenshots in [screenshots](screenshots/).
@@ -56,9 +56,9 @@ Checked at 19:03:52 UTC / 2:03:52 PM Eastern. PayPal directly reports `PAID`, am
 
 The actual provider-confirmed paid agreement was also loaded in Chromium: the UI displayed **Payment confirmed**. Screenshot: `docs/screenshots/sandbox-paid-desktop.png`. This check used the real persisted invoice, not the mocked provider harness.
 
-## Public deployment directive — November 11
+## Initial deployment preparation — historical checkpoint, superseded below
 
-**Overall hosted outcome: BLOCKED.** The newly authorized isolated Vercel project has not been created/deployed; there is no verified public URL. Current blockers are Vercel authentication, a new dedicated managed PostgreSQL URL, and cloud egress to Vercel. Vercel CLI 65.14.0 reported logged out; a direct Vercel API probe was denied with CONNECT 403. No Nautilus project, Redis instance, environment group or existing deployment was changed.
+**Historical outcome: BLOCKED before the user created the existing project/database.** At that checkpoint Vercel authentication, a dedicated database binding and egress were missing. The project and database bindings now exist; see final recovery below for the current proxy/DNS blockers. Vercel CLI 65.14.0 reported logged out; a direct Vercel API probe was denied with CONNECT 403. No Nautilus project, Redis instance, environment group or existing deployment was changed.
 
 The directive's managed-PostgreSQL fallback was selected to preserve existing relational transaction semantics rather than risk a rushed Redis rewrite. Vercel ASGI entrypoint, static/API rewrites, locked requirements, cookie/origin controls, anonymous paid-capability denial, server-side sessions and distributed throttles are implemented. PostgreSQL uses a transaction-scoped advisory lock; state/budgets never fall back to Vercel's filesystem. Existing local SQLite support is preserved.
 
@@ -78,3 +78,29 @@ Local evidence: **79 backend tests**, including **5 actual PostgreSQL tests**, *
 | Developer-only controls inaccessible | PASS; product routes return 404/405 and fixture files excluded from deployment | NOT RUN on Vercel |
 
 `docs/evidence/public-demo-local.json` is explicitly labeled local. `docs/VERCEL.md` contains account requirements, the new-project-only environment, Preview-first commands and hosted probes. Do not upgrade any hosted gate without exercising the actual returned Preview and stable URLs. Sponsor expansion is deferred until that happens. The existing actual sandbox payment remains provider-confirmed PAID; this phase made only a read-only recheck and no new invoice/payment/model call.
+
+
+## Final recovery / two-sided acceptance — November 11, 2026
+
+| Priority / gate | Result | Evidence / limit |
+| --- | --- | --- |
+| P0 existing Vercel project | BLOCKED | Preview `/` and `/api/health`: proxy CONNECT 403, not application HTTP status. Existing project retained; no new cloud infrastructure. |
+| P0 existing Neon | BLOCKED remotely; PASS local PostgreSQL | Both configured URLs failed DNS in read-only verified-TLS probes. Six actual local PostgreSQL tests pass; no destructive hosted tests. |
+| P0 serverless configuration | PASS locally | Vercel-only DATABASE_URL fallback, explicit Pact precedence, pool-compatible connections, verified TLS, fail-closed storage, secure cookies and exact Preview/branch origins. |
+| P0 live negotiation | VERIFIED | Two additional independent three-call scenarios: feasible $300 agreement; infeasible model acceptance blocked by host. Six calls; 2,656 prompt / 447 completion tokens; configured estimate $0.004444. Caps unchanged. |
+| P0 actual PayPal status | VERIFIED prior readback preserved | Existing invoice INV2-N6CJ-RJXM-96WT-XDVG PAID, $300 received, zero due, payment 48G26200EN969023U. No new invoice/payment or manual state change in this phase. Separate from live AI runs. |
+| P1 transcript / history / critic | PASS | Structured offer details, saved objective/status/amount/date/reopen, existing critic and audit retained. Public sample reopens verified evidence without implying payment. |
+| P1 adversarial evaluation | PASS with measured limitations | Original matrix 9/10 offline expectations retained; corrected deterministic rerun 10/10. Live infeasible case's invalid acceptance retained, not counted as model success. No unauthorized final agreements. |
+| P1 agent isolation | PASS for input/API boundaries; limited free-text filtering | Role prompts omit opposite limits; shared response allowlists and private-policy seals tested. Live explanation filter is pattern-based, not proof of semantic confidentiality; shared demo is deterministic-only. |
+| P2 two-sided product | PASS as demo | Service discovery/invite, immutable separate personas, shared agreement/transcript, seller authorization, both confirmations, seller evidence and customer review. No shared provider capabilities. |
+| P3 real accounts | DEFERRED | Honest browser-bound 24-hour demo identities; no fake signup, identity verification or recovery. Logout revokes prior cookies. |
+| P4 replay / sponsor expansion / SLM | DEFERRED | No replay streaming claim, AG Grid/Astropods installation or model training. Sponsor report retained and updated honestly. |
+
+Final backend run: **109 passed**, including six actual local PostgreSQL regressions; one upstream Starlette/httpx deprecation warning. Frontend unit tests: **5 passed**. Production TypeScript/Vite build and Ruff check/format pass. Browser acceptance: **10 distinct scenarios passed** across the final private/public/mocked runs: 6 private-mode tests (landing and two shared flows included), 6 public/PostgreSQL tests (the same three entry/shared scenarios repeated), and 1 explicit mocked-payment test. The last visual-only disclosure change was followed by another passing 2-case public desktop/mobile shared walkthrough. Local public/PostgreSQL acceptance probe passed all 11 checks in `docs/evidence/local-postgres-recovery-probe.json`; this is **not** a Vercel probe.
+
+Two-sided implementation/limitations and detailed verification mapping: [TWO_SIDED.md](TWO_SIDED.md). Sponsor classifications remain in [SPONSORS.md](SPONSORS.md). Hosting recovery requirements are in [VERCEL.md](VERCEL.md). Video recording/upload and submission still require the operator; deadline November 12, 2026 at 3 PM Eastern / 20:00 UTC.
+
+
+Final visual checks: landing captured at 1440px and 390px with no horizontal overflow; shared agreement captured at desktop/mobile widths after reload and before session logout. Images are in `docs/screenshots/`. No screenshot of mocked payment is represented as real provider evidence.
+
+Repository visibility rechecked unauthenticated in this final phase: GitHub HTTP 200 with a public-repository marker; tracked license is MIT. Configured-secret scanning across source and production assets passed. No new sponsor runtime or public cloud resource was created.

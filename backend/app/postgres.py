@@ -13,6 +13,8 @@ LOCK_ID = 174334001
 SCHEMA = """
 CREATE SCHEMA IF NOT EXISTS pact;
 SET LOCAL search_path TO pact;
+CREATE TABLE IF NOT EXISTS demo_records(id TEXT PRIMARY KEY, kind TEXT NOT NULL, owner TEXT NOT NULL, data TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS demo_records_kind_owner ON demo_records(kind,owner);
 CREATE TABLE IF NOT EXISTS agreements(id TEXT PRIMARY KEY, owner TEXT NOT NULL, data TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS agreements_owner ON agreements(owner);
 CREATE TABLE IF NOT EXISTS audit(seq BIGSERIAL PRIMARY KEY, agreement_id TEXT NOT NULL REFERENCES agreements(id), timestamp TEXT NOT NULL, action TEXT NOT NULL, prior_status TEXT, next_status TEXT, details TEXT NOT NULL);
@@ -92,6 +94,7 @@ def transaction(url, hosted=False):
         connection = psycopg.connect(
             url,
             connect_timeout=5,
+            prepare_threshold=None,
             row_factory=dict_row,
             sslmode="disable" if local else "verify-full",
             **({} if local else {"sslrootcert": "system"}),

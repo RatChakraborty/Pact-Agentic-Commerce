@@ -23,6 +23,7 @@ from .postgres import StorageUnavailable
 from .public import EXAMPLE_HTML, live_capability, throttle
 from .public import session as ensure_session
 from .store import audit, save, transaction
+from .two_sided import register as register_demo_market
 from .verification import verify
 
 app = FastAPI(title="Pact", version="0.1.0")
@@ -70,9 +71,7 @@ async def protections(request, call_next):
 
     if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
         origin = request.headers.get("origin")
-        if origin and origin != (
-            settings.public_origin or str(request.base_url).rstrip("/")
-        ):
+        if origin and origin not in settings.mutation_origins(str(request.base_url)):
             return JSONResponse(
                 {"detail": "Cross-origin mutation blocked."}, status_code=403
             )
@@ -117,6 +116,9 @@ def owner(request: Request):
         raise HTTPException(403, "Missing action protection.")
     ensure_session(request.session["owner"], request)
     return request.session["owner"]
+
+
+register_demo_market(app, owner)
 
 
 def load(db, id, user):

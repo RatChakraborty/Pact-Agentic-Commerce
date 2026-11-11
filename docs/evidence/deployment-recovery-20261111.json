@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-11",
+  "preview": "https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app",
+  "http_probes": [
+    {
+      "path": "/",
+      "connected": false,
+      "category": "proxy_connect_denied",
+      "proxy_status": 403,
+      "application_status": null
+    },
+    {
+      "path": "/api/health",
+      "connected": false,
+      "category": "proxy_connect_denied",
+      "proxy_status": 403,
+      "application_status": null
+    }
+  ],
+  "neon_read_only_probes": {
+    "DATABASE_URL": {
+      "connected": false,
+      "category": "dns_resolution_failed",
+      "exception_type": "OperationalError"
+    },
+    "DATABASE_URL_UNPOOLED": {
+      "connected": false,
+      "category": "dns_resolution_failed",
+      "exception_type": "OperationalError"
+    }
+  },
+  "hosted_writes_attempted": false,
+  "hosted_acceptance": "BLOCKED",
+  "credentials_present": true,
+  "new_cloud_infrastructure_created": false
+}

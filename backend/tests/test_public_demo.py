@@ -114,6 +114,7 @@ def test_vercel_refuses_ephemeral_database(monkeypatch):
             vercel=True,
             public_demo=True,
             pact_database_url="",
+            database_url="",
             app_session_secret="x" * 32,
             public_origin="https://pact.vercel.app",
         )
@@ -225,3 +226,52 @@ def test_postgres_hosted_tls_cannot_be_disabled(monkeypatch):
     ):
         pass
     assert seen["sslmode"] == "verify-full" and seen["sslrootcert"] == "system"
+
+
+def test_vercel_neon_binding_and_explicit_precedence():
+    common = {
+        "vercel": True,
+        "public_demo": True,
+        "app_session_secret": "x" * 32,
+        "public_origin": "https://pact.vercel.app",
+    }
+    neon = "postgresql://existing-dedicated-db/pact"
+    assert (
+        Settings(pact_database_url="", database_url=neon, **common).pact_database_url
+        == neon
+    )
+    explicit = "postgresql://explicit-dedicated-db/pact"
+    assert (
+        Settings(
+            pact_database_url=explicit, database_url=neon, **common
+        ).pact_database_url
+        == explicit
+    )
+    assert (
+        Settings(
+            vercel=False, pact_database_url="", database_url=neon
+        ).pact_database_url
+        == ""
+    )
+
+
+def test_vercel_preview_origin_is_exact_and_not_from_request_host(monkeypatch):
+    monkeypatch.setenv("VERCEL_URL", "pact-current.vercel.app")
+    monkeypatch.setenv("VERCEL_BRANCH_URL", "pact-feature.vercel.app")
+    configured = Settings(
+        vercel=True,
+        public_demo=True,
+        database_url="",
+        pact_database_url="postgresql://unused/pact",
+        public_origin="https://custom.example",
+        app_session_secret="x" * 32,
+    )
+    assert configured.mutation_origins("https://attacker.example") == {
+        "https://custom.example",
+        "https://pact-current.vercel.app",
+        "https://pact-feature.vercel.app",
+    }
+    monkeypatch.setenv("VERCEL_BRANCH_URL", "pact.vercel.app.evil.example")
+    assert "https://pact.vercel.app.evil.example" not in configured.mutation_origins(
+        "https://attacker.example"
+    )
