@@ -29,6 +29,11 @@ test("brief, negotiation, explicit acceptance, safe invoice failure, history", a
     page.getByRole("button", { name: "Accept these terms" }),
   ).toBeVisible();
   await expect(page.locator("aside .price")).toContainText("$300.00");
+  await page.getByText("Agreement history & details").click();
+  await page.getByRole("button", { name: "Check proposal wording" }).click();
+  await expect(page.getByText(/Proposal wording: CLEAR/)).toBeVisible();
+  await page.getByText("Agreement history & details").click();
+
   await page.getByRole("button", { name: "Accept these terms" }).click();
   await expect(
     page.getByRole("button", { name: "Create sandbox invoice" }),
@@ -90,15 +95,13 @@ test("full browser workflow against explicitly mocked PayPal", async ({
   await expect(
     page.getByText("Awaiting deliverable", { exact: true }).first(),
   ).toBeVisible();
-  await page
-    .getByLabel("Landing-page HTML")
-    .setInputFiles({
-      name: "landing.html",
-      mimeType: "text/html",
-      buffer: Buffer.from(
-        '<main><section id="hero">A clear design studio landing page.</section><section id="features">Useful accessible services for growing teams.</section><section id="contact">Contact our team today.</section></main>',
-      ),
-    });
+  await page.getByLabel("Landing-page HTML").setInputFiles({
+    name: "landing.html",
+    mimeType: "text/html",
+    buffer: Buffer.from(
+      '<main><section id="hero">A clear design studio landing page.</section><section id="features">Useful accessible services for growing teams.</section><section id="contact">Contact our team today.</section></main>',
+    ),
+  });
   await page.getByRole("button", { name: "Authorize PayPal payment" }).click();
   await expect(
     page.getByRole("link", { name: "Continue in PayPal" }),
@@ -115,4 +118,43 @@ test("full browser workflow against explicitly mocked PayPal", async ({
     path: "test-results/mocked-paid.png",
     fullPage: true,
   });
+});
+
+test("session bootstrap completes before agreement creation is enabled", async ({
+  page,
+}) => {
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let seen!: () => void;
+  const requested = new Promise<void>((resolve) => {
+    seen = resolve;
+  });
+  let first = true;
+  await page.route("**/api/agreements", async (route) => {
+    if (route.request().method() === "GET" && first) {
+      first = false;
+      const response = await route.fetch();
+      seen();
+      await gate;
+      await route.fulfill({ response });
+    } else await route.continue();
+  });
+  await page.goto("/");
+  await requested;
+  await expect(
+    page.getByRole("button", { name: "Loading workspace" }),
+  ).toBeDisabled();
+  await page.getByLabel("Sandbox buyer email").fill(buyer);
+  await page.getByLabel("Sandbox merchant email").fill(seller);
+  release();
+  await page.getByRole("button", { name: "Create agreement" }).click();
+  await expect(
+    page.getByRole("button", { name: "Start negotiation" }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Start negotiation" }),
+  ).toBeVisible();
 });

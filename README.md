@@ -2,7 +2,7 @@
 
 Pact is a local sandbox commerce demo: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
 
-**Verified:** real sandbox OAuth, invoice creation/read/send and an `UNPAID` payment link. **Not yet verified:** live AI negotiation (configured account has exhausted API credits) and a completed sandbox buyer payment. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
+**Verified:** real sandbox OAuth, invoice creation/read/send and an `UNPAID` payment link. **Also verified:** genuine four-call live AI negotiation reaching $300 and a bounded live semantic evaluation. **Not yet verified:** a completed sandbox buyer payment. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
 
 ## Run locally
 
@@ -23,6 +23,8 @@ Open the locally running application in your browser. FastAPI serves the built R
 For frontend development, run the backend above and `npm run dev` from `frontend/`; Vite proxies `/api` to port 8000. Rebuild the frontend to update FastAPI's static assets. SQLite lives at `backend/pact.db` when started from `backend/`; use an absolute `DATABASE_PATH` to choose another location. The database, local configuration and virtual environments are ignored by Git.
 
 Copy `.env.example` to `.env` **only if that file does not already exist**. Fill values securely or inject them through environment settings. The backend reads the root `.env` from any working directory. Never commit it. No credentials are needed for deterministic negotiation or unit tests; actual invoice actions fail clearly without merchant credentials.
+
+In this managed cloud image, the home cache directories are read-only. Before installing/running tools here, use `export UV_CACHE_DIR=/workspace/.cache/uv` and `export npm_config_cache=/workspace/.cache/npm`. These nonsecret cache locations do not change repository dependencies or TLS verification.
 
 ## Configuration
 
@@ -74,7 +76,7 @@ PAYPAL_CLIENT_ID= PAYPAL_CLIENT_SECRET= DATABASE_PATH=/tmp/pact-browser.db \
   backend/.venv/bin/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8001
 # Terminal 2, frontend/
 PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://127.0.0.1:8001 \
-  npm run test:e2e -- --grep 'brief,|mobile'
+  npm run test:e2e -- --grep 'brief,|mobile|session bootstrap'
 ```
 
 If no system Chromium exists, install the supported Playwright Chromium with `npx playwright install chromium`; omit `PACT_CHROMIUM_PATH`. In restricted cloud images use a writable `PLAYWRIGHT_BROWSERS_PATH` and cache directory. Do not disable download verification.
@@ -92,8 +94,18 @@ PACT_MOCK_PROVIDER=1 PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://1
 
 The harness has a test-only provider status control; it is absent from `app.main:app`. Mocked paid status proves UI/backend integration, not a real payment. Tests use separate SQLite files and never create external invoices.
 
+## Contract integrity and evaluation
+
+Accepted economic terms have a canonical SHA-256 fingerprint over buyer/seller identity, recipient, amount/currency, budget, scope, deliverable type, criteria, deadline, version and approval policy. New approvals confirm both version and fingerprint; accepted terms are checked before provider actions. Dynamic provider status is intentionally outside that immutable fingerprint. Legacy invoices retain their original snapshots; they are checked without rewriting audit history. A hash detects changes but authenticates no person and establishes no legal enforceability.
+
+Optional **Check proposal wording** under agreement details reviews the actual proposal history. Deterministic rules are clearly labeled. Live agreements can request a bounded structured model critique; unavailable or concerning reviews block acceptance and require revised terms. The critique never authorizes payment. The small live evaluation had one false escalation, so this advisory capability is optional and its limitations remain visible.
+
+[Reproducible evaluation and measured results](docs/EVALUATION.md) · [Sponsor integration report](docs/SPONSORS.md) · [Render preparation](docs/RENDER.md)
+
+The current local ignored `.env` contains **nonsecret development limits only**: cumulative 54-call allowance, $0.90 ceiling and $1/$4 per-million token estimates for the configured mini model. Previous reservations were retained; the final paid-test ledger used 45 calls including historical reservations and $0.54. Credentials remain inherited. Review the current allowance before recording; do not remove the database or reset audit history to obtain more calls. General defaults above remain deliberately conservative for other configurations.
+
 ## Limits and submission
 
-This is a single-browser, local demo, not a multi-user production service. Browser possession authorizes both demo roles. There is no account login, seller identity enrollment, webhook receiver, deployment, dedicated small model, marketplace, escrow or Orders capture integration. Cookies are intended for loopback HTTP; deployment would need authentication, HTTPS-only cookies and an explicit security review. No production deployment is authorized.
+This is a single-browser, local demo, not a multi-user production service. Browser possession authorizes both demo roles. There is no account login, seller identity enrollment, webhook receiver, deployment, dedicated small model, marketplace, escrow or Orders capture integration. Cookies are intended for loopback HTTP; the prepared Render mode adds a tested single-operator password gate, HTTPS-only cookies and exact public-origin checks. It still needs an authorized deployment and platform validation. No production deployment is authorized.
 
 [Demo script](docs/DEMO.md) · [Acceptance matrix](docs/ACCEPTANCE.md) · [Product plan](docs/PLAN.md) · [MIT license](LICENSE)

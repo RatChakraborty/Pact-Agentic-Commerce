@@ -454,9 +454,38 @@ def payment(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
         provider_id = a["invoice"]["id"]
         try:
             p = paypal.validate(paypal.get(provider_id), a)
+            if p.get("status") == "PAID":
+                a["invoice"] = {**paypal.public(p), "checked_at": now()}
+                change(
+                    db,
+                    a,
+                    "PAID",
+                    "provider_payment_already_confirmed",
+                    {"provider_status": "PAID"},
+                )
+                return a
+            if p.get("status") not in {
+                "DRAFT",
+                "SENT",
+                "UNPAID",
+                "PARTIALLY_PAID",
+                "PAYMENT_PENDING",
+            }:
+                raise ProviderError(
+                    "PayPal invoice is not payable in its current state. Check provider status before continuing."
+                )
             if p.get("status") == "DRAFT":
                 paypal.send(provider_id, a["id"])
                 p = paypal.validate(paypal.get(provider_id), a)
+                if p.get("status") not in {
+                    "SENT",
+                    "UNPAID",
+                    "PARTIALLY_PAID",
+                    "PAYMENT_PENDING",
+                }:
+                    raise ProviderError(
+                        "PayPal has not confirmed a payable invoice state. Payment remains unconfirmed."
+                    )
             a["invoice"] = paypal.public(p)
             a["invoice"]["checked_at"] = now()
             if not a["invoice"]["approval_url"]:
@@ -486,7 +515,7 @@ def refresh(id: str, user: Annotated[str, Depends(owner)]):
         # Provider-confirmed payment is a fact, even if the buyer paid outside Pact.
         if p.get("status") == "PAID":
             status = "PAID"
-        elif p.get("status") in {
+        elif a["status"] == "PAID" or p.get("status") in {
             "CANCELLED",
             "REFUNDED",
             "PARTIALLY_REFUNDED",

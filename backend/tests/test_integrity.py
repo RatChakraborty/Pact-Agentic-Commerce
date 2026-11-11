@@ -208,3 +208,83 @@ def test_operator_gate_is_optional_and_protects_hosted_demo(client, monkeypatch)
         ).status_code
         == 200
     )
+
+
+def test_fingerprint_confirmation_required_for_new_proposals(client):
+    a = proposed(client)
+    assert (
+        client.post(
+            f"/api/agreements/{a['id']}/accept", json={"version": 1, "confirmed": True}
+        ).status_code
+        == 409
+    )
+
+
+@pytest.mark.parametrize("provider_status", ["CANCELLED", "MARKED_AS_PAID", "UNKNOWN"])
+def test_nonpayable_provider_status_blocks_payment_handoff(client, pp, provider_status):
+    from test_workflow import HTML
+
+    a = invoiced(client, pp)
+    a = post(client, a, "evidence", {"html": HTML}).json()
+    pp.state = provider_status
+    assert (
+        post(
+            client, a, "payment-approval", {"version": 1, "confirmed": True}
+        ).status_code
+        == 502
+    )
+    assert pp.sent == 0
+
+
+def test_current_unpaid_status_cannot_retain_paid_banner(client, pp):
+    a = invoiced(client, pp)
+    pp.state = "PAID"
+    a = post(client, a, "paypal-status").json()
+    assert a["status"] == "PAID"
+    pp.state = "UNPAID"
+    a = post(client, a, "paypal-status").json()
+    assert a["status"] == "PAYMENT_REVIEW"
+    assert a["invoice"]["status"] == "UNPAID"
+
+
+def test_paid_provider_invoice_is_not_sent_or_paid_twice(client, pp):
+    from test_workflow import HTML
+
+    a = invoiced(client, pp)
+    a = post(client, a, "evidence", {"html": HTML}).json()
+    pp.state = "PAID"
+    a = post(client, a, "payment-approval", {"version": 1, "confirmed": True}).json()
+    assert a["status"] == "PAID"
+    assert pp.sent == 0
+
+
+def test_hosted_session_cookie_is_secure_in_actual_app(tmp_path):
+    import os
+
+    script = """import base64
+from fastapi.testclient import TestClient
+from app.main import app
+c=TestClient(app,base_url='https://testserver',headers={'Authorization':'Basic '+base64.b64encode(b'pact:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx').decode()})
+r=c.get('/api/agreements')
+assert r.status_code==200
+assert 'secure' in r.headers['set-cookie'].lower()
+assert 'httponly' in r.headers['set-cookie'].lower()
+assert c.post('/api/agreements',headers={'origin':'https://evil.example','x-pact-action':'1'},json={}).status_code==403
+print('secure hosted session verified')
+"""
+    environment = {
+        **os.environ,
+        "SECURE_COOKIES": "true",
+        "PUBLIC_ORIGIN": "https://testserver",
+        "APP_ACCESS_PASSWORD": "x" * 32,
+        "APP_SESSION_SECRET": "x" * 32,
+        "DATABASE_PATH": str(tmp_path / "hosted.db"),
+    }
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "secure hosted session verified" in result.stdout

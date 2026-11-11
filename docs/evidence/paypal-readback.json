@@ -6,5 +6,15 @@
   "seller_matches_accepted_terms": true,
   "buyer_matches_accepted_terms": true,
   "checkout_browser": "ERR_TUNNEL_CONNECTION_FAILED; www.sandbox.paypal.com not permitted by current egress policy",
-  "paid_verified": false
+  "paid_verified": false,
+  "repeated_application_reconciliation": [
+    {
+      "provider_status": "UNPAID",
+      "application_status": "PAYMENT_PENDING"
+    },
+    {
+      "provider_status": "UNPAID",
+      "application_status": "PAYMENT_PENDING"
+    }
+  ]
 }

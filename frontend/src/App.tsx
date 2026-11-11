@@ -40,8 +40,9 @@ type Agreement = {
     limitation: string;
   };
 };
-async function api(path: string, body?: unknown) {
+async function api(path: string, body?: unknown, signal?: AbortSignal) {
   const r = await fetch("/api" + path, {
+    signal,
     method: body === undefined ? "GET" : "POST",
     headers: { "Content-Type": "application/json", "X-Pact-Action": "1" },
     body: body === undefined ? undefined : JSON.stringify(body),
@@ -89,6 +90,7 @@ export default function App() {
   const [a, setA] = useState<Agreement | null>(null),
     [list, setList] = useState<Agreement[]>([]),
     [busy, setBusy] = useState(false),
+    [ready, setReady] = useState(false),
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [menu, setMenu] = useState(false),
@@ -98,15 +100,23 @@ export default function App() {
     [review, setReview] = useState(false),
     [health, setHealth] = useState<any>(null);
   useEffect(() => {
-    api("/agreements")
+    const controller = new AbortController();
+    api("/agreements", undefined, controller.signal)
       .then((l) => {
+        if (controller.signal.aborted) return;
         setList(l);
         setA(l[0] || null);
       })
-      .catch((e) => setError(e.message));
+      .catch((e) => {
+        if (!controller.signal.aborted) setError(e.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setReady(true);
+      });
     api("/health")
       .then(setHealth)
       .catch(() => {});
+    return () => controller.abort();
   }, []);
   async function run(fn: () => Promise<Agreement>) {
     setBusy(true);
@@ -126,6 +136,7 @@ export default function App() {
   }
   function create(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!ready || busy) return;
     const f = new FormData(e.currentTarget);
     run(async () => {
       const x = await api("/agreements", {
@@ -347,8 +358,12 @@ export default function App() {
             </details>
             <div className="action-row">
               <p>You approve all final terms and payments.</p>
-              <button className="primary" disabled={busy}>
-                {busy ? "Creating…" : "Create agreement →"}
+              <button className="primary" disabled={busy || !ready}>
+                {!ready
+                  ? "Loading workspace…"
+                  : busy
+                    ? "Creating…"
+                    : "Create agreement →"}
               </button>
               {fresh && (
                 <button

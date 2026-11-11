@@ -1,0 +1,48 @@
+# Deployment preparation only. Do not deploy without explicit authorization.
+services:
+  - type: web
+    name: pact-sandbox
+    runtime: python
+    plan: starter
+    branch: feature/pact-core
+    autoDeploy: false
+    buildCommand: pip install uv==0.9.15 && uv sync --project backend --frozen && npm --prefix frontend ci && npm --prefix frontend run build
+    startCommand: cd backend && .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    disk:
+      name: pact-agreements
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.14
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: DATABASE_PATH
+        value: /var/data/pact.db
+      - key: PAYPAL_ENV
+        value: sandbox
+      - key: SECURE_COOKIES
+        value: "true"
+      - key: PUBLIC_ORIGIN
+        sync: false
+      - key: APP_SESSION_SECRET
+        generateValue: true
+      - key: APP_ACCESS_PASSWORD
+        generateValue: true
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: gpt-4.1-mini
+      - key: LLM_BUDGET_USD
+        value: "0.90"
+      - key: LLM_INPUT_USD_PER_MILLION
+        value: "1"
+      - key: LLM_OUTPUT_USD_PER_MILLION
+        value: "4"
+      - key: LLM_MAX_CALLS
+        value: "12"

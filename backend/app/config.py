@@ -29,11 +29,19 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def validate_hosted_mode(self):
         if self.secure_cookies:
-            if not self.public_origin.startswith(
-                "https://"
-            ) or self.public_origin.endswith("/"):
+            from urllib.parse import urlparse
+
+            origin = urlparse(self.public_origin)
+            if (
+                origin.scheme != "https"
+                or not origin.hostname
+                or origin.path
+                or origin.query
+                or origin.fragment
+                or origin.username
+            ):
                 raise ValueError(
-                    "Hosted mode requires an exact HTTPS PUBLIC_ORIGIN without trailing slash."
+                    "Hosted mode requires an exact HTTPS PUBLIC_ORIGIN without a path, user info or trailing slash."
                 )
             if len(self.app_session_secret) < 32 or len(self.app_access_password) < 20:
                 raise ValueError(
