@@ -11,11 +11,11 @@
 
 ## Current real integration evidence
 
-On November 11, 2026, the configured sandbox app authenticated, read invoice access, created invoice `INV2-N6CJ-RJXM-96WT-XDVG`, retrieved and validated its amount/currency/merchant/buyer, and sent it. Subsequent readback returned `UNPAID` and a sandbox recipient payment URL. The application remained `PAYMENT_PENDING`. No completed sandbox payment has been observed.
+On November 11, 2026, the configured sandbox app authenticated, read invoice access, created invoice `INV2-N6CJ-RJXM-96WT-XDVG`, retrieved and validated its amount/currency/merchant/buyer, and sent it. Subsequent readback returned `UNPAID` and a sandbox recipient payment URL. The application remained `PAYMENT_PENDING`. This was the initial state; after buyer checkout, the November 11 API read confirmed `PAID`, paid amount $300.00 USD, due $0.00, payment ID `48G26200EN969023U`. Pact persisted `PAID` through its ordinary provider-refresh path.
 
 Credits were restored. Actual `gpt-4.1-mini-2025-04-14` inference first terminated at six turns, then reached a $300 agreement in four calls after a seller strategy clarification. No deterministic responses were presented as live. The session retained previous reservations; details and the full transcripts are in `docs/evidence/live-negotiation.json`.
 
-Buyer checkout was attempted in Chromium with TLS verification preserved, but the proxy blocked the checkout host. The operator must open the existing sandbox invoice in their own browser, sign in as the intended sandbox buyer, complete checkout, then ask Pact to refresh the actual provider status. Never paste a buyer password in chat. The latest real API read remains `UNPAID`.
+The initial Chromium checkout attempt preserved TLS verification but was blocked by the cloud proxy. The buyer subsequently completed checkout externally. The latest actual API read is `PAID`, and repeated Pact refreshes reconciled successfully. Do not attempt another payment or paste buyer passwords in chat.
 
 ## Devpost draft
 
@@ -28,7 +28,7 @@ Built with React, TypeScript, FastAPI, Pydantic and SQLite, Pact uses one focuse
 ## Submission checklist requiring operator action
 
 - Use the verified live transcript or one deliberately budgeted recording run; preserve cumulative reservations.
-- Complete buyer-authorized sandbox payment in PayPal, refresh Pact status, and record the observed result.
+- Use the confirmed sandbox payment receipt and paid UI; no additional payment is necessary.
 - Record and review a walkthrough under three minutes; verify no secrets, credentials or buyer details appear unintentionally.
 - Upload the video to YouTube and add its real URL to the submission.
 - Review the Devpost description against final verified behavior and submit before November 12, 2026 at 3 PM Eastern / noon Pacific.

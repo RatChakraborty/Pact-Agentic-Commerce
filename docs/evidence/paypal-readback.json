@@ -1,20 +1,76 @@
 {
   "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
-  "provider_status": "UNPAID",
-  "amount_minor": 30000,
-  "currency": "USD",
-  "seller_matches_accepted_terms": true,
-  "buyer_matches_accepted_terms": true,
-  "checkout_browser": "ERR_TUNNEL_CONNECTION_FAILED; www.sandbox.paypal.com not permitted by current egress policy",
-  "paid_verified": false,
+  "status": "PAID",
+  "amount": {
+    "breakdown": {
+      "item_total": {
+        "currency_code": "USD",
+        "value": "300.00"
+      },
+      "discount": {
+        "invoice_discount": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "item_discount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        }
+      },
+      "tax_total": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    },
+    "currency_code": "USD",
+    "value": "300.00"
+  },
+  "due_amount": {
+    "currency_code": "USD",
+    "value": "0.00"
+  },
+  "payments": {
+    "paid_amount": {
+      "currency_code": "USD",
+      "value": "300.00"
+    },
+    "transactions": [
+      {
+        "type": "PAYPAL",
+        "payment_id": "48G26200EN969023U",
+        "payment_date": "2026-11-11",
+        "method": "PAYPAL",
+        "amount": {
+          "currency_code": "USD",
+          "value": "300.00"
+        }
+      }
+    ]
+  },
+  "refunds": null,
+  "checked_at": "2026-11-11T19:03:52.230853+00:00",
   "repeated_application_reconciliation": [
     {
-      "provider_status": "UNPAID",
-      "application_status": "PAYMENT_PENDING"
+      "provider_status": "PAID",
+      "application_status": "PAID"
     },
     {
-      "provider_status": "UNPAID",
-      "application_status": "PAYMENT_PENDING"
+      "provider_status": "PAID",
+      "application_status": "PAID"
     }
-  ]
+  ],
+  "persisted_application_status": "PAID",
+  "audit_actions": [
+    {
+      "action": "provider_status_checked",
+      "next_status": "PAID"
+    },
+    {
+      "action": "provider_status_checked",
+      "next_status": "PAID"
+    }
+  ],
+  "paid_verified": true
 }

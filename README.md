@@ -2,7 +2,7 @@
 
 Pact is a local sandbox commerce demo: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
 
-**Verified:** real sandbox OAuth, invoice creation/read/send and an `UNPAID` payment link. **Also verified:** genuine four-call live AI negotiation reaching $300 and a bounded live semantic evaluation. **Not yet verified:** a completed sandbox buyer payment. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
+**Verified:** real sandbox OAuth, invoice creation/read/send, and a provider-confirmed **$300 USD payment** on invoice `INV2-N6CJ-RJXM-96WT-XDVG`. Pact reconciles it to `PAID`. Genuine four-call live AI negotiation and bounded semantic evaluation are also verified. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
 
 ## Run locally
 

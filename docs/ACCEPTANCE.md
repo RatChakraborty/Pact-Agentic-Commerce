@@ -9,9 +9,9 @@ Validation performed November 11, 2026. Test mocks are distinct from actual prov
 | C — Distinct agents negotiate | PASS | Funded retry received six actual model replies and terminated at the turn cap. Clarified seller strategy then produced a genuine four-call $360 → $300 → $300 → acceptance negotiation with `gpt-4.1-mini-2025-04-14`. Transcript, usage and estimates: `docs/evidence/live-negotiation.json`. |
 | D — Hard agent constraints | PASS | Tests block overspend, recipient/scope changes, invalid/unsupported model output, bad acceptance, exhausted call/cost allowance and turn exhaustion. Input/output caps and timeouts bound live calls; spending uses configurable conservative price estimates, not guaranteed provider billing. |
 | E — Buyer accepts locked terms | PASS | Version-bound explicit confirmation; accepted snapshot persisted. Repeated acceptance emits one event. No accepted-term mutation API exists; changes require a new agreement. Browser acceptance/reload verified. |
-| F — Real sandbox invoice | PASS | Real OAuth and invoice read access, invoice `INV2-N6CJ-RJXM-96WT-XDVG` created/read/sent. Server validates amount, USD currency, merchant and buyer against accepted terms. Real readback `UNPAID`; ID persisted in SQLite. Lost response reconciliation and repeated requests tested with mocks. |
+| F — Real sandbox invoice | PASS | Real OAuth and invoice read access, invoice `INV2-N6CJ-RJXM-96WT-XDVG` created/read/sent. Server validates amount, USD currency, merchant and buyer against accepted terms. Latest real readback `PAID`; $300.00 USD received and $0.00 due. ID persisted in SQLite. Lost response reconciliation and repeated requests tested with mocks. |
 | G — Objective milestone verification | PASS | Example HTML parsed without execution; section IDs, content and active content checks produce observed pass/fail evidence and agreement version. Failed checks block normal advancement; explicit human override retains failed evidence and logs reason. |
-| H — Buyer-authorized payment | PARTIAL | Explicit Pact approval sends sandbox invoice and exposes validated provider-generated payment URL. Real handoff verified; actual provider still reports `UNPAID`. Actual browser attempt failed with `ERR_TUNNEL_CONNECTION_FAILED`: checkout host is outside current egress policy. Buyer must finish checkout in their own browser; no password is requested in chat. Actual completed payment remains unverified; no Orders capture or fabricated paid status. |
+| H — Buyer-authorized payment | PASS | Buyer completed sandbox checkout outside the cloud browser. Direct GET `/v2/invoicing/invoices/INV2-N6CJ-RJXM-96WT-XDVG` returned `PAID`, paid amount $300.00 USD, due $0.00, PayPal payment ID `48G26200EN969023U`. Two normal Pact provider-refresh calls independently retrieved `PAID`, persisted application `PAID`, and appended provider-check audit events. No manual state update or further payment was attempted. |
 | I — Audit, idempotency and failure paths | PASS | Append-only SQLite audit triggers, session isolation and cross-origin rejection tested. Repeated acceptance/invoice/payment approval do not duplicate operations. Provider-term mismatch and manually marked paid state are guarded. Full browser paid path uses an explicitly mocked provider. |
 | J — Public submission and walkthrough | PARTIAL | MIT license retained, feature branch pushed, setup/demo script and Devpost draft written. Unauthenticated repository HTTP 200/public marker verified. Video recording/upload and hackathon submission remain operator tasks. Main untouched. |
 
@@ -30,7 +30,7 @@ Reviewed actual desktop/mobile screenshots as a first-time user. Kept one worksp
 ## Remaining prerequisites
 
 1. Live AI credits now work and gate C is verified. Preserve the cumulative call/dollar reservations; review the configured allowance before another recording run. No further inference is required merely to repeat this evidence.
-2. The buyer completes the sandbox invoice's actual PayPal approval/payment flow. Refresh status and update gate H only after provider-confirmed payment. Do not supply buyer passwords in chat.
+2. Sandbox payment is now provider-confirmed and reconciled; no repeat payment is needed. Use the verified receipt and paid UI in the demo.
 3. Record, review and upload the demo; complete the submission. See [DEMO.md](DEMO.md).
 
 ## P1 acceptance matrix
@@ -49,3 +49,9 @@ Reviewed actual desktop/mobile screenshots as a first-time user. Kept one worksp
 See SPONSORS.md for every sponsor classification and exact requirements. Dedicated SLM training, sponsor runtime expansion, public deployment and marketplace features were deferred.
 
 The final browser suite also verifies the initial session finishes before creation is enabled; it reproduces and guards the delayed-response race found during final testing. Hosted-mode tests exercise the actual application in a subprocess and verify Secure/HttpOnly cookies, operator authentication and cross-origin rejection.
+
+## Confirmed sandbox payment — November 11, 2026
+
+Checked at 19:03:52 UTC / 2:03:52 PM Eastern. PayPal directly reports `PAID`, amount and paid amount **$300.00 USD**, balance due **$0.00 USD**. Payment ID: `48G26200EN969023U`; payment date: `2026-11-11`; method/type: `PAYPAL`. The response contains no refund record. The original invoice's buyer, merchant, currency and amount still match its accepted terms. This is a real sandbox invoice payment, distinct from the older mocked browser test and from the later independent live-negotiation run. Receipt: `docs/evidence/paypal-readback.json`.
+
+The actual provider-confirmed paid agreement was also loaded in Chromium: the UI displayed **Payment confirmed**. Screenshot: `docs/screenshots/sandbox-paid-desktop.png`. This check used the real persisted invoice, not the mocked provider harness.
