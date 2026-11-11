@@ -225,3 +225,7 @@ __marimo__/
 node_modules/
 *.db
 *.sqlite*
+
+# Browser test outputs
+frontend/test-results/
+frontend/playwright-report/
