@@ -1,15 +1,26 @@
+from pathlib import Path
+
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file='../.env', extra='ignore')
-    paypal_env: str = 'sandbox'
-    paypal_client_id: str = ''
-    paypal_client_secret: str = ''
-    llm_api_key: str = ''
-    llm_model: str = ''
-    app_session_secret: str = ''
-    database_path: str = 'pact.db'
-    llm_max_calls: int = 12
-    llm_max_tokens: int = 600
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).resolve().parents[2] / ".env", extra="ignore"
+    )
+    paypal_env: str = "sandbox"
+    paypal_client_id: str = ""
+    paypal_client_secret: str = ""
+    llm_api_key: str = ""
+    llm_model: str = ""
+    app_session_secret: str = ""
+    database_path: str = "pact.db"
+    llm_max_calls: int = Field(default=12, ge=0, le=100)
+    llm_max_tokens: int = Field(default=600, ge=64, le=1200)
+    llm_budget_usd: float = Field(default=2.0, ge=0, le=20)
+    llm_input_usd_per_million: float = Field(default=20, ge=0)
+    llm_output_usd_per_million: float = Field(default=120, ge=0)
+    llm_max_input_bytes: int = Field(default=12000, ge=1000, le=24000)
+
 
 settings = Settings()
