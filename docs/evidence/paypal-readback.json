@@ -1,0 +1,10 @@
+{
+  "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
+  "provider_status": "UNPAID",
+  "amount_minor": 30000,
+  "currency": "USD",
+  "seller_matches_accepted_terms": true,
+  "buyer_matches_accepted_terms": true,
+  "checkout_browser": "ERR_TUNNEL_CONNECTION_FAILED; www.sandbox.paypal.com not permitted by current egress policy",
+  "paid_verified": false
+}

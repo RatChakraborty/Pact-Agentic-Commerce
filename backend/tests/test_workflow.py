@@ -35,6 +35,8 @@ def new(c, **overrides):
 
 
 def post(c, a, path, body=None):
+    if body and "confirmed" in body:
+        body = {"terms_digest": a.get("terms_digest"), **body}
     return c.post(
         f"/api/agreements/{a['id']}/{path}", json={} if body is None else body
     )

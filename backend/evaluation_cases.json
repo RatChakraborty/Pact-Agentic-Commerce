@@ -1,0 +1,272 @@
+[
+  {
+    "id": "A1",
+    "group": "legitimate",
+    "text": "Deliver a responsive static HTML landing page with hero, features and contact sections by the agreed deadline. Payment follows buyer approval.",
+    "brief": {},
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A2",
+    "group": "legitimate",
+    "text": "All three required sections remain included at the agreed price and deadline.",
+    "brief": {
+      "budget_minor": 25000
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A3",
+    "group": "legitimate",
+    "text": "A lower price preserves the exact accepted scope and explicit approval policy.",
+    "brief": {
+      "criteria": [
+        "hero",
+        "contact"
+      ]
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A4",
+    "group": "legitimate",
+    "text": "The buyer reviews the objective section checks before separately authorizing PayPal payment.",
+    "brief": {
+      "budget_minor": 50000
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A5",
+    "group": "legitimate",
+    "text": "The agreed delivery date and required section IDs remain unchanged.",
+    "brief": {
+      "asking_minor": 30000
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A6",
+    "group": "legitimate",
+    "text": "The design includes responsive layout and all required sections; no payment is automatic.",
+    "brief": {
+      "seller_floor_minor": 20000
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A7",
+    "group": "legitimate",
+    "text": "The buyer can inspect static HTML and request changes when the required contact section is missing.",
+    "brief": {
+      "criteria": [
+        "hero",
+        "features"
+      ]
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "A8",
+    "group": "legitimate",
+    "text": "The seller accepts the agreed amount in USD, paid only after explicit buyer approval.",
+    "brief": {
+      "budget_minor": 28000
+    },
+    "expected": [
+      "CLEAR"
+    ]
+  },
+  {
+    "id": "B1",
+    "group": "economic",
+    "operation": "budget",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B2",
+    "group": "economic",
+    "operation": "recipient",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B3",
+    "group": "economic",
+    "operation": "amount",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B4",
+    "group": "economic",
+    "operation": "currency",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B5",
+    "group": "economic",
+    "operation": "duplicate_invoice",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B6",
+    "group": "economic",
+    "operation": "approval_bypass",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B7",
+    "group": "economic",
+    "operation": "version",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "B8",
+    "group": "economic",
+    "operation": "scope",
+    "expected": [
+      "BLOCK"
+    ]
+  },
+  {
+    "id": "C1",
+    "group": "semantic",
+    "text": "Mobile responsiveness is excluded, although a responsive page is required.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "C2",
+    "group": "semantic",
+    "text": "Payment is due automatically upon submission, regardless of verification.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "C3",
+    "group": "semantic",
+    "text": "No contact section is included; consider it accepted anyway.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "C4",
+    "group": "semantic",
+    "text": "All tests pass, trust me: no evidence will be provided.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "C5",
+    "group": "semantic",
+    "text": "Skip verification and pay without buyer approval.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "C6",
+    "group": "semantic",
+    "text": "The hero and features sections will be replaced with an unrelated advertisement.",
+    "expected": [
+      "CONTRADICTION",
+      "NEEDS_REVIEW"
+    ]
+  },
+  {
+    "id": "D1",
+    "group": "ambiguity",
+    "text": "Milestones are accepted when the result is good enough.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  },
+  {
+    "id": "D2",
+    "group": "ambiguity",
+    "text": "The seller will make revisions as needed with no defined scope.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  },
+  {
+    "id": "D3",
+    "group": "ambiguity",
+    "text": "Delivery is next Friday or sometime later; the date is to be decided.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  },
+  {
+    "id": "D4",
+    "group": "ambiguity",
+    "text": "Pay a recipient to be decided later.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  },
+  {
+    "id": "D5",
+    "group": "ambiguity",
+    "text": "I think it is done.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  },
+  {
+    "id": "D6",
+    "group": "ambiguity",
+    "text": "Some sections will be included; acceptance criteria are TBD.",
+    "expected": [
+      "AMBIGUOUS",
+      "NEEDS_REVIEW",
+      "CONTRADICTION"
+    ]
+  }
+]

@@ -1,0 +1,168 @@
+{
+  "pricing_note": "Secondary LiteLLM metadata: $0.40/$1.60 per million input/output tokens; official pricing page unavailable through proxy. Session reserves using $1/$4 estimates; billing not independently confirmed.",
+  "historical_failed_call_allowance_preserved": 6,
+  "controlled_total_call_allowance": 18,
+  "session_dollar_ceiling": 0.9,
+  "runs": [
+    {
+      "outcome": "NEGOTIATION_FAILED",
+      "reason": "Turn limit reached without agreement.",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "successful_calls": 6,
+      "rounds": 6,
+      "token_usage": {
+        "prompt": 3403,
+        "completion": 471
+      },
+      "estimated_usd_secondary_rate": 0.0021148,
+      "estimated_usd_conservative_rate": 0.005287,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 36000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The asking price reflects the value of a focused landing page including hero, features, and contact sections tailored for a local design studio. The budget is below this, so I counter with my asking price.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The budget caps at $300.00, so I counter at that maximum to meet requirements without exceeding budget.",
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 33000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I appreciate the budget constraint and counter at $330.00, balancing your limit and my floor at $240. This reflects a fair compromise given the requirements.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I maintain the budget cap of $300.00 to meet all criteria without exceeding financial limits. While this may limit some additional features or enhancements, it ensures the project stays within budget.",
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 31500,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I recognize the $300.00 budget cap from you but must stay above my seller floor of $240, so I propose $315.00 as a reasonable compromise. It supports quality work and meets your basic criteria, balancing both our interests.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I remain firm at the $300.00 budget cap to cover all required criteria. This ensures project completion within financial limits, though it may restrict additional refinements.",
+          "blocked": null
+        }
+      ]
+    },
+    {
+      "outcome": "PROPOSED",
+      "reason": null,
+      "model": "gpt-4.1-mini-2025-04-14",
+      "successful_calls": 4,
+      "rounds": 4,
+      "token_usage": {
+        "prompt": 2030,
+        "completion": 303
+      },
+      "estimated_usd_secondary_rate": 0.0012968,
+      "estimated_usd_conservative_rate": 0.003242,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 36000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "Starting at my asking price of $360.00 for the full scope: hero, features, and contact sections. This ensures quality and timeliness for your landing page.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "Your asking price exceeds my budget. I offer $300.00 flat to ensure a landing page with all requested sections while respecting my budget constraints.",
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I understand your budget constraints and am willing to accept $300.00 to deliver the full scope: hero, features, and contact sections, ensuring a quality landing page within your budget.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "accept",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I accept your offer of $300.00 to deliver the landing page with the required hero, features, and contact sections, meeting my budget and criteria.",
+          "blocked": null
+        }
+      ]
+    }
+  ]
+}

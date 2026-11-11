@@ -40,6 +40,7 @@ class Offer(Strict):
 class Approval(Strict):
     version: int
     confirmed: Literal[True]
+    terms_digest: str | None = None
 
 
 class Evidence(Strict):
@@ -141,6 +142,9 @@ class Agreement(NewAgreement):
     human_review: HumanReview | None = None
     invoice_provider_id: str | None = None
     negotiation_error: str | None = None
+    terms_digest: str | None = None
+    accepted_digest: str | None = None
+    critique: dict | None = None
 
 
 class AuditEvent(Strict):

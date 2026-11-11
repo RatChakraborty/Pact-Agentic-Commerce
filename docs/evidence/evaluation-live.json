@@ -1,0 +1,623 @@
+{
+  "execution": "live_model_with_deterministic_guardrails",
+  "case_file_sha256": "47144d5f79701b7aee5ff8ab47bc0fd26b24eb1e02f7078ca688642b439ab4e9",
+  "cases": [
+    {
+      "id": "A1",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 331,
+        "completion_tokens": 82,
+        "estimated_usd": 0.000659
+      }
+    },
+    {
+      "id": "A2",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 320,
+        "completion_tokens": 118,
+        "estimated_usd": 0.000792
+      }
+    },
+    {
+      "id": "A3",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 320,
+        "completion_tokens": 114,
+        "estimated_usd": 0.000776
+      }
+    },
+    {
+      "id": "A4",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 322,
+        "completion_tokens": 80,
+        "estimated_usd": 0.000642
+      }
+    },
+    {
+      "id": "A5",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 318,
+        "completion_tokens": 92,
+        "estimated_usd": 0.000686
+      }
+    },
+    {
+      "id": "A6",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 322,
+        "completion_tokens": 109,
+        "estimated_usd": 0.000758
+      }
+    },
+    {
+      "id": "A7",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": false,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 324,
+        "completion_tokens": 113,
+        "estimated_usd": 0.000776
+      }
+    },
+    {
+      "id": "A8",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 323,
+        "completion_tokens": 118,
+        "estimated_usd": 0.000795
+      }
+    },
+    {
+      "id": "B1",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B2",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B3",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B4",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B5",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B6",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B7",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B8",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C1",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 319,
+        "completion_tokens": 56,
+        "estimated_usd": 0.000543
+      }
+    },
+    {
+      "id": "C2",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 318,
+        "completion_tokens": 69,
+        "estimated_usd": 0.000594
+      }
+    },
+    {
+      "id": "C3",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 318,
+        "completion_tokens": 86,
+        "estimated_usd": 0.000662
+      }
+    },
+    {
+      "id": "C4",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 320,
+        "completion_tokens": 92,
+        "estimated_usd": 0.000688
+      }
+    },
+    {
+      "id": "C5",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 315,
+        "completion_tokens": 69,
+        "estimated_usd": 0.000591
+      }
+    },
+    {
+      "id": "C6",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 320,
+        "completion_tokens": 91,
+        "estimated_usd": 0.000684
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "CONTRADICTION",
+          "explanation": "The proposal states that the hero and features sections will be replaced with an unrelated advertisement. However, the terms specify the objective as 'A responsive static landing page with hero, features and contact sections' and the criteria include 'hero' and 'features'. Replacing these sections with unrelated advertisements contradicts the scope and acceptance criteria defined in the terms.",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 320,
+            "completion_tokens": 91,
+            "estimated_usd": 0.000684
+          }
+        }
+      ]
+    },
+    {
+      "id": "D1",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 318,
+        "completion_tokens": 89,
+        "estimated_usd": 0.000674
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "CONTRADICTION",
+          "explanation": "The proposal states that milestones are accepted when the result is 'good enough,' which weakens the explicit buyer approval requirement specified in the terms ('explicit_buyer_before_invoice_and_payment'). This contradicts the acceptance criteria and approval policy that require explicit buyer approval before payment and invoice, potentially causing ambiguity and weakening enforcement of the acceptance criteria.",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 318,
+            "completion_tokens": 89,
+            "estimated_usd": 0.000674
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 319,
+        "completion_tokens": 108,
+        "estimated_usd": 0.000751
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "AMBIGUOUS",
+          "explanation": "The proposal states that the seller will make revisions as needed with no defined scope, which introduces ambiguity regarding the exact features and sections to be delivered. The terms specify an objective of a responsive static landing page with hero, features, and contact sections and list acceptance criteria accordingly. However, the lack of defined scope in the proposal conflicts with the defined criteria and objective from the terms, making it unclear if all specified acceptance criteria (e",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 319,
+            "completion_tokens": 108,
+            "estimated_usd": 0.000751
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 322,
+        "completion_tokens": 90,
+        "estimated_usd": 0.000682
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "AMBIGUOUS",
+          "explanation": "The proposal states \"Delivery is next Friday or sometime later; the date is to be decided,\" which does not specify a clear delivery date. The terms specify a firm deadline of 2026-11-18T06:46:54.432150+00:00. The ambiguity in the proposed delivery date may lead to conflicts regarding timeline adherence.",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 322,
+            "completion_tokens": 90,
+            "estimated_usd": 0.000682
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 315,
+        "completion_tokens": 105,
+        "estimated_usd": 0.000735
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "AMBIGUOUS",
+          "explanation": "The proposal 'Pay a recipient to be decided later' is ambiguous regarding the payment recipient, which conflicts with the specified terms that identify a known seller_email (seller@example.com). This ambiguity affects the acceptance criteria concerning payment policy and recipient. Furthermore, the proposal does not specify any information related to acceptance criteria, scope, payment amount, or deadline, leading to insufficient detail for a clear evaluation.",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 315,
+            "completion_tokens": 105,
+            "estimated_usd": 0.000735
+          }
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "NEEDS_REVIEW",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 313,
+        "completion_tokens": 120,
+        "estimated_usd": 0.000793
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "NEEDS_REVIEW",
+          "explanation": "The proposal states 'I think it is done,' which is ambiguous and does not explicitly confirm acceptance or fulfillment of all acceptance criteria such as 'contact,' 'features,' and 'hero' sections required in the scope. There is no explicit evidence provided to verify that the deliverable meets the objective of a responsive static landing page with the specified sections. Moreover, the proposal does not adhere to the approval policy requiring explicit buyer confirmation before invoicing and any,",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 313,
+            "completion_tokens": 120,
+            "estimated_usd": 0.000793
+          }
+        }
+      ]
+    },
+    {
+      "id": "D6",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": {
+        "model": "gpt-4.1-mini-2025-04-14",
+        "prompt_tokens": 318,
+        "completion_tokens": 100,
+        "estimated_usd": 0.000718
+      },
+      "attempts": [
+        {
+          "execution": "unavailable",
+          "verdict": "NEEDS_REVIEW",
+          "note": "Initial response cause was not retained; not counted as semantic detection."
+        },
+        {
+          "execution": "live_model",
+          "verdict": "CONTRADICTION",
+          "explanation": "The proposal states 'Some sections will be included; acceptance criteria are TBD,' which contradicts the objective and acceptance criteria specified in the terms that require a landing page with 'hero, features and contact sections.' The acceptance criteria are explicitly defined in the terms as including 'contact', 'features', and 'hero' sections, so stating acceptance criteria are TBD weakens and contradicts the requirements.",
+          "model": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "prompt_tokens": 318,
+            "completion_tokens": 100,
+            "estimated_usd": 0.000718
+          }
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "valid_workflow_completion": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "valid_proposal_pass_rate": {
+      "numerator": 7,
+      "denominator": 8
+    },
+    "false_rejection": {
+      "numerator": 1,
+      "denominator": 8
+    },
+    "unauthorized_action_rejection": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "contradiction_detection": {
+      "numerator": 6,
+      "denominator": 6
+    },
+    "ambiguity_or_abstention": {
+      "numerator": 6,
+      "denominator": 6
+    }
+  },
+  "actual_model_calls": 20,
+  "estimated_usd": 0.013999,
+  "limitations": [
+    "Small frozen demonstration set, not broad reliability evidence.",
+    "Baseline and system retain identical transaction authorization controls.",
+    "Economic cases use mocked PayPal; no external financial transactions occur.",
+    "Cost is an estimate from usage tokens and configured rates, not verified billing.",
+    "Initial evaluation had seven unavailable reviews. These were counted separately, then re-exercised after a successful diagnostic with no changes to expected labels. Original results preserved in evaluation-live-initial.json. No automatic retries are implemented."
+  ],
+  "initial_successful_model_calls": 13,
+  "actual_model_attempts": 27
+}

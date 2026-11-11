@@ -2,6 +2,14 @@ import { useState, useEffect, type FormEvent } from "react";
 import { money, nextAction } from "./workflow";
 type Agreement = {
   id: string;
+  terms_digest?: string;
+  critique?: {
+    verdict: string;
+    explanation: string;
+    execution: string;
+    model?: string;
+    terms_digest: string;
+  };
   objective: string;
   status: string;
   version: number;
@@ -144,7 +152,11 @@ export default function App() {
             ? { scenario }
             : ["cancel", "paypal-status"].includes(action)
               ? {}
-              : { version: a.version, confirmed: true },
+              : {
+                  version: a.version,
+                  confirmed: true,
+                  terms_digest: a.terms_digest,
+                },
         ),
       );
   }
@@ -386,7 +398,12 @@ export default function App() {
               {primary && (
                 <button
                   className="primary"
-                  disabled={busy}
+                  disabled={
+                    busy ||
+                    (primary.action === "accept" &&
+                      !!a.critique &&
+                      a.critique.verdict !== "CLEAR")
+                  }
                   onClick={() => act(primary.action)}
                 >
                   {busy ? "Working…" : primary.label + " →"}
@@ -622,6 +639,43 @@ export default function App() {
             )}
 
             <details className="secondary">
+              {a.critique && (
+                <p role="status">
+                  Proposal wording: {a.critique.verdict.replaceAll("_", " ")} ·{" "}
+                  {a.critique.explanation} (
+                  {a.critique.execution === "live_model"
+                    ? "AI advisory review"
+                    : a.critique.execution === "unavailable"
+                      ? "Review unavailable"
+                      : "Deterministic rule check"}
+                  ).{" "}
+                  {a.critique.verdict !== "CLEAR" &&
+                    "Create a revised agreement to resolve these concerns."}
+                </p>
+              )}
+              {a.status === "PROPOSED" && (
+                <button
+                  className="quiet"
+                  disabled={busy}
+                  onClick={() =>
+                    run(() =>
+                      api(`/agreements/${a.id}/critique`, {
+                        mode: a.mode === "live" ? "live" : "rules",
+                      }),
+                    )
+                  }
+                >
+                  Check proposal wording
+                </button>
+              )}
+              {a.terms_digest && (
+                <p>
+                  Agreement fingerprint: {a.terms_digest.slice(0, 16)}… ·
+                  Detects term changes; does not authenticate a person or
+                  establish legal enforceability.
+                </p>
+              )}
+
               <summary>Agreement history & details</summary>
               <p>
                 {a.mode === "live"

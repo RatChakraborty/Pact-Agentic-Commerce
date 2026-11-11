@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,6 +21,25 @@ class Settings(BaseSettings):
     llm_input_usd_per_million: float = Field(default=20, ge=0)
     llm_output_usd_per_million: float = Field(default=120, ge=0)
     llm_max_input_bytes: int = Field(default=12000, ge=1000, le=24000)
+
+    secure_cookies: bool = False
+    public_origin: str = ""
+    app_access_password: str = ""
+
+    @model_validator(mode="after")
+    def validate_hosted_mode(self):
+        if self.secure_cookies:
+            if not self.public_origin.startswith(
+                "https://"
+            ) or self.public_origin.endswith("/"):
+                raise ValueError(
+                    "Hosted mode requires an exact HTTPS PUBLIC_ORIGIN without trailing slash."
+                )
+            if len(self.app_session_secret) < 32 or len(self.app_access_password) < 20:
+                raise ValueError(
+                    "Hosted mode requires strong session and operator access secrets."
+                )
+        return self
 
 
 settings = Settings()

@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 import httpx
 
@@ -125,21 +125,34 @@ class PayPal:
         )
 
     def validate(self, invoice, a):
-        expected = Decimal(a["amount_minor"]) / 100
+        from .integrity import verify_accepted
+
+        verify_accepted(a)
         try:
-            assert invoice["amount"]["currency_code"] == "USD"
-            assert Decimal(invoice["amount"]["value"]) == expected
-            assert (
-                invoice["invoicer"]["email_address"].lower()
+            expected = Decimal(a["amount_minor"]) / 100
+            value = Decimal(invoice["amount"]["value"])
+            matches = (
+                expected.is_finite()
+                and value.is_finite()
+                and invoice["amount"]["currency_code"] == a["currency"]
+                and value == expected
+                and invoice["invoicer"]["email_address"].lower()
                 == a["seller_email"].lower()
-            )
-            assert (
-                invoice["primary_recipients"][0]["billing_info"][
+                and invoice["primary_recipients"][0]["billing_info"][
                     "email_address"
                 ].lower()
                 == a["buyer_email"].lower()
             )
-        except (KeyError, IndexError, AssertionError, ValueError):
+            expected_id = (a.get("invoice") or {}).get("id") or a.get(
+                "invoice_provider_id"
+            )
+            if expected_id and invoice.get("id") != expected_id:
+                matches = False
+            if not matches:
+                raise ProviderError(
+                    "Provider invoice terms do not match the accepted agreement."
+                )
+        except (KeyError, IndexError, TypeError, ValueError, InvalidOperation):
             raise ProviderError(
                 "Provider invoice terms do not match the accepted agreement."
             ) from None

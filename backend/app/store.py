@@ -18,7 +18,9 @@ def transaction():
     CREATE TABLE IF NOT EXISTS usage(id INTEGER PRIMARY KEY CHECK(id=1), calls INTEGER NOT NULL);
     INSERT OR IGNORE INTO usage VALUES(1,0);
     CREATE TABLE IF NOT EXISTS budget(id INTEGER PRIMARY KEY CHECK(id=1), reserved_usd REAL NOT NULL);
-    INSERT OR IGNORE INTO budget VALUES(1,0);""")
+    INSERT OR IGNORE INTO budget VALUES(1,0);
+    CREATE TABLE IF NOT EXISTS ai_reservations(seq INTEGER PRIMARY KEY, timestamp TEXT, purpose TEXT, calls INTEGER, reserved_usd REAL);
+    CREATE TABLE IF NOT EXISTS ai_observations(seq INTEGER PRIMARY KEY, timestamp TEXT, purpose TEXT, data TEXT);""")
     db.execute("BEGIN IMMEDIATE")
     try:
         yield db

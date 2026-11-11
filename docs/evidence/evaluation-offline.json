@@ -1,0 +1,394 @@
+{
+  "execution": "deterministic_rules_only",
+  "case_file_sha256": "47144d5f79701b7aee5ff8ab47bc0fd26b24eb1e02f7078ca688642b439ab4e9",
+  "cases": [
+    {
+      "id": "A1",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A2",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A3",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A4",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A5",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A6",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A7",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "A8",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null
+    },
+    {
+      "id": "B1",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B2",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B3",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B4",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B5",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B6",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B7",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "B8",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C1",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": false,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C2",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C3",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C4",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C5",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "C6",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": false,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D1",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D2",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D3",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D4",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D5",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "NEEDS_REVIEW",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    },
+    {
+      "id": "D6",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null
+    }
+  ],
+  "metrics": {
+    "valid_workflow_completion": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "valid_proposal_pass_rate": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "false_rejection": {
+      "numerator": 0,
+      "denominator": 8
+    },
+    "unauthorized_action_rejection": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "contradiction_detection": {
+      "numerator": 4,
+      "denominator": 6
+    },
+    "ambiguity_or_abstention": {
+      "numerator": 6,
+      "denominator": 6
+    }
+  },
+  "actual_model_calls": 0,
+  "estimated_usd": 0,
+  "limitations": [
+    "Small frozen demonstration set, not broad reliability evidence.",
+    "Baseline and system retain identical transaction authorization controls.",
+    "Economic cases use mocked PayPal; no external financial transactions occur.",
+    "Cost is an estimate from usage tokens and configured rates, not verified billing."
+  ]
+}

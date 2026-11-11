@@ -1,0 +1,16 @@
+{
+  "legacy_call_reservations_preserved": 6,
+  "legacy_dollar_reservations": 0,
+  "current_reserved_calls_including_legacy": 45,
+  "current_reserved_usd": 0.5399999999999999,
+  "configured_session_ceiling_usd": 0.9,
+  "authorized_session_ceiling_usd": 1.0,
+  "controlled_call_allowance": 48,
+  "reserve_input_usd_per_million": 1.0,
+  "reserve_output_usd_per_million": 4.0,
+  "pricing_source": "Secondary LiteLLM metadata matches $0.40/$1.60 gpt-4.1-mini input/output; official model pricing page blocked by proxy. Conservative reservation uses 2.5x those rates.",
+  "successful_negotiation_calls": 10,
+  "semantic_successful_case_responses": 20,
+  "semantic_attempts_including_initial_unavailability": 27,
+  "note": "Reservations were not reset or refunded. Actual total billing is not independently confirmed; response usage was unavailable for seven initial critique attempts."
+}

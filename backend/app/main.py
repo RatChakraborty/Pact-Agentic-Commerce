@@ -1,3 +1,5 @@
+import base64
+import binascii
 import json
 import secrets
 from datetime import UTC, datetime
@@ -12,7 +14,10 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from .agents import NegotiationError, negotiate
 from .config import settings
+from .critique import CritiqueRequest
+from .critique import review as critique_terms
 from .domain import Approval, Evidence, Negotiate, NewAgreement, Review, now
+from .integrity import IntegrityError, canonical_terms, digest, verify_accepted
 from .paypal import ProviderError, paypal
 from .store import audit, save, transaction
 from .verification import verify
@@ -23,15 +28,42 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=settings.app_session_secret or secrets.token_urlsafe(48),
     same_site="strict",
-    https_only=False,
+    https_only=settings.secure_cookies,
 )
 
 
 @app.middleware("http")
 async def protections(request, call_next):
+    if settings.app_access_password and request.url.path != "/api/health":
+        authorized = False
+        try:
+            scheme, encoded = request.headers.get("authorization", "").split(" ", 1)
+            username, password = (
+                base64.b64decode(encoded, validate=True).decode().split(":", 1)
+            )
+            authorized = (
+                scheme.lower() == "basic"
+                and username == "pact"
+                and secrets.compare_digest(
+                    password.encode(), settings.app_access_password.encode()
+                )
+            )
+        except (ValueError, UnicodeDecodeError, binascii.Error):
+            pass
+        if not authorized:
+            return JSONResponse(
+                {"detail": "Operator sign-in required."},
+                status_code=401,
+                headers={
+                    "WWW-Authenticate": 'Basic realm="Pact demo", charset="UTF-8"'
+                },
+            )
+
     if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
         origin = request.headers.get("origin")
-        if origin and origin != str(request.base_url).rstrip("/"):
+        if origin and origin != (
+            settings.public_origin or str(request.base_url).rstrip("/")
+        ):
             return JSONResponse(
                 {"detail": "Cross-origin mutation blocked."}, status_code=403
             )
@@ -66,7 +98,9 @@ def load(db, id, user):
     ).fetchone()
     if not row:
         raise HTTPException(404, "Agreement not found in this browser session.")
-    return json.loads(row["data"])
+    a = json.loads(row["data"])
+    verify_accepted(a)
+    return a
 
 
 def require(db, a, *states):
@@ -84,8 +118,24 @@ def change(db, a, status, action, details=None):
 
 
 def check_approval(a, data):
+    verify_accepted(a)
+    if a.get("terms_digest") and (
+        not data.terms_digest or a["terms_digest"] != digest(a)
+    ):
+        raise HTTPException(
+            409, "Review and confirm the current agreement fingerprint."
+        )
+    if data.terms_digest and data.terms_digest != digest(a):
+        raise HTTPException(
+            409, "Agreement fingerprint changed; review the current terms."
+        )
     if data.version != a["version"]:
         raise HTTPException(409, "Agreement version changed; review the current terms.")
+
+
+@app.exception_handler(IntegrityError)
+def integrity_error(request, exc):
+    return JSONResponse({"detail": str(exc)}, status_code=409)
 
 
 @app.exception_handler(ProviderError)
@@ -233,6 +283,7 @@ def negotiation(id: str, data: Negotiate, user: Annotated[str, Depends(owner)]):
         current["offers"] = offers
         current["amount_minor"] = amount
         current["negotiation_error"] = error
+        current["terms_digest"] = digest(current) if amount is not None else None
         change(
             db,
             current,
@@ -243,6 +294,35 @@ def negotiation(id: str, data: Negotiate, user: Annotated[str, Depends(owner)]):
         return current
 
 
+@app.post("/api/agreements/{id}/critique")
+def critique(id: str, data: CritiqueRequest, user: Annotated[str, Depends(owner)]):
+    with transaction() as db:
+        a = load(db, id, user)
+        require(db, a, "PROPOSED")
+        fingerprint = digest(a)
+    text = "\n".join(f"{o['role']}: {o['explanation']}" for o in a["offers"])
+    result = critique_terms(a, text, data.mode)
+    with transaction() as db:
+        current = load(db, id, user)
+        require(db, current, "PROPOSED")
+        if digest(current) != fingerprint:
+            raise HTTPException(409, "Terms changed during review.")
+        current["critique"] = {**result, "terms_digest": fingerprint}
+        audit(
+            db,
+            current,
+            "proposal_critique",
+            current["status"],
+            {
+                "verdict": result["verdict"],
+                "execution": result["execution"],
+                "terms_digest": fingerprint,
+            },
+        )
+        save(db, current)
+        return current
+
+
 @app.post("/api/agreements/{id}/accept")
 def accept(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
     with transaction() as db:
@@ -250,22 +330,29 @@ def accept(id: str, data: Approval, user: Annotated[str, Depends(owner)]):
         check_approval(a, data)
         if a["accepted_at"]:
             return a
+        if a.get("critique") and a["critique"]["verdict"] != "CLEAR":
+            raise HTTPException(
+                409,
+                "The proposal has unresolved wording concerns. Revise the agreement before accepting.",
+            )
         require(db, a, "PROPOSED")
+        if (
+            a["amount_minor"] is None
+            or not a["seller_floor_minor"] <= a["amount_minor"] <= a["budget_minor"]
+        ):
+            raise HTTPException(
+                409, "Proposed amount violates the authorized price limits."
+            )
         a["accepted_at"] = now()
-        a["accepted_terms"] = {
-            k: a[k]
-            for k in [
-                "version",
-                "amount_minor",
-                "currency",
-                "seller_email",
-                "buyer_email",
-                "criteria",
-                "objective",
-                "deadline",
-            ]
-        }
-        change(db, a, "ACCEPTED", "buyer_accepted_terms")
+        a["accepted_terms"] = canonical_terms(a)
+        a["accepted_digest"] = digest(a)
+        change(
+            db,
+            a,
+            "ACCEPTED",
+            "buyer_accepted_terms",
+            {"terms_digest": a["accepted_digest"], "version": a["version"]},
+        )
         return a
 
 
