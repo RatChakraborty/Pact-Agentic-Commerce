@@ -1,0 +1,1 @@
+Fraunces variable Latin font from @fontsource-variable/fraunces 5.3.0, https://www.npmjs.com/package/@fontsource-variable/fraunces. Self-hosted under SIL Open Font License 1.1; see Fraunces-OFL.txt. Body and monospace use local system fonts.

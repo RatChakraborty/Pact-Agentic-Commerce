@@ -1,10 +1,23 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { api } from "./api";
+import AgreementPreview, {
+  intentionalDeadline,
+  previewFromForm,
+} from "./AgreementPreview";
+import Progress, { stateTone } from "./Progress";
+import { filterAgreements } from "./agreementFilters";
 import { money } from "./workflow";
 
 const base = "/demo-market";
 const stateLabel = (s: string) => s.toLowerCase().replaceAll("_", " ");
 export default function Market({ entry }: { entry: "buyer" | "seller" }) {
+  const [brief, setBrief] = useState(() => ({
+    objective: "Build a static landing page for our design studio.",
+    budget: 30000,
+    deadline: intentionalDeadline(),
+    criteria: ["hero", "features", "contact"],
+  }));
+  const [filter, setFilter] = useState("all");
   const [persona, setPersona] = useState<any>(null);
   const [ready, setReady] = useState(false);
   const [services, setServices] = useState<any[]>([]);
@@ -70,7 +83,8 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
       </header>
       <main>
         <span className="eyebrow">
-          TWO-PERSONA DEMO · NO REAL ACCOUNTS OR PAYMENTS
+          {(persona?.role || entry) === "buyer" ? "CUSTOMER" : "BUSINESS"} ·
+          DEMO SESSION
         </span>
         <h1>
           {persona
@@ -82,11 +96,19 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
               : "Start as a business"}
         </h1>
         <p className="muted">
-          Two separate browser contexts share one agreement. Demo identities are
-          unverified, fixed to this browser for 24 hours, and cannot be
-          recovered. Use another browser or private window for the other party.
-          Agents run within Pact.
+          {entry === "buyer"
+            ? "Your brief, your budget, your final say."
+            : "Your services, your terms, your commitments."}
         </p>
+        <details className="demo-truth">
+          <summary>About this interactive demo</summary>
+          <p>
+            Browser-bound demo identities, not real accounts or verified
+            businesses. Use another browser/private window for the other party.
+            Identities expire in 24 hours and cannot be recovered. Agents run
+            within Pact using deterministic rules; no live AI or payments.
+          </p>
+        </details>
         {error && (
           <div className="service-error">
             <p role="alert" className="blocked-label">
@@ -166,6 +188,7 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                 <button className="quiet" onClick={() => setSelected(null)}>
                   ← Back to {persona.role === "buyer" ? "projects" : "studio"}
                 </button>
+                <Progress status={selected.status} demo shared />
                 <section className="objective">
                   <div>
                     <span className="eyebrow">
@@ -176,7 +199,9 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                       {selected.buyer_name} ↔ {selected.seller_name}
                     </p>
                   </div>
-                  <span className="status">{stateLabel(selected.status)}</span>
+                  <span className={`status ${stateTone(selected.status)}`}>
+                    {stateLabel(selected.status)}
+                  </span>
                 </section>
                 <section className="next">
                   <div>
@@ -203,13 +228,22 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                         {money(selected.seller_floor_minor)}
                       </p>
                     )}
-                    <p>
-                      Human confirmations:{" "}
-                      {selected.approvals.length
-                        ? selected.approvals.join(" + ")
-                        : "neither party yet"}
-                      . Both are required.
-                    </p>
+                    <div
+                      className="human-confirmations"
+                      aria-label="Human confirmations"
+                    >
+                      {["buyer", "seller"].map((role) => (
+                        <span
+                          key={role}
+                          className={`state-chip ${selected.approvals.includes(role) ? "approved" : "pending"}`}
+                        >
+                          {role === "buyer" ? "Customer" : "Seller"} ·{" "}
+                          {selected.approvals.includes(role)
+                            ? "confirmed"
+                            : "confirmation required"}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   {selected.role === "seller" &&
                     selected.status === "AWAITING_SELLER" && (
@@ -463,28 +497,48 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                         : "Select a listed demo service below."}
                     </p>
                   )}
-                  {agreements.map((a: any) => (
-                    <button
-                      className="history"
-                      key={a.id}
-                      onClick={() =>
-                        run(async () => {
-                          const x = await api(`${base}/agreements/${a.id}`);
-                          setSelected(x);
-                          return x;
-                        })
-                      }
+                  <label className="agreement-filter">
+                    Show agreements
+                    <select
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
                     >
-                      {a.objective}
-                      <small>
-                        {stateLabel(a.status)} ·{" "}
-                        {a.amount_minor == null
-                          ? "Price pending"
-                          : money(a.amount_minor)}{" "}
-                        · {new Date(a.created_at).toLocaleDateString()}
-                      </small>
-                    </button>
-                  ))}
+                      <option value="all">All agreements</option>
+                      <option value="decision">Needs your decision</option>
+                      <option value="active">Active negotiation</option>
+                      <option value="evidence">
+                        Deliverable follow-through
+                      </option>
+                      <option value="history">Historical agreements</option>
+                    </select>
+                  </label>
+                  {agreements.length > 0 &&
+                    filterAgreements(agreements, filter, persona.role)
+                      .length === 0 && <p>No agreements match this view.</p>}
+                  {filterAgreements(agreements, filter, persona.role).map(
+                    (a: any) => (
+                      <button
+                        className="history"
+                        key={a.id}
+                        onClick={() =>
+                          run(async () => {
+                            const x = await api(`${base}/agreements/${a.id}`);
+                            setSelected(x);
+                            return x;
+                          })
+                        }
+                      >
+                        {a.objective}
+                        <small>
+                          {stateLabel(a.status)} ·{" "}
+                          {a.amount_minor == null
+                            ? "Price pending"
+                            : money(a.amount_minor)}{" "}
+                          · {new Date(a.created_at).toLocaleDateString()}
+                        </small>
+                      </button>
+                    ),
+                  )}
                 </section>
                 {persona.role === "seller" ? (
                   <section className="evidence">
@@ -615,6 +669,10 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                       ))}
                     {service && (
                       <form
+                        className="brief-layout request-form"
+                        onInput={(e) =>
+                          setBrief(previewFromForm(e.currentTarget, brief))
+                        }
                         onSubmit={(e) =>
                           submit(e, async (f) => {
                             const x = await api(
@@ -625,7 +683,7 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                                   Number(f.get("budget")) * 100,
                                 ),
                                 deadline: new Date(
-                                  String(f.get("deadline")) + "T23:59:59Z",
+                                  String(f.get("deadline")),
                                 ).toISOString(),
                                 authorize_agent: true,
                               },
@@ -663,26 +721,28 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                             Delivery date
                             <input
                               name="deadline"
-                              type="date"
-                              defaultValue={new Date(Date.now() + 7 * 86400000)
-                                .toISOString()
-                                .slice(0, 10)}
+                              type="datetime-local"
+                              defaultValue={brief.deadline}
                               required
                             />
                           </label>
                         </div>
-                        <p>
-                          Required sections: hero, features, contact. This
-                          authorizes only deterministic negotiation, never
-                          payment.
-                        </p>
-                        <label>
+                        <fieldset className="acceptance-scope">
+                          <legend>Acceptance scope</legend>
+                          <p>
+                            Static HTML · hero, features, contact. Up to six
+                            deterministic negotiation turns. No paid inference
+                            or payment authority.
+                          </p>
+                        </fieldset>
+                        <label className="consent-label">
                           <input type="checkbox" required /> I authorize my
                           buyer agent to negotiate this request.
                         </label>
                         <button className="primary" disabled={busy}>
                           Send negotiation request
                         </button>
+                        <AgreementPreview brief={brief} />
                       </form>
                     )}
                   </section>

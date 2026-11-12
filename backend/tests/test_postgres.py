@@ -15,6 +15,11 @@ from fastapi.testclient import TestClient
 from test_workflow import FakePayPal, accepted, post
 
 
+class RedactedTestURL(str):
+    def __repr__(self):
+        return "<dedicated local PostgreSQL test database>"
+
+
 @pytest.fixture
 def pg(monkeypatch):
     url = os.environ.get("PACT_TEST_DATABASE_URL")
@@ -31,7 +36,7 @@ def pg(monkeypatch):
         db.execute(
             "TRUNCATE pact.agreements, pact.audit, pact.usage, pact.budget, pact.ai_reservations, pact.ai_observations, pact.sessions, pact.throttles, pact.demo_records RESTART IDENTITY CASCADE"
         )
-    return url
+    return RedactedTestURL(url)
 
 
 def client_copy(c):
@@ -86,6 +91,8 @@ def test_postgres_shared_budget_is_atomic_across_connections_and_restart(
     pg, monkeypatch
 ):
     monkeypatch.setattr(settings, "llm_max_calls", 4)
+    monkeypatch.setattr(settings, "llm_input_usd_per_million", 1)
+    monkeypatch.setattr(settings, "llm_output_usd_per_million", 4)
     monkeypatch.setattr(settings, "llm_budget_usd", 1)
 
     def attempt(_):

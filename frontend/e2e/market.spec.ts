@@ -6,15 +6,15 @@ test("landing distinguishes the public demo from real provider receipts", async 
   await page.goto("/");
   await expect(
     page.getByRole("heading", {
-      name: "Find common ground. Keep control of the deal.",
+      name: "Agents negotiate. People decide.",
     }),
   ).toBeVisible();
 
   await page.goto("/sandbox");
   await expect(
-    page.getByRole("button", { name: "Workspace +", exact: true }),
+    page.getByRole("button", { name: "Agreement tools", exact: true }),
   ).toBeVisible();
-  await page.goto("/?view=agreements");
+  await page.goto("/agreements");
   await expect(
     page.getByRole("heading", { name: "Your agreements" }),
   ).toBeVisible();
@@ -51,6 +51,15 @@ for (const mobile of [false, true])
       await page.getByLabel("Demo display name").fill("Customer browser demo");
       await page.getByRole("button", { name: "Start customer demo" }).click();
       await page.getByRole("button", { name: new RegExp(title) }).click();
+      await expect(
+        page.getByRole("complementary", {
+          name: "Provisional agreement preview",
+        }),
+      ).toContainText("$300.00");
+      await page.screenshot({
+        path: `test-results/redesign-customer-brief-${mobile ? "mobile" : "desktop"}.png`,
+        fullPage: true,
+      });
       await page.getByRole("checkbox").check();
       await page
         .getByRole("button", { name: "Send negotiation request" })
@@ -83,9 +92,15 @@ for (const mobile of [false, true])
         page.getByText("Your private maximum: $300.00"),
       ).toBeVisible();
       await expect(page.getByText(/Your private minimum:/)).toHaveCount(0);
+      await expect(
+        page.getByLabel("Human confirmations").locator(".approved"),
+      ).toHaveCount(0);
       await page
         .getByRole("button", { name: "Confirm terms as customer" })
         .click();
+      await expect(
+        page.getByLabel("Human confirmations").locator(".approved"),
+      ).toHaveCount(1);
       await expect(
         page.locator(".status").filter({ hasText: "proposed" }),
       ).toBeVisible();
@@ -99,6 +114,14 @@ for (const mobile of [false, true])
       await seller
         .getByRole("button", { name: "Confirm terms as seller" })
         .click();
+      await expect(
+        seller.getByLabel("Human confirmations").locator(".approved"),
+      ).toHaveCount(2);
+      await expect(
+        seller
+          .getByRole("navigation", { name: "Agreement progress" })
+          .locator('[aria-current="step"]'),
+      ).toContainText("Seller evidence");
       await seller
         .getByRole("button", { name: "Submit example evidence" })
         .click();

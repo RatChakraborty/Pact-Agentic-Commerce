@@ -49,13 +49,13 @@ test.describe("public judge experience", () => {
     await expect(
       page.getByText("demo milestone opened", { exact: true }),
     ).toBeVisible();
-    await page.getByRole("button", { name: "Workspace" }).click();
+    await page.getByRole("button", { name: "Agreement tools" }).click();
     await page.getByText("Recorded real API evidence", { exact: true }).click();
     await page.getByRole("button", { name: "Load verified evidence" }).click();
     await expect(
       page.getByText(/Separate PayPal sandbox invoice:/),
     ).toContainText("PAID");
-    await page.getByRole("button", { name: "Workspace" }).click();
+    await page.getByRole("button", { name: "Agreement tools" }).click();
     await page.screenshot({
       path: "test-results/public-verified-desktop.png",
       fullPage: true,

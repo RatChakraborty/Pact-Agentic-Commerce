@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { loadReplay, visibleOffers, type ReplayEvidence } from "./replay";
+import Progress from "./Progress";
 import { money } from "./workflow";
 export default function Replay() {
   const [data, setData] = useState<ReplayEvidence | null>(null),
@@ -56,6 +57,16 @@ export default function Replay() {
                 ))}
               </select>
             </label>
+            <Progress
+              status={
+                step === run.offers.length
+                  ? run.outcome === "agreement"
+                    ? "PROPOSED"
+                    : "NEGOTIATION_FAILED"
+                  : "NEGOTIATING"
+              }
+              demo
+            />
             <section className="objective">
               <div>
                 <span className="eyebrow">RECORDED PROJECT BRIEF</span>
@@ -69,7 +80,9 @@ export default function Replay() {
                   approval remains a human decision.
                 </p>
               </div>
-              <span className="status">
+              <span
+                className={`status ${step === run.offers.length && run.outcome !== "agreement" ? "blocked" : "pending"}`}
+              >
                 {step === run.offers.length
                   ? run.outcome === "agreement"
                     ? "Proposal reached"
@@ -152,9 +165,12 @@ export default function Replay() {
               <summary>What’s real in this demo?</summary>
               <p>
                 These are frozen replies from {run.model}, recorded{" "}
-                {new Date(data.recorded_at).toLocaleString()}. Fixture inputs
-                and outcomes are preserved, including model failures. No
-                credentials or database are required to replay them.
+                {new Date(data.recorded_at).toLocaleString(undefined, {
+                  timeZoneName: "short",
+                })}
+                . Fixture inputs and outcomes are preserved, including model
+                failures. No credentials or database are required to replay
+                them.
               </p>
               <p>
                 Usage: {run.prompt_tokens} input / {run.completion_tokens}{" "}
@@ -197,7 +213,11 @@ export default function Replay() {
                 <br />
                 Payment <code>{data.payment.payment_id}</code>
                 <br />
-                Checked {new Date(data.payment.checked_at).toLocaleString()}.
+                Checked{" "}
+                {new Date(data.payment.checked_at).toLocaleString(undefined, {
+                  timeZoneName: "short",
+                })}
+                .
               </p>
               <p>
                 This is a dated recorded receipt, not a fresh provider query or

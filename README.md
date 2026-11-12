@@ -145,3 +145,6 @@ The deployment guide includes the no-provider HTTP acceptance probe. Hosted beha
 [Recovery evidence and exact Vercel log/configuration request](docs/RECOVERY.md). The old visitor message indicates failed API JSON parsing, not proof of a Neon error. Backend startup/storage diagnostics, static/frontend/backend release IDs, separate role routes and the database-independent replay are implemented. Hosted P0 remains open until the actual Preview commit, function log and genuine Neon health are verified. No Production deployment is authorized by this change.
 
 `npm --prefix frontend run evidence:check` verifies the replay against hashed committed provider receipts. Browser tests run it at desktop/mobile sizes with all API endpoints unavailable and assert zero API calls. It preserves a genuine host block, the human approval boundary, separate semantic-evaluation limits and the separately PAID sandbox receipt. No additional paid inference or payment was made.
+
+
+The isolated `feature/pact-ui-redesign` branch adds the recorded-offer hero, semantic state colors, licensed local typography, provisional agreement previews and role-driven follow-through filters. See [redesign acceptance and screenshots](docs/REDESIGN.md). It retains the static replay and all financial boundaries; hosted acceptance remains open.

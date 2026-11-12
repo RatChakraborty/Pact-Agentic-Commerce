@@ -1,5 +1,10 @@
 import { useState, useEffect, type FormEvent } from "react";
 import { api } from "./api";
+import AgreementPreview, {
+  intentionalDeadline,
+  previewFromForm,
+} from "./AgreementPreview";
+import Progress, { stateTone } from "./Progress";
 import { money, nextAction } from "./workflow";
 type Agreement = {
   id: string;
@@ -78,6 +83,12 @@ const guidance: Record<string, string> = {
   NEGOTIATION_FAILED: "No terms were accepted and no payment was authorized.",
 };
 export default function App() {
+  const [brief, setBrief] = useState(() => ({
+    objective: "Build a focused landing page for a local design studio.",
+    budget: 30000,
+    deadline: intentionalDeadline(),
+    criteria: ["hero", "features", "contact"],
+  }));
   const [a, setA] = useState<Agreement | null>(null),
     [list, setList] = useState<Agreement[]>([]),
     [busy, setBusy] = useState(false),
@@ -86,10 +97,11 @@ export default function App() {
     [notice, setNotice] = useState(""),
     [menu, setMenu] = useState(false),
     [historyView, setHistoryView] = useState(
-      new URLSearchParams(location.search).get("view") === "agreements",
+      window.location.pathname === "/agreements" ||
+        new URLSearchParams(location.search).get("view") === "agreements",
     ),
     [fresh, setFresh] = useState(false),
-    [customize, setCustomize] = useState(false),
+    [customize, setCustomize] = useState(true),
     [scenario, setScenario] = useState("normal"),
     [events, setEvents] = useState<any[]>([]),
     [review, setReview] = useState(false),
@@ -195,12 +207,12 @@ export default function App() {
           aria-expanded={menu}
           onClick={() => setMenu(!menu)}
         >
-          Workspace {menu ? "−" : "+"}
+          Agreement tools
         </button>
       </header>
       {menu && (
         <section className="menu">
-          <h2>Workspace</h2>
+          <h2>Agreement tools</h2>
           <button
             onClick={() => {
               setHistoryView(true);
@@ -319,6 +331,12 @@ export default function App() {
             {notice}
           </p>
         )}
+        {!historyView && (
+          <Progress
+            status={fresh ? "DRAFT" : a?.status || "DRAFT"}
+            demo={a?.demo || health?.public_demo}
+          />
+        )}
         {historyView ? (
           <section className="evidence">
             <h1>Your agreements</h1>
@@ -363,7 +381,11 @@ export default function App() {
             ))}
           </section>
         ) : !a || fresh ? (
-          <form className="setup" onSubmit={create}>
+          <form
+            className="setup brief-layout"
+            onSubmit={create}
+            onInput={(e) => setBrief(previewFromForm(e.currentTarget, brief))}
+          >
             <div className="section-heading">
               <h2>What would you like to build?</h2>
               <span>01 / Brief</span>
@@ -371,8 +393,8 @@ export default function App() {
             {health?.public_demo && (
               <>
                 <p className="scope">
-                  A prefilled landing-page brief, a $300 budget, and three
-                  testable sections. No accounts or payments needed.
+                  Edit the sample brief and negotiation limits below. Three
+                  testable sections; no accounts or payments needed.
                 </p>
                 <button
                   type="button"
@@ -380,7 +402,7 @@ export default function App() {
                   aria-expanded={customize}
                   onClick={() => setCustomize(!customize)}
                 >
-                  Customize sample
+                  {customize ? "Hide sample controls" : "Edit sample controls"}
                 </button>
               </>
             )}
@@ -414,9 +436,7 @@ export default function App() {
                     name="deadline"
                     type="datetime-local"
                     required
-                    defaultValue={new Date(Date.now() + 7 * 86400000)
-                      .toISOString()
-                      .slice(0, 16)}
+                    defaultValue={brief.deadline}
                   />
                 </label>
                 {!health?.public_demo && (
@@ -427,7 +447,7 @@ export default function App() {
                         name="buyer"
                         type="email"
                         required
-                        placeholder="Buyer test account"
+                        placeholder="buyer@personal.example.com"
                       />
                     </label>
                     <label>
@@ -436,17 +456,20 @@ export default function App() {
                         name="seller"
                         type="email"
                         required
-                        placeholder="Merchant test account"
+                        placeholder="merchant@business.example.com"
                       />
                     </label>
                   </>
                 )}
               </div>
-              <p className="scope">
-                Deliverable: static HTML with hero, features and contact
-                sections. Structural checks only.
-              </p>
-              <details>
+              <fieldset className="acceptance-scope">
+                <legend>Acceptance scope</legend>
+                <p>
+                  Static HTML with hero, features and contact sections.
+                  Structural checks only.
+                </p>
+              </fieldset>
+              <details open>
                 <summary>Negotiation preferences</summary>
                 <div className="form-grid">
                   <label>
@@ -512,6 +535,7 @@ export default function App() {
                 </button>
               )}
             </div>
+            <AgreementPreview brief={brief} />
           </form>
         ) : (
           <>
@@ -520,7 +544,9 @@ export default function App() {
                 <span className="eyebrow">CURRENT OBJECTIVE</span>
                 <h2>{a.objective}</h2>
               </div>
-              <span className="status">{displayStatus || a.status}</span>
+              <span className={`status ${stateTone(a.status)}`}>
+                {displayStatus || a.status}
+              </span>
             </section>
             <section className="next">
               <div>
