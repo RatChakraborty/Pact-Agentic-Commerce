@@ -4,9 +4,7 @@
 
 Pact brings customer and business agents together around a service request. The agents propose terms; a trusted host checks them; people retain control of approval, evidence review and payment.
 
-[Current Preview](https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/)
-
-The Preview link shows the existing release. The revised seven-stage walkthrough on this branch awaits its own deployment review.
+[Live Pact demo](https://pact-agentic-commerce.vercel.app/demo) | [Interactive marketplace](https://pact-agentic-commerce.vercel.app/try) | [Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce)
 
 ![Actual local guided negotiation, using genuine recorded model offers](docs/screenshots/clarity/stage-2-desktop.png)
 
@@ -16,7 +14,26 @@ The Preview link shows the existing release. The revised seven-stage walkthrough
 2. Inspect Pact blocking an invalid proposal and the separate agreement/verification workflow.
 3. Inspect authentic historical PayPal sandbox payment evidence.
 
-The walkthrough requires no Pact account, API credentials, second session or payment. Hosted access also requires the deployment owner to permit anonymous viewing in Vercel.
+The walkthrough requires no Pact account, API credentials, second session or payment. The public Production deployment is intended for anonymous viewing.
+
+## Interactive marketplace — two tabs, one browser
+
+For recording convenience, use **two tabs in the same browser window**, but open them on **different hostnames of the same verified Pact Production deployment**:
+
+- **Business tab:** [Start business demo](https://pact-agentic-commerce.vercel.app/business)
+- **Customer tab:** [Start customer demo](https://pact-agentic-commerce-84xwy35xl-pact-83c7281c.vercel.app/customer)
+
+Keep the links exactly as shown; do not replace one hostname with the other. The browser stores separate host-scoped session cookies, while both hosts serve the same deployment and shared PostgreSQL records. This is a **demo-only tab arrangement**, not a shared identity or a role-switching bypass. Pact still validates each participant's independent server-side session and permissions. A real customer and business use their own independent sessions. If either host redirects or a mutation is rejected, stop rather than disabling origin or session protections.
+
+1. **Business tab:** Start business demo; publish “Studio landing page” with a $360 public asking price, $240 private minimum and a description of hero/features/contact sections.
+2. **Customer tab:** Start customer demo; refresh shared activity, choose the listed service, enter a $300 private budget and future deadline, authorize your buyer agent, and send the negotiation request.
+3. **Business tab:** Refresh; open the incoming request; select **Authorize seller agent** (this authorizes negotiation, not contract acceptance).
+4. **Customer tab:** Refresh the agreement and select **Run deterministic negotiation**. Review the actual proposal; don't assume the final price.
+5. **Both tabs:** Confirm the same proposed contract version—**Confirm terms as customer**, then **Confirm terms as seller**.
+6. **Business tab:** After mutual confirmation, select **Submit example evidence**.
+7. **Customer tab:** Refresh; inspect structural checks; choose **Accept deliverable (no payment)**, enter a review reason, and record customer review. Inspect the shared audit and completed demo state.
+
+The interactive marketplace uses deterministic public agents and **does not create a PayPal invoice or payment**. For genuine previously recorded model behavior, host rejection, and authentic *separate historical* PayPal sandbox evidence, follow the [seven-stage guided demonstration](https://pact-agentic-commerce.vercel.app/demo) and open **How Pact integrates PayPal** in its payment stage.
 
 ## The problem
 
@@ -124,7 +141,7 @@ PostgreSQL reset fixtures require a disposable **local** test database. Never ru
 - The captured agreement fixture and historical PayPal transaction are separate demonstrations. Guide controls reveal evidence, not new consent.
 - Public PayPal operations and paid inference are disabled. Hosted private operator checkout remains unverified; no escrow or automatic funds release is claimed.
 - The advisory critic uses small fixed evaluations with false positives/failed attempts; structural checks do not prove design quality.
-- Demo personas are not verified real-world identities. New-branch hosted acceptance and Production review remain pending.
+- Demo personas are not verified real-world identities; the guided replay and interactive marketplace are distinct evidence modes.
 
 ## Security and license
 
