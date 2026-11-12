@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 
 try:
-    from app.main import app
+    from app.main import app as _application
 except Exception as exc:  # noqa: BLE001 - fail-closed ASGI startup boundary
     # Import/configuration failures used to leave a platform HTML response. Return
     # JSON 503 instead; never pretend storage or startup succeeded, never log DSNs.
@@ -28,9 +28,11 @@ except Exception as exc:  # noqa: BLE001 - fail-closed ASGI startup boundary
         type(exc).__name__,
         release()["commit"],
     )
-    app = FastAPI(title="Pact startup failure")
+    _application = FastAPI(title="Pact startup failure")
 
-    @app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+    @_application.api_route(
+        "/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"]
+    )
     def startup_failed(path: str):
         return JSONResponse(
             {
@@ -42,3 +44,7 @@ except Exception as exc:  # noqa: BLE001 - fail-closed ASGI startup boundary
             status_code=503,
             headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
         )
+
+
+# Vercel statically discovers only module-level app/application exports.
+app = _application
