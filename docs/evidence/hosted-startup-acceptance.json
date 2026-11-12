@@ -5,7 +5,7 @@
     "feature/pact-core": "a9c7494369fb7a78f6eabc47bc2efa0838589d2f",
     "feature/pact-ui-redesign": "17b47a25679cbe017c6fe44e29708441b08d6554"
   },
-  "application_status_obtained": false,
+  "application_status_obtained": true,
   "probe": {
     "origin": "https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app/",
     "business_or_provider_writes": false,
@@ -35,108 +35,111 @@
   "hosted_tests": [
     {
       "test": "API health/PostgreSQL storage",
-      "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "status": "FAILED",
+      "reason": "User-supplied /api/health returns CONFIGURATION_INVALID on ad31b00; PostgreSQL connectivity has not been tested."
     },
     {
       "test": "Neon schema initialization",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Customer persona",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Seller persona",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Service listing",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Directory/invitation",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Negotiation request",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Seller authorization",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Bounded negotiation",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Shared transcript",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Separate human confirmations",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Unauthorized change rejection",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Persistence after refresh",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Seller evidence submission",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Customer verification review",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Agreement history in both dashboards",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Cross-session rejection",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Private constraint isolation",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Session expiry/logout",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     },
     {
       "test": "Errors/mobile/navigation",
       "status": "NOT VERIFIED",
-      "reason": "Current provided Preview is denied by development-environment proxy; deployed response/SHA unavailable."
+      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
     }
   ],
   "user_reported_interactive_result": {
     "status": "FAILED",
-    "evidence": "Customer/business experience showed startup fallback message; exact exception code and deployed SHA unknown."
+    "evidence": "Actual /api/health on ad31b00 reports CONFIGURATION_INVALID; PUBLIC_DEMO false and session secret not ready."
   },
-  "provider_actions_in_this_phase": false
+  "provider_actions_in_this_phase": false,
+  "observed_deployment_sha": "ad31b00bcf2d3bddb532223061ed899c0b8df074",
+  "application_status_source": "User-supplied actual hosted /api/health JSON; not a direct agent probe",
+  "latest_health_evidence": "hosted-health-ad31b00.json"
 }
