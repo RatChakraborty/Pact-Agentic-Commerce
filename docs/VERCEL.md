@@ -1,6 +1,7 @@
 # Existing Vercel / Neon deployment recovery
 
-**Latest blocker:** newer user-supplied runtime logs show `TLS_CONNECTION_FAILED` after Preview configuration repair. See [secure Neon TLS correction and hosted acceptance gate](NEON_TLS_RECOVERY.md). Hosted recovery remains unverified. Earlier configuration observations below are historical.
+**Current status:** the user verified hosted core health on `c894ebe78330d3e4ebda96dbd4ac1657a86b33d2`: `status=ok`, `storage=postgresql`, Python 3.12.16, public demo enabled, live AI/PayPal unconfigured. The startup/TLS health blocker is resolved on that deployment. Full hosted workflow and redesigned Preview remain unverified. See [final release verification](RELEASE_VERIFICATION.md) and [the supplied health evidence](evidence/hosted-health-c894ebe.json). Earlier failure investigations below are historical.
+
 
 The user has created the dedicated **pact-agentic-commerce** Vercel project and connected its dedicated Neon database. Reuse these resources. Do not create another project/database or touch Nautilus.
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import App from "./App";
 import Market from "./Market";
 import Replay from "./Replay";
+import { PaymentPage } from "./PaymentVerification";
 import { loadReplay, type ReplayEvidence } from "./replay";
 import { money } from "./workflow";
 
@@ -29,9 +30,12 @@ function Landing() {
     <>
       <header>
         <Brand />
-        <a className="nav-link" href="/agreements">
-          Your agreements
-        </a>
+        <nav className="payment-navigation" aria-label="Primary navigation">
+          <a href="/payments">PayPal verification</a>
+          <a className="nav-link" href="/agreements">
+            Your agreements
+          </a>
+        </nav>
       </header>
       <main className="product-landing">
         <section className="product-hero" aria-labelledby="hero-title">
@@ -275,12 +279,14 @@ export default function Root() {
         "/customer": "customer",
         "/business": "business",
         "/demo": "demo",
+        "/payments": "payments",
         "/try": "try",
         "/sandbox": "workspace",
         "/agreements": "agreements",
       } as Record<string, string>
     )[path] || new URLSearchParams(window.location.search).get("view");
   if (view === "demo") return <Replay />;
+  if (view === "payments") return <PaymentPage />;
   if (view === "try") return <RoleSelection />;
   if (view === "customer" || view === "business")
     return <Market entry={view === "customer" ? "buyer" : "seller"} />;

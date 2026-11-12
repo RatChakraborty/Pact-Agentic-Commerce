@@ -1,5 +1,7 @@
 # Pact demonstration and submission notes
 
+**Current release guidance:** follow [final release verification and the recording sequence](RELEASE_VERIFICATION.md). Core PostgreSQL health is user-verified on c894ebe. Do not create another invoice/payment or run paid inference for the demo; use the labeled recorded evidence. Earlier counts and live-operator sequences below are historical.
+
 ## 165-second walkthrough
 
 - **0–20 seconds:** “Pact turns a service request into a clear agreement. Agents negotiate, but the buyer approves the final terms and payment.” Show the single workspace, $300 budget and landing-page scope.

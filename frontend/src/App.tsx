@@ -1,5 +1,6 @@
 import { useState, useEffect, type FormEvent } from "react";
 import { api } from "./api";
+import PaymentVerification from "./PaymentVerification";
 import AgreementPreview, {
   intentionalDeadline,
   previewFromForm,
@@ -28,6 +29,9 @@ type Agreement = {
   criteria: string[];
   deadline: string;
   created_at: string;
+  accepted_at?: string | null;
+  approved_at?: string | null;
+  human_review?: { accepted: boolean } | null;
   offers: {
     role: string;
     currency: string;
@@ -856,6 +860,7 @@ export default function App() {
               </section>
             )}
 
+            <PaymentVerification agreement={a} />
             <details className="secondary">
               {a.critique && (
                 <p role="status">

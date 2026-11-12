@@ -1,8 +1,10 @@
 # Pact — Agreements, with intent
 
+**Hosted recovery update:** the user verified core `c894ebe` returns healthy PostgreSQL status on Vercel Preview (Python 3.12.16), with anonymous paid AI/PayPal operations disabled. Full hosted workflow and redesigned Preview acceptance remain pending; see [release verification](docs/RELEASE_VERIFICATION.md). Earlier recovery notes below describe historical failures.
+
 The primary **Explore the demo** action opens genuine recorded AI evidence from a static, versioned asset with no API/database dependency. **Try it yourself** opens customer/business role selection; the original single-player sandbox and session-based agreement history remain secondary. The latter supports real shared records and separate human confirmations, but uses unverified demo identities, deterministic agents and **no payments**. See [two-sided scope and acceptance](docs/TWO_SIDED.md).
 
-The existing dedicated Vercel project and Neon database were created by the user. Hosted recovery remains **unverified** here because the Preview hostname is denied by the proxy and Neon DNS fails. [Recovery instructions](docs/VERCEL.md) reuse those resources; no new cloud infrastructure is needed. Local PostgreSQL tests are not hosted acceptance.
+The existing dedicated Vercel project and Neon database were created by the user. Core PostgreSQL health is now user-verified; full hosted workflow and redesigned Preview acceptance remain **unverified** because agent Preview access is proxy denied. [Recovery instructions](docs/VERCEL.md) reuse those resources; no new cloud infrastructure is needed. Local PostgreSQL tests are not hosted acceptance.
 
 
 Pact is an agent-commerce application with a private sandbox workflow and an anonymous judge-demo mode: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.

@@ -1,5 +1,7 @@
 # P0 acceptance evidence
 
+**Current release guidance:** follow [final release verification and the recording sequence](RELEASE_VERIFICATION.md). Core PostgreSQL health is user-verified on c894ebe. Do not create another invoice/payment or run paid inference for the demo; use the labeled recorded evidence. Earlier counts and live-operator sequences below are historical.
+
 Validation performed November 11, 2026. Test mocks are distinct from actual provider calls. This is a local demo, not a production-readiness claim. The user-created Vercel Preview exists but remains unverified here; see VERCEL.md for the proxy/DNS blockers.
 
 | Gate | Outcome | Evidence / remaining work |

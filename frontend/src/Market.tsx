@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { api } from "./api";
+import PaymentVerification from "./PaymentVerification";
 import AgreementPreview, {
   intentionalDeadline,
   previewFromForm,
@@ -464,10 +465,11 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
                 {selected.status === "DEMO_COMPLETE" && (
                   <p role="status">
                     Two-sided demo complete. No invoice or payment was created.
-                    The separate verified PayPal sandbox receipt is available in
-                    the single-player workspace menu.
+                    Inspect the clearly separate historical PayPal receipt
+                    below.
                   </p>
                 )}
+                <PaymentVerification agreement={selected} />
                 <details className="secondary">
                   <summary>Shared contractual history</summary>
                   {selected.history.map((e: any, i: number) => (

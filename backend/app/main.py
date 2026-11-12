@@ -659,6 +659,7 @@ class FrontendFiles(StaticFiles):
             "business",
             "sandbox",
             "agreements",
+            "payments",
         }:
             path = "index.html"
         return await super().get_response(path, scope)

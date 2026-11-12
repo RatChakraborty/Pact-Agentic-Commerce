@@ -1,0 +1,150 @@
+.payment-verification {
+  border: 1px solid #405449;
+  border-radius: 9px;
+  padding: 28px;
+  margin: 30px 0;
+  background: #151c19;
+}
+.payment-heading,
+.payment-record-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.paypal-wordmark {
+  color: #a5c8f0;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.paypal-wordmark small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.payment-verification > h2 {
+  font-size: 24px;
+  margin: 15px 0;
+}
+.payment-verification p,
+.payment-verification li {
+  font-size: 13px;
+  color: #c0cbc2;
+  line-height: 1.8;
+}
+.current-payment {
+  border-bottom: 1px solid #46564c;
+  padding: 18px 0 26px;
+  margin-bottom: 26px;
+}
+.payment-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 30px;
+  margin: 22px 0;
+}
+.payment-facts > div {
+  min-width: 0;
+}
+.payment-facts dt {
+  font-size: 11px;
+  color: #b0bfb3;
+  margin: 0 0 6px;
+}
+.payment-facts dd {
+  margin: 0;
+  font-size: 13px;
+  color: #f0f0e7;
+  overflow-wrap: anywhere;
+}
+.payment-record-label {
+  color: #cbd0c6;
+  font-size: 11px;
+}
+.payment-record-label strong,
+.payment-paid {
+  color: #abd5b5;
+}
+.historical-payment h3 {
+  font-family: ui-monospace, monospace;
+  font-size: 25px;
+  margin: 20px 0 12px;
+}
+.historical-payment h3 small {
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+  margin-top: 8px;
+}
+.payment-boundary {
+  border-left: 3px solid #d8b477;
+  padding-left: 15px;
+}
+.historical-payment details {
+  margin: 18px 0;
+  padding: 15px 0;
+  border-top: 1px solid #405047;
+  font-size: 13px;
+}
+.historical-payment summary {
+  cursor: pointer;
+  color: #e0e5da;
+}
+.payment-timeline {
+  padding-left: 20px;
+}
+.payment-timeline li {
+  padding: 6px 0;
+}
+.payment-timeline time,
+.payment-timeline span {
+  display: block;
+}
+.payment-timeline time {
+  font-size: 11px;
+  color: #b4bfb4;
+}
+.payment-endpoint {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  padding: 12px 0;
+}
+.payment-operator-note {
+  border-top: 1px solid #405047;
+  padding-top: 20px;
+}
+.payment-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  font-size: 13px;
+}
+.redacted-explanation {
+  font-style: italic;
+  color: #b8c5b7;
+}
+@media (max-width: 700px) {
+  .payment-verification {
+    padding: 20px;
+  }
+  .payment-facts {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .historical-payment h3 {
+    font-size: 23px;
+  }
+  .payment-navigation {
+    gap: 12px;
+    font-size: 11px;
+  }
+  .payment-record-label {
+    gap: 10px;
+  }
+}

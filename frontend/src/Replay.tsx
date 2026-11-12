@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { loadReplay, visibleOffers, type ReplayEvidence } from "./replay";
 import Progress from "./Progress";
 import { money } from "./workflow";
+import PaymentVerification from "./PaymentVerification";
 export default function Replay() {
   const [data, setData] = useState<ReplayEvidence | null>(null),
     [error, setError] = useState(""),
@@ -128,7 +129,14 @@ export default function Replay() {
                         {o.role === "buyer" ? "Buyer agent" : "Seller agent"} ·{" "}
                         {o.action} · {money(o.amount_minor)}
                       </strong>
-                      <p>{o.explanation}</p>
+                      {o.explanation_redacted ? (
+                        <p className="redacted-explanation">
+                          Private strategy redacted from this public replay. The
+                          structured offer is unchanged.
+                        </p>
+                      ) : (
+                        <p>{o.explanation}</p>
+                      )}
                       <small>
                         {o.currency} · {o.criteria.join(", ")}
                       </small>
@@ -161,6 +169,7 @@ export default function Replay() {
                 </div>
               </section>
             )}
+            <PaymentVerification evidence={data} />
             <details className="secondary">
               <summary>What’s real in this demo?</summary>
               <p>
@@ -196,33 +205,6 @@ export default function Replay() {
                   <code className="digest">SHA-256 {p.sha256}</code>
                 </p>
               ))}
-            </details>
-            <details className="secondary">
-              <summary>
-                Separate verified PayPal sandbox evidence ·{" "}
-                {data.payment.status}
-              </summary>
-              <p>{data.payment.attribution}</p>
-              <p>
-                Provider readback: {data.payment.status} ·{" "}
-                {data.payment.currency} {data.payment.amount} received ·{" "}
-                {data.payment.due} due.
-              </p>
-              <p>
-                Invoice <code>{data.payment.invoice_id}</code>
-                <br />
-                Payment <code>{data.payment.payment_id}</code>
-                <br />
-                Checked{" "}
-                {new Date(data.payment.checked_at).toLocaleString(undefined, {
-                  timeZoneName: "short",
-                })}
-                .
-              </p>
-              <p>
-                This is a dated recorded receipt, not a fresh provider query or
-                a payment for this replay.
-              </p>
             </details>
             <details className="secondary">
               <summary>Separate semantic critique evidence & limits</summary>
