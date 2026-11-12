@@ -1,9 +1,18 @@
+/* Provider tokens are scoped to payment surfaces; Pact navigation stays neutral. */
 .payment-verification {
-  border: 1px solid #405449;
+  --payment-surface: #121d25;
+  --payment-border: #38586f;
+  --payment-blue: #a9d6ff;
+  --payment-muted: #c0cdd7;
+  --payment-paid: #abd5b5;
+}
+.payment-verification {
+  border: 1px solid var(--payment-border);
+  border-top: 3px solid var(--payment-blue);
   border-radius: 9px;
   padding: 28px;
   margin: 30px 0;
-  background: #151c19;
+  background: var(--payment-surface);
 }
 .payment-heading,
 .payment-record-label {
@@ -14,7 +23,11 @@
   flex-wrap: wrap;
 }
 .provider-label {
-  color: #a5c8f0;
+  color: var(--payment-blue);
+  background: #172f43;
+  border: 1px solid var(--payment-border);
+  padding: 7px 11px;
+  border-radius: 5px;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -26,7 +39,7 @@
 .payment-verification p,
 .payment-verification li {
   font-size: 13px;
-  color: #c0cbc2;
+  color: var(--payment-muted);
   line-height: 1.8;
 }
 .current-payment {
@@ -145,15 +158,39 @@
 .payment-stage-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 20px;
+  gap: 10px;
   padding: 18px 0;
   list-style: none;
   border-bottom: 1px solid #405047;
 }
 .payment-stage-strip li {
   font-size: 11px;
-  color: #c7b38e;
+  color: #e0c38e;
+  padding: 7px 10px;
+  border: 1px solid #526171;
+  border-radius: 4px;
 }
 .payment-stage-strip li[data-confirmed="true"] {
   color: #abd5b5;
+}
+
+.payment-stage-strip li[data-confirmed="true"] {
+  border-color: #466752;
+  background: #172b22;
+}
+.provider-checkout {
+  color: #d9edff;
+  border: 1px solid #6098c6;
+  background: #163c5b;
+  padding: 10px 14px;
+  border-radius: 5px;
+  display: inline-block;
+}
+.provider-checkout:hover {
+  background: #1e5075;
+}
+.provider-checkout:focus-visible,
+.payment-verification summary:focus-visible {
+  outline: 2px solid #a9d6ff;
+  outline-offset: 4px;
 }

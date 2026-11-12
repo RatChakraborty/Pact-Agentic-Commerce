@@ -43,7 +43,11 @@ export default function PaymentVerification({
       aria-labelledby="payment-title"
     >
       <div className="payment-heading">
-        <span className="eyebrow">Verified PayPal sandbox transaction</span>
+        <span className="eyebrow">
+          {agreement
+            ? "This agreement · payment status"
+            : "Recorded provider evidence"}
+        </span>
         <span className="provider-label">PayPal Sandbox Integration</span>
       </div>
       <h2 id="payment-title">Payment verification</h2>
@@ -62,7 +66,11 @@ export default function PaymentVerification({
             aria-label="This agreement payment lifecycle"
           >
             {paymentLifecycle(agreement).map((stage) => (
-              <li key={stage.label} data-confirmed={stage.confirmed}>
+              <li
+                key={stage.label}
+                data-confirmed={stage.confirmed}
+                aria-label={`${stage.label}: ${stage.confirmed ? "confirmed" : "not confirmed"}`}
+              >
                 {stage.confirmed ? "✓" : "○"} {stage.label}
               </li>
             ))}
@@ -131,7 +139,7 @@ export default function PaymentVerification({
           )}
           {safeSandboxCheckout(agreement) && (
             <a
-              className="text-link"
+              className="text-link provider-checkout"
               href={safeSandboxCheckout(agreement)!}
               target="_blank"
               rel="noreferrer"
@@ -180,7 +188,11 @@ export default function PaymentVerification({
               aria-label="Original historical payment lifecycle"
             >
               {historicalPaymentLifecycle(data.payment).map((stage) => (
-                <li key={stage.label} data-confirmed={stage.confirmed}>
+                <li
+                  key={stage.label}
+                  data-confirmed={stage.confirmed}
+                  aria-label={`${stage.label}: ${stage.confirmed ? "confirmed" : "not confirmed"}`}
+                >
                   {stage.confirmed ? "✓" : "○"} {stage.label}
                 </li>
               ))}

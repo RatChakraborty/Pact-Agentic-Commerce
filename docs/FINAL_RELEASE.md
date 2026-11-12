@@ -1,5 +1,7 @@
 # Final product integration and release report
 
+**Latest owner-verified baseline:** integrated release 02294a56eb0abf8c1b376cbd73c0a1016f087940 passed Preview infrastructure/PostgreSQL health. Hosted guide, marketplace/persistence and Production remain separate unverified gates. See [final documentation/payment refinement](FINAL_POLISH.md); earlier core-only status below is historical.
+
 ## Current release plan and integration
 
 Mandatory: preserve the healthy Python/FastAPI/Neon/TLS implementation; provide one-click Explore Pact without a second browser; integrate honest PayPal lifecycle evidence; retain isolated interactive participants; run the combined suite; publish tested source to main normally; release Production only after actual hosted acceptance.

@@ -602,7 +602,7 @@ export default function App() {
               )}
               {a.status === "PAYMENT_PENDING" && a.invoice?.approval_url && (
                 <a
-                  className="primary"
+                  className="primary provider-checkout"
                   href={a.invoice.approval_url}
                   target="_blank"
                   rel="noopener noreferrer"

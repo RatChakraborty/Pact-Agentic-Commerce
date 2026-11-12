@@ -1,0 +1,125 @@
+{
+  "baseline_sha": "02294a56eb0abf8c1b376cbd73c0a1016f087940",
+  "branch": "feature/pact-final-polish",
+  "date": "2026-11-12",
+  "fresh_local_results": {
+    "backend_tests_passed": 169,
+    "frontend_tests_passed": 26,
+    "deployment_checks_passed": 9,
+    "distinct_browser_scenarios_passed": 21,
+    "private_browser_passed": 17,
+    "configuration_specific_skipped": 4,
+    "public_postgresql_passed": 5,
+    "public_overlap_private": 2,
+    "mock_provider_passed": 1,
+    "guided_and_payment_critical_checks_passed": 4,
+    "build_and_typescript": "PASSED",
+    "ruff": "PASSED",
+    "python_format": "37 files passed",
+    "prettier": "PASSED",
+    "uv_lock": "PASSED",
+    "installed_python_dependencies": "Compatible"
+  },
+  "readme_validation": {
+    "local_links": [
+      "docs/FINAL_RELEASE.md",
+      "docs/FINAL_POLISH.md",
+      "docs/FINAL_RELEASE.md#paypal-and-branding-review",
+      "docs/screenshots/polish/negotiation-desktop.png",
+      "docs/screenshots/polish/payment-desktop.png",
+      "docs/evidence/negotiation-matrix-20261111.json",
+      "docs/evidence/evaluation-live.json",
+      "docs/evidence/paypal-readback.json",
+      ".env.example",
+      "docs/VERCEL.md",
+      "docs/FINAL_POLISH.md",
+      "docs/EVALUATION.md",
+      "docs/DEMO.md",
+      "docs/DEVPOST.md",
+      "docs/FINAL_RELEASE.md#hosted-and-production-handoff",
+      "LICENSE"
+    ],
+    "source_repository_status": 200,
+    "local_paths_and_anchors": "PASSED"
+  },
+  "visual_review": {
+    "screenshots": [
+      "docs/screenshots/polish/negotiation-desktop.png",
+      "docs/screenshots/polish/payment-desktop.png"
+    ],
+    "source": "Actual local browser UI; no API calls during capture",
+    "provider_label_contrast": 9.021550372571397,
+    "new_logo_asset": "None; official branding URLs proxy-denied, optional logo insertion deferred"
+  },
+  "security": {
+    "targeted_secret_scan": {
+      "scope": "Tracked/pending source plus production frontend bundle; exact configured secret values and selected credential patterns only",
+      "files_checked": 197,
+      "findings": [],
+      "limitation": "Targeted scan, not a guarantee of absence of every possible secret."
+    },
+    "production_npm_audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "full_npm_audit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 3,
+      "critical": 0,
+      "total": 3
+    },
+    "residual": "Same three high build-only official-analyzer dependency advisories as baseline; no new dependencies or findings. Not exposed to visitor input."
+  },
+  "infrastructure_diff_from_baseline": "No changes to backend, API, TLS, vercel.json, Python pin, requirements or Production SHA gate",
+  "verification_categories": {
+    "verified_live_hosted": "User-verified infrastructure health only for baseline 02294a5",
+    "verified_local": "Fresh test/build/browser results above",
+    "verified_historical_provider": "Preserved original PAID $300 sandbox receipt; no fresh provider call",
+    "not_verified": [
+      "New polish Preview SHA/health",
+      "Hosted guided demo",
+      "Hosted customer/business and persistence",
+      "Production URL/SHA",
+      "Hosted private operator checkout"
+    ],
+    "deferred": [
+      "Optional official logo insertion",
+      "Webhooks"
+    ]
+  },
+  "network_probe_of_known_core_alias": {
+    "origin": "https://pact-agentic-commerce-git-feature-pact-core-pact-83c7281c.vercel.app",
+    "business_or_provider_writes": false,
+    "requests": [
+      {
+        "path": "/assets/pact-build.json",
+        "transport_failure": "ProxyError",
+        "proxy_connect_denied": true
+      },
+      {
+        "path": "/api/version",
+        "transport_failure": "ProxyError",
+        "proxy_connect_denied": true
+      },
+      {
+        "path": "/api/health",
+        "transport_failure": "ProxyError",
+        "proxy_connect_denied": true
+      },
+      {
+        "path": "/api/demo-market/persona",
+        "transport_failure": "ProxyError",
+        "proxy_connect_denied": true
+      }
+    ]
+  },
+  "new_invoices": 0,
+  "new_payments": 0,
+  "new_paid_model_calls": 0
+}

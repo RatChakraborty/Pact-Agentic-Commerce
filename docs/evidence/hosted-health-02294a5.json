@@ -1,0 +1,23 @@
+{
+  "source": "User-verified actual integrated Preview health response in consolidated instruction",
+  "reported_date": "2026-11-12",
+  "direct_agent_probe": false,
+  "response": {
+    "status": "ok",
+    "application": "pact",
+    "release": {
+      "commit": "02294a56eb0abf8c1b376cbd73c0a1016f087940",
+      "branch": "release/pact-final",
+      "environment": "preview",
+      "api_contract": "pact-v2-personas",
+      "python_version": "3.12.16",
+      "python_implementation": "CPython"
+    },
+    "public_demo": true,
+    "storage": "postgresql",
+    "paypal_environment": "sandbox",
+    "paypal_configured": false,
+    "live_ai_configured": false
+  },
+  "scope": "Integrated Preview startup/PostgreSQL health only; hosted guide, marketplace/persistence and Production not verified."
+}

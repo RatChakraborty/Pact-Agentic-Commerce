@@ -21,6 +21,12 @@ for (const width of [1440, 390])
       page.getByRole("heading", { name: "Payment verification", exact: true }),
     ).toBeVisible();
     await expect(
+      page.getByText("Recorded provider evidence", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("PayPal Sandbox Integration", { exact: true }),
+    ).toBeVisible();
+    await expect(
       page.getByText("Provider-confirmed PAID", { exact: true }),
     ).toBeVisible();
     await expect(
@@ -32,11 +38,12 @@ for (const width of [1440, 390])
     await expect(
       page.getByText("Original accepted contract amount", { exact: true }),
     ).toBeVisible();
-    await page
-      .getByText("Inspect original contract and payment timeline", {
-        exact: true,
-      })
-      .click();
+    const timeline = page.getByText(
+      "Inspect original contract and payment timeline",
+      { exact: true },
+    );
+    await timeline.focus();
+    await page.keyboard.press("Enter");
     await expect(
       page.getByText("sandbox invoice created", { exact: true }),
     ).toBeVisible();

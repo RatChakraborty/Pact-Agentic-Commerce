@@ -32,103 +32,103 @@
     {
       "test": "API health/PostgreSQL storage",
       "status": "PASSED",
-      "reason": "User-verified actual health: status=ok, application=pact, storage=postgresql; release.commit=c894ebe78330d3e4ebda96dbd4ac1657a86b33d2.",
-      "deployment_sha": "c894ebe78330d3e4ebda96dbd4ac1657a86b33d2"
+      "reason": "User-verified integrated Preview 02294a5: status=ok, storage=postgresql, Python 3.12.16.",
+      "deployment_sha": "02294a56eb0abf8c1b376cbd73c0a1016f087940"
     },
     {
       "test": "Neon schema initialization",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Customer persona",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Seller persona",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Service listing",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Directory/invitation",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Negotiation request",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Seller authorization",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Bounded negotiation",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Shared transcript",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Separate human confirmations",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Unauthorized change rejection",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Persistence after refresh",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Seller evidence submission",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Customer verification review",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Agreement history in both dashboards",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Cross-session rejection",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Private constraint isolation",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Session expiry/logout",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     },
     {
       "test": "Errors/mobile/navigation",
       "status": "NOT VERIFIED",
-      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
+      "reason": "Integrated baseline infrastructure health passed; this hosted workflow remains separately unverified. Local tests do not substitute."
     }
   ],
   "user_reported_interactive_result": {
@@ -136,11 +136,11 @@
     "evidence": "User verified successful PostgreSQL health after TLS repair. Full customer/seller workflow and redesigned Preview await verification."
   },
   "provider_actions_in_this_phase": false,
-  "observed_deployment_sha": "c894ebe78330d3e4ebda96dbd4ac1657a86b33d2",
+  "observed_deployment_sha": "02294a56eb0abf8c1b376cbd73c0a1016f087940",
   "application_status_source": "User-supplied actual hosted /api/health JSON; not a direct agent probe",
-  "latest_health_evidence": "hosted-health-c894ebe.json",
+  "latest_health_evidence": "hosted-health-02294a5.json",
   "hosted_health_verified": true,
-  "hosted_health_source": "User-verified actual hosted /api/health response fields supplied in chat",
+  "hosted_health_source": "User-verified actual integrated release Preview",
   "historical_reported_ready_source_heads": {
     "feature/pact-core": "a9c7494369fb7a78f6eabc47bc2efa0838589d2f",
     "feature/pact-ui-redesign": "17b47a25679cbe017c6fe44e29708441b08d6554"
@@ -166,5 +166,9 @@
   },
   "final_integrated_hosted_acceptance": "NOT VERIFIED",
   "final_integrated_hosted_blocker": "Fresh direct probes of the exact supplied current alias are proxy CONNECT denied before application response.",
-  "production_acceptance": "NOT VERIFIED"
+  "production_acceptance": "NOT VERIFIED",
+  "guided_demo_user_acceptance": "NOT YET USER-VERIFIED",
+  "customer_seller_user_acceptance": "NOT YET USER-VERIFIED",
+  "persistence_user_acceptance": "NOT YET USER-VERIFIED",
+  "new_polish_preview_acceptance": "NOT VERIFIED"
 }
