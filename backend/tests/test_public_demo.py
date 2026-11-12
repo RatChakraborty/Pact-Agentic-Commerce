@@ -225,7 +225,10 @@ def test_postgres_hosted_tls_cannot_be_disabled(monkeypatch):
         postgres.transaction("postgresql://user:dummy@localhost/pact", hosted=True),
     ):
         pass
-    assert seen["sslmode"] == "verify-full" and seen["sslrootcert"] == "system"
+    import certifi
+
+    assert seen["sslmode"] == "verify-full"
+    assert seen["sslrootcert"] == certifi.where()
 
 
 def test_vercel_neon_binding_and_explicit_precedence():

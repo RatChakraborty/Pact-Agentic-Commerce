@@ -84,6 +84,7 @@ test("official Python selector honors 3.12 even when 3.14 is available/default",
     "pydantic",
     "psycopg",
     "itsdangerous",
+    "certifi",
   ]) {
     assert.ok(
       pkg.manifest.data.project.dependencies.some((dep) =>

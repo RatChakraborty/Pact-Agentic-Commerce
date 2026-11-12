@@ -190,6 +190,7 @@ name = "pact-backend"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "certifi" },
     { name = "email-validator" },
     { name = "fastapi" },
     { name = "httpx" },
@@ -206,6 +207,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
+    { name = "certifi", specifier = ">=2026.10.23" },
     { name = "email-validator", specifier = ">=2,<3" },
     { name = "fastapi", specifier = ">=0.115,<1" },
     { name = "httpx", specifier = ">=0.28,<1" },

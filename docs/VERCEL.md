@@ -1,5 +1,7 @@
 # Existing Vercel / Neon deployment recovery
 
+**Latest blocker:** newer user-supplied runtime logs show `TLS_CONNECTION_FAILED` after Preview configuration repair. See [secure Neon TLS correction and hosted acceptance gate](NEON_TLS_RECOVERY.md). Hosted recovery remains unverified. Earlier configuration observations below are historical.
+
 The user has created the dedicated **pact-agentic-commerce** Vercel project and connected its dedicated Neon database. Reuse these resources. Do not create another project/database or touch Nautilus.
 
 Target Preview supplied by the user:
@@ -19,7 +21,7 @@ The environment currently permits package registries, OpenAI and PayPal sandbox.
 
 - On Vercel in required public demo mode, explicit `PACT_DATABASE_URL` takes precedence. If absent, the existing integration-provided `DATABASE_URL` is used. Generic `DATABASE_URL` is ignored outside Vercel, avoiding accidental use of the hosted database in local tests.
 - Missing/invalid PostgreSQL configuration fails startup. Connection errors return sanitized 503; there is no ephemeral SQLite fallback.
-- Remote PostgreSQL requires `sslmode=verify-full` and system CA trust. Connections close after every transaction; automatic prepared statements are disabled for transaction-pool compatibility.
+- Remote PostgreSQL requires `sslmode=verify-full` and an explicit packaged Certifi CA bundle. Connections close after every transaction; automatic prepared statements are disabled for transaction-pool compatibility.
 - Initialization uses the `pact` schema, transaction-scoped advisory locks and idempotent inserts. Accepted terms, sessions, audit, usage and reservations persist in PostgreSQL. Coarse locking and repeated idempotent schema initialization trade throughput/cold-start latency for a small demo's correctness; actual Neon latency is unverified.
 - Vercel forces Secure, HttpOnly, SameSite=Strict cookies with a stable signing secret. Mutation origin checks accept the exact configured origin and exact platform-provided `VERCEL_URL` / `VERCEL_BRANCH_URL` hosts, not request-controlled host headers or arbitrary origins.
 - Root Python requirements remain locked/exported; root `api/index.py`, `vercel.json`, static assets and frozen public receipts are preserved.

@@ -13,6 +13,7 @@ certifi==2026.10.23
     # via
     #   httpcore
     #   httpx
+    #   pact-backend
 click==8.5.1
     # via uvicorn
 dnspython==2.9.2
