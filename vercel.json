@@ -56,5 +56,6 @@
       ]
     }
   ],
-  "installCommand": "npm --prefix frontend ci"
+  "installCommand": "npm --prefix frontend ci",
+  "ignoreCommand": "node frontend/scripts/deployment-gate.cjs"
 }

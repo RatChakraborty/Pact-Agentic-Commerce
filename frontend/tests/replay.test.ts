@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { visibleOffers, type ReplayEvidence } from "../src/replay";
 const evidence: ReplayEvidence = JSON.parse(
   readFileSync(
-    new URL("../public/assets/pact-replay-v2.json", import.meta.url),
+    new URL("../public/assets/pact-replay-v3.json", import.meta.url),
     "utf8",
   ),
 );
@@ -63,7 +63,7 @@ it("uses a genuine host block and keeps payment separate from proposals", () => 
 });
 
 it("public projection removes private strategy while preserving the linked payment proof", () => {
-  expect(evidence.schema_version).toBe(2);
+  expect(evidence.schema_version).toBe(3);
   for (const run of evidence.runs)
     for (const offer of run.offers)
       expect(offer.explanation).not.toMatch(

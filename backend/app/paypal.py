@@ -161,12 +161,21 @@ class PayPal:
     def public(self, invoice):
         from urllib.parse import urlparse
 
-        url = invoice.get("detail", {}).get("metadata", {}).get("recipient_view_url")
-        if url and (
-            urlparse(url).scheme != "https"
-            or urlparse(url).hostname
-            not in {"www.sandbox.paypal.com", "sandbox.paypal.com"}
-        ):
+        try:
+            url = (
+                invoice.get("detail", {}).get("metadata", {}).get("recipient_view_url")
+            )
+            parsed = urlparse(url) if isinstance(url, str) else None
+            if not parsed or (
+                parsed.scheme != "https"
+                or parsed.hostname
+                not in {"www.sandbox.paypal.com", "sandbox.paypal.com"}
+                or parsed.username
+                or parsed.password
+                or parsed.port not in {None, 443}
+            ):
+                url = None
+        except (AttributeError, TypeError, ValueError):
             url = None
         return {
             "id": invoice["id"],

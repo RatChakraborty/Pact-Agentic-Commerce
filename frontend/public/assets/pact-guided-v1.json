@@ -1,0 +1,474 @@
+{
+  "schema_version": 1,
+  "execution": "recorded_deterministic_backend_fixture",
+  "recorded_at": "2026-11-12T06:51:41.213325+00:00",
+  "model_calls": 0,
+  "provider_calls": 0,
+  "payment_status": "NOT_CREATED",
+  "backend_source_commit": "ec39e291824bd7c1fd8948a552caac594178416b",
+  "generator_sha256": "449fecdea290f92820119ba906febeb3e085333101b2cbb3d30fa05417796c43",
+  "service": {
+    "title": "Studio landing page",
+    "asking_minor": 36000
+  },
+  "snapshot_source": "Actual FastAPI responses from isolated fixture sessions; allowlist projection omits identity IDs, session data and private limits.",
+  "limitations": [
+    "Separate deterministic fixture, not the genuine AI negotiation or the historical PayPal transaction.",
+    "Controls reveal captured states; they do not constitute real human authorization or create a contract.",
+    "Structural checks do not prove visual quality, accessibility or legal compliance."
+  ],
+  "rejected_requests": {
+    "stale_version": 409,
+    "unauthorized_term_change": 422,
+    "unrelated_session_access": 404
+  },
+  "snapshots": [
+    {
+      "id": "request",
+      "label": "Customer request and agent authorization",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "AWAITING_SELLER",
+        "version": 1,
+        "amount_minor": null,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [],
+        "terms_digest": null,
+        "verification": null,
+        "human_review": null,
+        "critique": null,
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "authorization",
+      "label": "Business authorizes its agent",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "DRAFT",
+        "version": 1,
+        "amount_minor": null,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [],
+        "terms_digest": null,
+        "verification": null,
+        "human_review": null,
+        "critique": null,
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "id": "proposal",
+      "label": "Deterministic agents propose terms",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "PROPOSED",
+        "version": 1,
+        "amount_minor": 30000,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [],
+        "terms_digest": "90b7efd7d627965aa144b06d8f822d34769c65d162d6c4745c6b560447ecdbf1",
+        "verification": null,
+        "human_review": null,
+        "critique": {
+          "verdict": "CLEAR",
+          "explanation": "No configured rule matched. This is not proof that the language is unambiguous.",
+          "references": [],
+          "execution": "rules",
+          "limitation": "Pattern checks, not trained SLM or semantic inference."
+        },
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          },
+          {
+            "at": "2026-11-12T06:51:41.068665+00:00",
+            "action": "negotiation_completed",
+            "role": "buyer",
+            "status": "PROPOSED"
+          }
+        ]
+      }
+    },
+    {
+      "id": "buyer_confirmation",
+      "label": "Customer confirms the exact version",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "PROPOSED",
+        "version": 1,
+        "amount_minor": 30000,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [
+          "buyer"
+        ],
+        "terms_digest": "90b7efd7d627965aa144b06d8f822d34769c65d162d6c4745c6b560447ecdbf1",
+        "verification": null,
+        "human_review": null,
+        "critique": {
+          "verdict": "CLEAR",
+          "explanation": "No configured rule matched. This is not proof that the language is unambiguous.",
+          "references": [],
+          "execution": "rules",
+          "limitation": "Pattern checks, not trained SLM or semantic inference."
+        },
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          },
+          {
+            "at": "2026-11-12T06:51:41.068665+00:00",
+            "action": "negotiation_completed",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.133446+00:00",
+            "action": "human_confirmed_terms",
+            "role": "buyer",
+            "status": "PROPOSED"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mutual_confirmation",
+      "label": "Business confirms the same fingerprint",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "AWAITING_EVIDENCE",
+        "version": 1,
+        "amount_minor": 30000,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [
+          "buyer",
+          "seller"
+        ],
+        "terms_digest": "90b7efd7d627965aa144b06d8f822d34769c65d162d6c4745c6b560447ecdbf1",
+        "verification": null,
+        "human_review": null,
+        "critique": {
+          "verdict": "CLEAR",
+          "explanation": "No configured rule matched. This is not proof that the language is unambiguous.",
+          "references": [],
+          "execution": "rules",
+          "limitation": "Pattern checks, not trained SLM or semantic inference."
+        },
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          },
+          {
+            "at": "2026-11-12T06:51:41.068665+00:00",
+            "action": "negotiation_completed",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.133446+00:00",
+            "action": "human_confirmed_terms",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.145647+00:00",
+            "action": "human_confirmed_terms",
+            "role": "seller",
+            "status": "AWAITING_EVIDENCE"
+          }
+        ]
+      }
+    },
+    {
+      "id": "verification",
+      "label": "Seller evidence receives structural checks",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "AWAITING_BUYER_REVIEW",
+        "version": 1,
+        "amount_minor": 30000,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [
+          "buyer",
+          "seller"
+        ],
+        "terms_digest": "90b7efd7d627965aa144b06d8f822d34769c65d162d6c4745c6b560447ecdbf1",
+        "verification": {
+          "checks": [
+            {
+              "criterion": "hero",
+              "passed": true,
+              "evidence": "Section id=\"hero\" present"
+            },
+            {
+              "criterion": "features",
+              "passed": true,
+              "evidence": "Section id=\"features\" present"
+            },
+            {
+              "criterion": "contact",
+              "passed": true,
+              "evidence": "Section id=\"contact\" present"
+            },
+            {
+              "criterion": "static artifact",
+              "passed": true,
+              "evidence": "No scripts, embedded documents or inline handlers detected"
+            },
+            {
+              "criterion": "content",
+              "passed": true,
+              "evidence": "85 text characters observed"
+            }
+          ],
+          "overall": "PASS",
+          "agreement_version": 1,
+          "evaluated_at": "2026-11-12T06:51:41.158769+00:00",
+          "verifier_version": "static-html-v1",
+          "limitation": "Structural checks only; no visual quality, deployment, or legal compliance assessment. Artifact is never executed."
+        },
+        "human_review": null,
+        "critique": {
+          "verdict": "CLEAR",
+          "explanation": "No configured rule matched. This is not proof that the language is unambiguous.",
+          "references": [],
+          "execution": "rules",
+          "limitation": "Pattern checks, not trained SLM or semantic inference."
+        },
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          },
+          {
+            "at": "2026-11-12T06:51:41.068665+00:00",
+            "action": "negotiation_completed",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.133446+00:00",
+            "action": "human_confirmed_terms",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.145647+00:00",
+            "action": "human_confirmed_terms",
+            "role": "seller",
+            "status": "AWAITING_EVIDENCE"
+          },
+          {
+            "at": "2026-11-12T06:51:41.158777+00:00",
+            "action": "seller_submitted_evidence",
+            "role": "seller",
+            "status": "AWAITING_BUYER_REVIEW"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review",
+      "label": "Customer reviews the evidence",
+      "agreement": {
+        "objective": "Build a static landing page for our design studio.",
+        "status": "DEMO_COMPLETE",
+        "version": 1,
+        "amount_minor": 30000,
+        "currency": "USD",
+        "criteria": [
+          "hero",
+          "features",
+          "contact"
+        ],
+        "deadline": "2026-12-01T23:59:59Z",
+        "approvals": [
+          "buyer",
+          "seller"
+        ],
+        "terms_digest": "90b7efd7d627965aa144b06d8f822d34769c65d162d6c4745c6b560447ecdbf1",
+        "verification": {
+          "checks": [
+            {
+              "criterion": "hero",
+              "passed": true,
+              "evidence": "Section id=\"hero\" present"
+            },
+            {
+              "criterion": "features",
+              "passed": true,
+              "evidence": "Section id=\"features\" present"
+            },
+            {
+              "criterion": "contact",
+              "passed": true,
+              "evidence": "Section id=\"contact\" present"
+            },
+            {
+              "criterion": "static artifact",
+              "passed": true,
+              "evidence": "No scripts, embedded documents or inline handlers detected"
+            },
+            {
+              "criterion": "content",
+              "passed": true,
+              "evidence": "85 text characters observed"
+            }
+          ],
+          "overall": "PASS",
+          "agreement_version": 1,
+          "evaluated_at": "2026-11-12T06:51:41.158769+00:00",
+          "verifier_version": "static-html-v1",
+          "limitation": "Structural checks only; no visual quality, deployment, or legal compliance assessment. Artifact is never executed."
+        },
+        "human_review": {
+          "accepted": true,
+          "reason": "Fixture customer inspected the structural evidence; no payment authorized.",
+          "at": "2026-11-12T06:51:41.182262+00:00"
+        },
+        "critique": {
+          "verdict": "CLEAR",
+          "explanation": "No configured rule matched. This is not proof that the language is unambiguous.",
+          "references": [],
+          "execution": "rules",
+          "limitation": "Pattern checks, not trained SLM or semantic inference."
+        },
+        "history": [
+          {
+            "at": "2026-11-12T06:51:41.033062+00:00",
+            "action": "buyer_authorized_request",
+            "role": "buyer",
+            "status": "AWAITING_SELLER"
+          },
+          {
+            "at": "2026-11-12T06:51:41.048744+00:00",
+            "action": "seller_authorized_agent",
+            "role": "seller",
+            "status": "DRAFT"
+          },
+          {
+            "at": "2026-11-12T06:51:41.068665+00:00",
+            "action": "negotiation_completed",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.133446+00:00",
+            "action": "human_confirmed_terms",
+            "role": "buyer",
+            "status": "PROPOSED"
+          },
+          {
+            "at": "2026-11-12T06:51:41.145647+00:00",
+            "action": "human_confirmed_terms",
+            "role": "seller",
+            "status": "AWAITING_EVIDENCE"
+          },
+          {
+            "at": "2026-11-12T06:51:41.158777+00:00",
+            "action": "seller_submitted_evidence",
+            "role": "seller",
+            "status": "AWAITING_BUYER_REVIEW"
+          },
+          {
+            "at": "2026-11-12T06:51:41.182269+00:00",
+            "action": "buyer_reviewed_deliverable",
+            "role": "buyer",
+            "status": "DEMO_COMPLETE"
+          }
+        ]
+      }
+    }
+  ]
+}

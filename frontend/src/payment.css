@@ -13,18 +13,11 @@
   gap: 18px;
   flex-wrap: wrap;
 }
-.paypal-wordmark {
+.provider-label {
   color: #a5c8f0;
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.paypal-wordmark small {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 400;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
 }
 .payment-verification > h2 {
   font-size: 24px;
@@ -147,4 +140,20 @@
   .payment-record-label {
     gap: 10px;
   }
+}
+
+.payment-stage-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 18px 0;
+  list-style: none;
+  border-bottom: 1px solid #405047;
+}
+.payment-stage-strip li {
+  font-size: 11px;
+  color: #c7b38e;
+}
+.payment-stage-strip li[data-confirmed="true"] {
+  color: #abd5b5;
 }

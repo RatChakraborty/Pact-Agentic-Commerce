@@ -1,0 +1,450 @@
+{
+  "execution": "deterministic_rules_only",
+  "case_file_sha256": "47144d5f79701b7aee5ff8ab47bc0fd26b24eb1e02f7078ca688642b439ab4e9",
+  "cases": [
+    {
+      "id": "A1",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A2",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A3",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A4",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A5",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A6",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A7",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "A8",
+      "group": "legitimate",
+      "expected": [
+        "CLEAR"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": true,
+      "workflow_completed": true,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "B1",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B2",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B3",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B4",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B5",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B6",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B7",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "B8",
+      "group": "economic",
+      "expected": [
+        "BLOCK"
+      ],
+      "baseline": "BLOCK",
+      "system": "BLOCK",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_boundary",
+      "critique_explanation": null
+    },
+    {
+      "id": "C1",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": false,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "C2",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "Payment wording conflicts with explicit buyer approval."
+    },
+    {
+      "id": "C3",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal appears to remove a required acceptance condition."
+    },
+    {
+      "id": "C4",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "Completion or payment is asserted without verifiable evidence."
+    },
+    {
+      "id": "C5",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CONTRADICTION",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "Payment wording conflicts with explicit buyer approval."
+    },
+    {
+      "id": "C6",
+      "group": "semantic",
+      "expected": [
+        "CONTRADICTION",
+        "NEEDS_REVIEW"
+      ],
+      "baseline": "CLEAR",
+      "system": "CLEAR",
+      "correct": false,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "No configured rule matched. This is not proof that the language is unambiguous."
+    },
+    {
+      "id": "D1",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal needs a measurable scope, acceptance condition or deadline before acceptance."
+    },
+    {
+      "id": "D2",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal needs a measurable scope, acceptance condition or deadline before acceptance."
+    },
+    {
+      "id": "D3",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal needs a measurable scope, acceptance condition or deadline before acceptance."
+    },
+    {
+      "id": "D4",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal needs a measurable scope, acceptance condition or deadline before acceptance."
+    },
+    {
+      "id": "D5",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "NEEDS_REVIEW",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "Insufficient proposal detail for semantic review."
+    },
+    {
+      "id": "D6",
+      "group": "ambiguity",
+      "expected": [
+        "AMBIGUOUS",
+        "NEEDS_REVIEW",
+        "CONTRADICTION"
+      ],
+      "baseline": "CLEAR",
+      "system": "AMBIGUOUS",
+      "correct": true,
+      "workflow_completed": null,
+      "model": null,
+      "critique_execution": "deterministic_rules",
+      "critique_explanation": "The proposal needs a measurable scope, acceptance condition or deadline before acceptance."
+    }
+  ],
+  "metrics": {
+    "valid_workflow_completion": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "valid_proposal_pass_rate": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "false_rejection": {
+      "numerator": 0,
+      "denominator": 8
+    },
+    "unauthorized_action_rejection": {
+      "numerator": 8,
+      "denominator": 8
+    },
+    "contradiction_detection": {
+      "numerator": 4,
+      "denominator": 6
+    },
+    "ambiguity_or_abstention": {
+      "numerator": 6,
+      "denominator": 6
+    }
+  },
+  "actual_model_calls": 0,
+  "estimated_usd": 0,
+  "limitations": [
+    "Small frozen demonstration set, not broad reliability evidence.",
+    "Baseline and system retain identical transaction authorization controls.",
+    "Economic cases use mocked PayPal; no external financial transactions occur.",
+    "Cost is an estimate from usage tokens and configured rates, not verified billing."
+  ]
+}

@@ -1,152 +1,120 @@
-# Pact — Agreements, with intent
+# Pact
 
-**Hosted recovery update:** the user verified core `c894ebe` returns healthy PostgreSQL status on Vercel Preview (Python 3.12.16), with anonymous paid AI/PayPal operations disabled. Full hosted workflow and redesigned Preview acceptance remain pending; see [release verification](docs/RELEASE_VERIFICATION.md). Earlier recovery notes below describe historical failures.
+**Pact turns buyer/seller agent proposals into inspectable service agreements with human authorization, contract verification, and PayPal sandbox payment reconciliation.**
 
-The primary **Explore the demo** action opens genuine recorded AI evidence from a static, versioned asset with no API/database dependency. **Try it yourself** opens customer/business role selection; the original single-player sandbox and session-based agreement history remain secondary. The latter supports real shared records and separate human confirmations, but uses unverified demo identities, deterministic agents and **no payments**. See [two-sided scope and acceptance](docs/TWO_SIDED.md).
+Agents propose economic commitments. Pact enforces limits, recipients, scope and version-bound consent. People approve the terms and any financial handoff.
 
-The existing dedicated Vercel project and Neon database were created by the user. Core PostgreSQL health is now user-verified; full hosted workflow and redesigned Preview acceptance remain **unverified** because agent Preview access is proxy denied. [Recovery instructions](docs/VERCEL.md) reuse those resources; no new cloud infrastructure is needed. Local PostgreSQL tests are not hosted acceptance.
+## Explore Pact
 
+The dominant **Explore Pact** action opens a complete one-session demonstration at `/demo`. No account, second browser, API key, database or payment is needed:
 
-Pact is an agent-commerce application with a private sandbox workflow and an anonymous judge-demo mode: buyer and seller agents negotiate a fixed-scope landing page, the buyer locks the terms, a real PayPal sandbox invoice is created, static HTML evidence is checked, and the buyer authorizes a handoff to PayPal. The single workspace shows the next valid action. Audit history and diagnostics stay in disclosures.
+1. Inspect genuine recorded buyer/seller model offers and an actual host-enforced rejection.
+2. Step through a **separate deterministic backend fixture**: request, business agent authorization, version/fingerprint, both human confirmations, seller evidence, customer review and audit.
+3. Inspect the **separate historical PayPal sandbox transaction**: $300 USD, provider-confirmed PAID, $300 received, zero due, dated receipt and original audit.
 
-**Verified:** real sandbox OAuth, invoice creation/read/send, and a provider-confirmed **$300 USD payment** on invoice `INV2-N6CJ-RJXM-96WT-XDVG`. Pact reconciles it to `PAID`. Genuine four-call live AI negotiation and bounded semantic evaluation are also verified. Deterministic mode is explicitly labeled. No escrow, reserved funds, automatic spending or real-money support. See [acceptance evidence](docs/ACCEPTANCE.md).
+These evidence chapters are explicitly distinguished. The genuine AI proposal, the deterministic two-party fixture and the historical paid invoice are not presented as one transaction. Display controls reveal existing evidence; they do not authorize a contract or payment.
 
-## Public judge demo and Vercel
+**Try it yourself** retains the advanced interactive marketplace: service directory/invitations, customer requests, seller authorization, private limits, shared negotiation, mutual confirmation, evidence review and saved history. Truly independent participants use two browser/private contexts. That isolation is preserved; it is not required for Explore Pact.
 
-The Vercel function entrypoint, Vite routing, anonymous sample workflow and PostgreSQL persistence are implemented. **The user-created Preview is not verified here:** Preview proxy access and Neon DNS/TCP access are blocked; Vercel CLI is unauthenticated. Reuse the existing dedicated project and database. See [exact Vercel setup and verification steps](docs/VERCEL.md).
+## Release status
 
-The public mode needs no visitor accounts or provider credentials. It lets judges negotiate a deterministic sample, accept fingerprint-bound terms, load example evidence, see verification, investigate a blocked recipient change and inspect their audit history. It creates no invoice/payment and uses no paid model calls. Recorded real AI and paid sandbox evidence is clearly separated under Workspace. Sponsor expansion waits for actual public-deployment verification.
+The user verified actual Vercel core health on `c894ebe78330d3e4ebda96dbd4ac1657a86b33d2`: `status=ok`, `storage=postgresql`, Python 3.12.16, public demo enabled, live AI/PayPal credentials unconfigured. The supplied [core Preview](https://pact-agentic-commerce-git-feature-pact-core-pact-83c7281c.vercel.app/) is a branch alias, not a permanent final-release SHA.
 
-`PUBLIC_DEMO=true` selects that mode. `PACT_DATABASE_URL` selects the dedicated Pact PostgreSQL database. On Vercel only, the integration-provided `DATABASE_URL` is the fallback; local runs ignore that generic binding. Existing Redis bindings are not consumed. On Vercel, persistent PostgreSQL and a strong session secret are mandatory; ephemeral SQLite fallback is forbidden. Local SQLite support remains intact.
+**Final integrated hosted workflow and Production acceptance remain unverified.** The agent's direct probes are blocked by proxy CONNECT policy; this does not imply the application failed. No final Production URL is invented. See [final release report and account steps](docs/FINAL_RELEASE.md).
+
+Demo video: **pending operator recording/upload**. Submission deadline: November 12, 2026, 3:00 PM Eastern.
+
+## Architecture and execution modes
+
+React/TypeScript/Vite provides one workspace, a genuine replay, provisional contract preview, role-specific saved agreements and a state-aware progress display. FastAPI owns session isolation, authorization, negotiation policy, evidence parsing and provider adapters. PostgreSQL persists agreements, sessions, budgets, reservations and append-only audit events; local development also supports SQLite.
+
+| Mode | Execution | Financial capability |
+| --- | --- | --- |
+| Recorded real AI negotiation | Frozen actual model responses, hash-pinned receipts; no new inference | None |
+| Interactive deterministic demonstration | Captured fixture states or live deterministic public backend | None |
+| Verified PayPal sandbox transaction | Read-only dated provider evidence from an original separate agreement | None in public evidence viewer |
+| Private operator workflow | Configured model/provider adapters behind server authorization | Sandbox only; explicit buyer consent required |
+
+The bounded agent protocol exchanges structured action, amount in integer minor units, currency, recipient, scope and explanation. The host validates every offer; agent acceptance is only a proposal. Turn limits, conservative reservation accounting and malformed-output handling bound the model path. No dedicated SLM has been trained or deployed.
+
+## Authorization and agreement integrity
+
+- Server-bound demo roles are immutable for a session; unrelated sessions cannot read a shared contract. Counterparties' private economic constraints are filtered from responses and explanations.
+- Version/fingerprint checks bind each required confirmation to the same material terms. Agent authorization, term approval and payment handoff are distinct decisions.
+- PostgreSQL transactions use a transaction-scoped advisory lock; audit changes are append-only. Budget reservations and duplicate operations are checked server-side.
+- Remote database connections require `verify-full` with an explicit packaged Certifi trust bundle. No remote SQLite fallback or certificate-verification downgrade exists.
+- Hosted sessions use Secure/HttpOnly/SameSite cookies, origin checks and a stable signing secret. No model, frontend control or verifier can authorize a payment.
+- A fingerprint detects changes; it is not identity authentication or a claim of legal enforceability.
+
+## Semantic critique and deliverable verification
+
+A replaceable structured critic can flag contradictory or ambiguous contractual language. The public two-party workflow uses labeled deterministic rules. The genuine recorded semantic evaluation is separately accessible with numerator/denominator, failed-attempt and false-positive disclosures. The critic advises; deterministic financial rules remain authoritative.
+
+The HTML verifier parses required section IDs, text presence and active-content indicators without executing seller code. A structural PASS does not establish visual quality, accessibility, legal compliance or automatic release of funds. Human review remains distinct.
+
+## PayPal integration
+
+The private sandbox adapter implements:
+
+| Provider operation | Purpose |
+| --- | --- |
+| `POST /v1/oauth2/token` | Server-side OAuth authentication |
+| `POST /v2/invoicing/invoices` | Idempotent invoice creation from accepted terms |
+| `POST /v2/invoicing/search-invoices` | Recover a lost create response using the durable invoice number |
+| `POST /v2/invoicing/invoices/{id}/send` | Send a draft during buyer-authorized handoff where needed |
+| `GET /v2/invoicing/invoices/{id}` | Validate invoice identity, amount, currency, merchant and buyer; reconcile provider state |
+
+Checkout uses the provider-returned HTTPS sandbox URL, never a constructed fake link. Invoice creation is not payment authorization. The original flow creates an invoice after buyer term approval, verifies evidence, obtains explicit buyer handoff authorization, then reads PayPal's actual state. It records buyer consent; a second seller human confirmation was not captured in that historical single-player flow.
+
+The verified historical invoice is `INV2-N6CJ-RJXM-96WT-XDVG`: $300 USD, PAID, $300 received and $0 due, PayPal-reported payment date November 11, 2026. Its original deterministic agreement is separate from the recorded AI negotiation and every new visitor contract. [Provider evidence](docs/evidence/paypal-readback.json) and [original agreement/audit linkage](docs/evidence/paypal-contract-link.json) are preserved. Visiting `/payments` makes no provider request.
+
+No real-money operations, escrow, fund reservation or automatic release is claimed. Anonymous public visitors cannot create invoices, authorize checkout or invoke paid models. The hosted private operator path and webhooks remain deferred/unverified; direct provider polling is retained. [PayPal release review](docs/FINAL_RELEASE.md#paypal-and-branding-review).
 
 ## Run locally
 
-Requirements: Python 3.12+, uv, Node 22+ and npm. Use this existing checkout; no additional worktree is needed.
+Requires Python 3.12, Node and uv. Never commit `.env` or database files.
 
 ```bash
+uv sync --project backend --frozen --extra test
+npm --prefix frontend ci
+npm --prefix frontend run build
 cd backend
-uv sync --frozen --extra test
-cd ../frontend
-npm ci
-npm run build
-cd ../backend
 uv run --frozen uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Open the locally running application in your browser. FastAPI serves the built React application and API from one origin. Keep the browser session cookie: agreements belong to that session, not to a shared unauthenticated listing. Live processes must restart after an environment restore.
+Open `http://127.0.0.1:8000`. Explore Pact is database independent. For local two-person testing, open another private browser context. Use `.env.example` only as a local template; Vercel environment values must be configured in the existing project, not inferred from this workspace.
 
-For frontend development, run the backend above and `npm run dev` from `frontend/`; Vite proxies `/api` to port 8000. Rebuild the frontend to update FastAPI's static assets. SQLite lives at `backend/pact.db` when started from `backend/`; use an absolute `DATABASE_PATH` to choose another location. The database, local configuration and virtual environments are ignored by Git.
+Public Preview configuration: `PUBLIC_DEMO=true`, `ENABLE_LIVE_OPERATIONS=false`, `LLM_MAX_CALLS=0`, `LLM_BUDGET_USD=0`, `PAYPAL_ENV=sandbox`, a stable strong `APP_SESSION_SECRET`, and the existing dedicated Pact PostgreSQL binding. No AI or PayPal keys are needed for the public demonstration. Root Directory is repository root. Keep the Python pin and root locked requirements.
 
-Copy `.env.example` to `.env` **only if that file does not already exist**. Fill values securely or inject them through environment settings. The backend reads the root `.env` from any working directory. Never commit it. No credentials are needed for deterministic negotiation or unit tests; actual invoice actions fail clearly without merchant credentials.
-
-In this managed cloud image, the home cache directories are read-only. Before installing/running tools here, use `export UV_CACHE_DIR=/workspace/.cache/uv` and `export npm_config_cache=/workspace/.cache/npm`. These nonsecret cache locations do not change repository dependencies or TLS verification.
-
-## Configuration
-
-| Variable | Purpose |
-| --- | --- |
-| `PAYPAL_ENV` | Must be `sandbox`; other values are rejected before provider authentication |
-| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | Sandbox merchant application's OAuth credentials; server only |
-| `APP_SESSION_SECRET` | Strong persistent random signing secret; required to preserve browser sessions across restarts |
-| `DATABASE_PATH` | SQLite file; defaults to `pact.db` in the server working directory |
-| `LLM_API_KEY`, `LLM_MODEL` | Optional live OpenAI structured negotiation; model must support Chat Completions JSON schema and `max_completion_tokens` |
-| `LLM_MAX_CALLS` | Durable server-wide call allowance; default 12, reserved six calls per attempt |
-| `LLM_MAX_TOKENS` | Maximum output tokens per turn; default 600 |
-| `LLM_BUDGET_USD` | Estimated server-wide spending allowance; default $2 |
-| `LLM_INPUT_USD_PER_MILLION`, `LLM_OUTPUT_USD_PER_MILLION` | Budget price estimates; defaults 20 and 120. Set to at least the actual selected model's prices |
-| `LLM_MAX_INPUT_BYTES` | Conservative input bound including messages/schema; default 12,000 |
-| `PAYPAL_SANDBOX_BUYER_EMAIL`, `PAYPAL_SANDBOX_SELLER_EMAIL` | Optional operator reference values; enter the actual sandbox emails in the agreement form; these variables do not override accepted terms |
-
-Live negotiation has six total alternating turns, no automatic retries, a 30-second timeout per request and structured offer validation. Each attempt durably reserves its full maximum call/token/cost allowance, including failed attempts; no automatic refund. The default estimated reservation is $1.872 per negotiation, so the $2 default permits one attempt. Cost estimates are **not a provider billing guarantee**; configure a provider-side spending limit as well. The role provider is replaceable in `backend/app/agents.py`.
-
-Outbound HTTPS destinations: `api-m.sandbox.paypal.com`, `api.openai.com` for live inference, package registries for installation. Buyer payment opens `www.sandbox.paypal.com` in the buyer's browser. Keep inherited proxy and TLS trust settings; never disable verification.
-
-## Walk through the product
-
-1. Enter sandbox buyer and merchant emails, a future deadline and the budget. Expand preferences to choose live AI or deterministic rules.
-2. Start negotiation. Review counteroffers and accepted scope; explicitly accept the final terms. No API exists to mutate an accepted contract. Changed terms require a new agreement and approval.
-3. Create a sandbox invoice. The amount, USD currency, merchant and buyer are verified against PayPal's readback before the invoice is attached to the contract.
-4. Upload [the example landing page](docs/examples/landing-page.html), or your own static HTML. Required sections use `id="hero"`, `id="features"`, and `id="contact"`; meaningful text is required. Scripts, embedded documents and inline event handlers fail the structural rubric. Artifacts are parsed, never executed or rendered.
-5. Review the evidence. A failed artifact blocks the normal payment path. A human may explicitly override with a recorded reason; the failed checks remain visible.
-6. Authorize PayPal payment in Pact. This sends the invoice if still a draft and reveals its provider-generated sandbox payment link. Complete buyer approval inside PayPal, then use **Check PayPal status**.
-7. Only an actual retrieved PayPal `PAID` status displays Payment confirmed. `MARKED_AS_PAID`, refunds and cancellation require review. An unpaid invoice never displays success.
-
-The failure demonstration is under Agreement history & details before negotiation, in deterministic mode. Overspending and recipient substitution are rejected and audited.
-
-## Tests
+## Test and reproduce evidence
 
 ```bash
 cd backend
-uv run --frozen --extra test pytest -q
+uv run --frozen pytest -q
+uv run --frozen python -m app.evaluate_negotiation --output /tmp/pact-negotiation-new.json
+uv run --frozen python evaluate.py --output /tmp/pact-evaluation-new.json
 cd ../frontend
 npm test
 npm run build
+PACT_TEST_URL=http://127.0.0.1:8000 PACT_CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-Browser checks use Playwright with a system Chromium if available:
+Default evaluation is offline; no `--live` flag is required. The full optional PostgreSQL suite requires a **disposable local** `PACT_TEST_DATABASE_URL` named `pact_*_test`. Those tests reset fixtures; never use Neon or production there. Public-mode and mocked-provider browser scenarios require their respective isolated test servers; see [release verification](docs/RELEASE_VERIFICATION.md).
 
-```bash
-# Terminal 1, repository root: isolated server with credentials deliberately absent
-PAYPAL_CLIENT_ID= PAYPAL_CLIENT_SECRET= DATABASE_PATH=/tmp/pact-browser.db \
-  backend/.venv/bin/uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8001
-# Terminal 2, frontend/
-PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://127.0.0.1:8001 \
-  npm run test:e2e -- e2e/workflow.spec.ts --grep 'brief,|mobile|session bootstrap'
-```
+Frozen evidence: [real negotiation matrix](docs/evidence/negotiation-matrix-20261111.json), [recorded semantic evaluation](docs/evidence/evaluation-live.json), [final offline negotiation](docs/evidence/final-negotiation-offline-20261112.json), [final offline evaluation](docs/evidence/final-semantic-offline-20261112.json). Actual model calls and configured cost estimates are reported separately from mocks and billing receipts.
 
-If no system Chromium exists, install the supported Playwright Chromium with `npx playwright install chromium`; omit `PACT_CHROMIUM_PATH`. In restricted cloud images use a writable `PLAYWRIGHT_BROWSERS_PATH` and cache directory. Do not disable download verification.
+## Production release gate
 
-For the full browser happy path, use the **explicitly mocked provider test harness**, never the product entry point:
+Main publication is authorized by the latest directive. Production promotion requires actual final hosted acceptance. `vercel.json` uses an ignored-build command to hold automatic Production builds until the existing project's Production setting `PACT_PRODUCTION_RELEASE_SHA` equals the exact verified commit, with public mode and zero paid budget configured. Preview builds are unaffected. This non-secret SHA gate prevents a main push from silently bypassing hosted verification. See [the exact deployment handoff](docs/FINAL_RELEASE.md#hosted-and-production-handoff).
 
-```bash
-# Terminal 1, repository root
-PYTHONPATH=backend DATABASE_PATH=/tmp/pact-browser-mock.db \
-  backend/.venv/bin/uvicorn browser_server:app --app-dir backend/tests --host 127.0.0.1 --port 8003
-# Terminal 2, frontend/
-PACT_MOCK_PROVIDER=1 PACT_CHROMIUM_PATH=/usr/bin/chromium PACT_TEST_URL=http://127.0.0.1:8003 \
-  npm run test:e2e -- e2e/workflow.spec.ts --grep 'full browser'
-```
+## Final local regression results
 
-The harness has a test-only provider status control; it is absent from `app.main:app`. Mocked paid status proves UI/backend integration, not a real payment. Tests use separate SQLite files and never create external invoices.
+169 backend tests; 26 frontend tests; nine deployment checks; 21 distinct browser scenarios; TypeScript, build, lint and formatting passed. Runtime npm audit: zero advisories. Full dev/build audit: zero critical, three high advisories confined to the official analyzer's trusted-input dependency chain. See [full results and limits](docs/FINAL_RELEASE.md#final-local-checks-and-dependency-risk). Local checks do not establish final hosted acceptance.
 
-## Contract integrity and evaluation
+## Submission and limitations
 
-Accepted economic terms have a canonical SHA-256 fingerprint over buyer/seller identity, recipient, amount/currency, budget, scope, deliverable type, criteria, deadline, version and approval policy. New approvals confirm both version and fingerprint; accepted terms are checked before provider actions. Dynamic provider status is intentionally outside that immutable fingerprint. Legacy invoices retain their original snapshots; they are checked without rewriting audit history. A hash detects changes but authenticates no person and establishes no legal enforceability.
+[Three-minute demo](docs/DEMO.md) · [Devpost draft](docs/DEVPOST.md) · [Evaluation details](docs/EVALUATION.md) · [Sponsor report](docs/SPONSORS.md) · [Final release inventory](docs/FINAL_RELEASE.md).
 
-Optional **Check proposal wording** under agreement details reviews the actual proposal history. Deterministic rules are clearly labeled. Live agreements can request a bounded structured model critique; unavailable or concerning reviews block acceptance and require revised terms. The critique never authorizes payment. The small live evaluation had one false escalation, so this advisory capability is optional and its limitations remain visible.
+Current constraints: small fixed evaluation samples; recorded evidence is historical; public identities are demo personas, not registered accounts; shared real-payment adapter deferred; webhook verification/account setup deferred; final hosted and Production acceptance pending. Optional sponsor work is not allowed to delay release verification. No uninvoked plugin or dependency-only prize eligibility is claimed.
 
-[Reproducible evaluation and measured results](docs/EVALUATION.md) · [Sponsor integration report](docs/SPONSORS.md) · [Render preparation](docs/RENDER.md)
-
-The current local ignored `.env` contains **nonsecret development limits only**: cumulative 54-call allowance, $0.90 ceiling and $1/$4 per-million token estimates for the configured mini model. Previous reservations were retained; the final paid-test ledger used 45 calls including historical reservations and $0.54. Credentials remain inherited. Review the current allowance before recording; do not remove the database or reset audit history to obtain more calls. General defaults above remain deliberately conservative for other configurations.
-
-## Limits and submission
-
-The private workflow uses browser possession for both demo roles; it is not a multi-user financial service. The new public mode isolates anonymous visitor records in PostgreSQL and blocks provider actions. There is no account login, seller identity enrollment, webhook receiver, deployment, dedicated small model, marketplace, escrow or Orders capture integration. Cookies are intended for loopback HTTP; the prepared Render mode adds a tested single-operator password gate, HTTPS-only cookies and exact public-origin checks. It still needs an authorized deployment and platform validation. A new isolated Vercel deployment is authorized but blocked by missing account/database/network capabilities. No deployment has been performed; other projects remain untouched.
-
-[Demo script](docs/DEMO.md) · [Acceptance matrix](docs/ACCEPTANCE.md) · [Product plan](docs/PLAN.md) · [MIT license](LICENSE)
-
-## PostgreSQL / anonymous demo tests
-
-The full validation run passed **109 backend tests**, **5 frontend tests**, the production build and **10 distinct browser scenarios** (3 public, 3 existing private, 1 explicitly mocked payment, landing/history and 2 two-persona desktop/mobile flows). Six backend tests used actual PostgreSQL, including concurrency and a fresh-process budget read. These are local results, not Vercel-hosted results.
-
-For PostgreSQL tests, provide a newly created local test database as `PACT_TEST_DATABASE_URL`; its name must begin `pact_` and end `_test`. Test fixtures deliberately reset only that dedicated database. Do not point this variable at production or Nautilus. Without it, the six PostgreSQL tests are explicitly skipped rather than falsely claimed as verified.
-
-To run public browser checks against a running public-mode test server or a subsequently verified deployment:
-
-```bash
-cd frontend
-PACT_PUBLIC_DEMO=1 PACT_TEST_URL=ACTUAL_TARGET_ORIGIN PACT_CHROMIUM_PATH=/usr/bin/chromium \
-  npm run test:e2e -- e2e/public.spec.ts
-```
-
-The deployment guide includes the no-provider HTTP acceptance probe. Hosted behavior, managed-database TLS and actual Vercel cold starts remain unverified until account access is supplied.
-
-
-## Final recovery / replay
-
-[Recovery evidence and exact Vercel log/configuration request](docs/RECOVERY.md). The old visitor message indicates failed API JSON parsing, not proof of a Neon error. Backend startup/storage diagnostics, static/frontend/backend release IDs, separate role routes and the database-independent replay are implemented. Hosted P0 remains open until the actual Preview commit, function log and genuine Neon health are verified. No Production deployment is authorized by this change.
-
-`npm --prefix frontend run evidence:check` verifies the replay against hashed committed provider receipts. Browser tests run it at desktop/mobile sizes with all API endpoints unavailable and assert zero API calls. It preserves a genuine host block, the human approval boundary, separate semantic-evaluation limits and the separately PAID sandbox receipt. No additional paid inference or payment was made.
-
-
-The isolated `feature/pact-ui-redesign` branch adds the recorded-offer hero, semantic state colors, licensed local typography, provisional agreement previews and role-driven follow-through filters. See [redesign acceptance and screenshots](docs/REDESIGN.md). It retains the static replay and all financial boundaries; hosted acceptance remains open.
+MIT licensed; see [LICENSE](LICENSE).

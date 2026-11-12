@@ -1,5 +1,7 @@
 # Final Preview verification and recording handoff
 
+**Current directive supersedes the earlier publication hold:** tested main publication is now authorized; Production remains conditional on actual final hosted acceptance. Follow [final integration and Production gate](FINAL_RELEASE.md). Earlier counts/commit notes below are historical.
+
 ## Verified hosted baseline
 
 The user verified actual core `/api/health` response fields on commit **c894ebe78330d3e4ebda96dbd4ac1657a86b33d2**, branch `feature/pact-core`, environment `preview`: `status=ok`, `application=pact`, `storage=postgresql`, Python **3.12.16**, public demo enabled, PayPal environment sandbox, live AI and PayPal credentials unconfigured. [Evidence](evidence/hosted-health-c894ebe.json) is explicitly attributed to the user; it is not an agent HTTP capture.

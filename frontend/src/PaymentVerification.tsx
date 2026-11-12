@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { loadReplay, type ReplayEvidence } from "./replay";
-import { agreementPaymentFacts, type PaymentAgreement } from "./payments";
+import {
+  agreementPaymentFacts,
+  paymentLifecycle,
+  historicalPaymentLifecycle,
+  safeSandboxCheckout,
+  type PaymentAgreement,
+} from "./payments";
 import { money } from "./workflow";
 import "./payment.css";
 
@@ -31,12 +37,14 @@ export default function PaymentVerification({
   }, [evidence]);
   const facts = agreement ? agreementPaymentFacts(agreement) : null;
   return (
-    <section className="payment-verification" aria-labelledby="payment-title">
+    <section
+      className="payment-verification"
+      id="payment-proof"
+      aria-labelledby="payment-title"
+    >
       <div className="payment-heading">
-        <span className="eyebrow">AGREEMENT → INVOICE → PROVIDER READBACK</span>
-        <span className="paypal-wordmark">
-          PayPal <small>Sandbox</small>
-        </span>
+        <span className="eyebrow">Verified PayPal sandbox transaction</span>
+        <span className="provider-label">PayPal Sandbox Integration</span>
       </div>
       <h2 id="payment-title">Payment verification</h2>
       <p>
@@ -49,6 +57,16 @@ export default function PaymentVerification({
           aria-label="This agreement payment state"
         >
           <h3>This agreement</h3>
+          <ol
+            className="payment-stage-strip"
+            aria-label="This agreement payment lifecycle"
+          >
+            {paymentLifecycle(agreement).map((stage) => (
+              <li key={stage.label} data-confirmed={stage.confirmed}>
+                {stage.confirmed ? "✓" : "○"} {stage.label}
+              </li>
+            ))}
+          </ol>
           <dl className="payment-facts">
             <div>
               <dt>Negotiated amount</dt>
@@ -56,6 +74,24 @@ export default function PaymentVerification({
                 {agreement.amount_minor == null
                   ? "No price agreed"
                   : money(agreement.amount_minor)}
+              </dd>
+            </div>
+            <div>
+              <dt>Approved amount / currency</dt>
+              <dd>
+                {(facts.shared
+                  ? agreement.approvals?.includes("buyer") &&
+                    agreement.approvals?.includes("seller")
+                  : agreement.accepted_at) && agreement.amount_minor != null
+                  ? `${money(agreement.amount_minor)} · ${agreement.currency || "USD"}`
+                  : "Approval pending"}
+              </dd>
+            </div>
+            <div>
+              <dt>Payment recipient</dt>
+              <dd>
+                {agreement.seller_email ||
+                  "No PayPal recipient configured for this demo"}
               </dd>
             </div>
             <div>
@@ -83,6 +119,29 @@ export default function PaymentVerification({
               </dd>
             </div>
           </dl>
+          {agreement.invoice?.checked_at && (
+            <p>
+              Last provider reconciliation:{" "}
+              {new Date(agreement.invoice.checked_at).toLocaleString(
+                undefined,
+                { timeZoneName: "short" },
+              )}
+              . This is recorded state; this panel makes no provider request.
+            </p>
+          )}
+          {safeSandboxCheckout(agreement) && (
+            <a
+              className="text-link"
+              href={safeSandboxCheckout(agreement)!}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {facts.paid
+                ? "View PayPal sandbox invoice"
+                : "Open authorized PayPal sandbox checkout"}{" "}
+              →
+            </a>
+          )}
           {facts.shared && (
             <p className="payment-boundary">
               <strong>
@@ -116,6 +175,16 @@ export default function PaymentVerification({
                 Provider-confirmed {data.payment.status}
               </strong>
             </div>
+            <ol
+              className="payment-stage-strip"
+              aria-label="Original historical payment lifecycle"
+            >
+              {historicalPaymentLifecycle(data.payment).map((stage) => (
+                <li key={stage.label} data-confirmed={stage.confirmed}>
+                  {stage.confirmed ? "✓" : "○"} {stage.label}
+                </li>
+              ))}
+            </ol>
             <h3>
               {data.payment.currency} {data.payment.amount} received{" "}
               <small>· {data.payment.due} remaining due</small>
@@ -150,6 +219,13 @@ export default function PaymentVerification({
                 <dt>Provider payment identifier</dt>
                 <dd>
                   <code>{data.payment.payment_id}</code>
+                </dd>
+              </div>
+              <div>
+                <dt>PayPal-reported payment date</dt>
+                <dd>
+                  {data.payment.payment_date} · {data.payment.currency}{" "}
+                  {data.payment.received} received
                 </dd>
               </div>
               <div>

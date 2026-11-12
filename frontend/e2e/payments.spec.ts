@@ -24,7 +24,7 @@ for (const width of [1440, 390])
       page.getByText("Provider-confirmed PAID", { exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByText("USD 300.00 received", { exact: false }),
+      page.getByRole("heading", { name: /USD 300.00 received/ }),
     ).toBeVisible();
     await expect(
       page.getByText("INV2-N6CJ-RJXM-96WT-XDVG", { exact: true }),

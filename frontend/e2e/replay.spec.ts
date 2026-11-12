@@ -15,7 +15,7 @@ for (const width of [1440, 390])
     });
     await page.goto("/");
     await page
-      .getByRole("link", { name: "Explore the demo", exact: false })
+      .getByRole("link", { name: "Explore Pact", exact: false })
       .first()
       .click();
     await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
@@ -120,6 +120,7 @@ test("startup diagnostic is visible without exposing secrets or falling back to 
   );
   await expect(page.getByText("DO_NOT_RENDER")).toHaveCount(0);
   await expect(page.getByText("PRIVATE_SECRET")).toHaveCount(0);
+  await page.screenshot({ path: "test-results/release-startup-error.png" });
   await expect(page.getByLabel("Sandbox buyer email")).toHaveCount(0);
   await page
     .getByRole("link", { name: "Explore recorded demo" })

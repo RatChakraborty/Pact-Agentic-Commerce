@@ -39,6 +39,8 @@ export type ReplayEvidence = {
     currency: string;
     due: string;
     payment_id: string;
+    payment_date: string;
+    received: string;
     checked_at: string;
     attribution: string;
     contract: {
@@ -72,14 +74,14 @@ export function visibleOffers(run: RecordedRun, step: number) {
 export async function loadReplay(
   signal?: AbortSignal,
 ): Promise<ReplayEvidence> {
-  const response = await fetch("/assets/pact-replay-v2.json", { signal });
+  const response = await fetch("/assets/pact-replay-v3.json", { signal });
   if (!response.ok)
     throw Error(
       "Recorded evidence could not be loaded. Please reload this page.",
     );
   const evidence = await response.json();
   if (
-    evidence.schema_version !== 2 ||
+    evidence.schema_version !== 3 ||
     !Array.isArray(evidence.runs) ||
     !evidence.runs.every(
       (r: RecordedRun) =>

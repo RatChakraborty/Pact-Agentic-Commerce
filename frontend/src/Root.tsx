@@ -56,7 +56,7 @@ function Landing() {
             </p>
             <div className="hero-actions">
               <a className="primary" href="/demo">
-                Explore the demo <span aria-hidden="true">→</span>
+                Explore Pact <span aria-hidden="true">→</span>
               </a>
               <a className="text-link" href="/try">
                 Try it yourself
@@ -127,7 +127,7 @@ function Landing() {
               </>
             ) : (
               <p className="muted">
-                Open the demo to inspect the versioned evidence.
+                Explore Pact to inspect the versioned evidence.
               </p>
             )}
             <a className="ledger-source" href="/demo">

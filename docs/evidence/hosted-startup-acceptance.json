@@ -1,5 +1,5 @@
 {
-  "preview_url": "https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app/",
+  "preview_url": "https://pact-agentic-commerce-git-feature-pact-core-pact-83c7281c.vercel.app/",
   "tested_deployment_sha": null,
   "application_status_obtained": true,
   "probe": {
@@ -163,5 +163,8 @@
     "target_scope": "Previously supplied Preview hostname, not established as the latest healthy deployment",
     "requests": "/assets/pact-build.json, /api/version, /api/health, /api/demo-market/persona",
     "result": "Proxy CONNECT denied before application response; no writes performed"
-  }
+  },
+  "final_integrated_hosted_acceptance": "NOT VERIFIED",
+  "final_integrated_hosted_blocker": "Fresh direct probes of the exact supplied current alias are proxy CONNECT denied before application response.",
+  "production_acceptance": "NOT VERIFIED"
 }

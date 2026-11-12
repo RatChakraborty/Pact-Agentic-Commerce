@@ -148,6 +148,7 @@ test("session bootstrap completes before agreement creation is enabled", async (
   await expect(
     page.getByRole("button", { name: "Loading workspace" }),
   ).toBeDisabled();
+  await page.screenshot({ path: "test-results/release-loading.png" });
   await page.getByLabel("Sandbox buyer email").fill(buyer);
   await page.getByLabel("Sandbox merchant email").fill(seller);
   release();

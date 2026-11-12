@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { loadReplay, visibleOffers, type ReplayEvidence } from "./replay";
 import Progress from "./Progress";
+import GuidedAgreement from "./GuidedAgreement";
 import { money } from "./workflow";
 import PaymentVerification from "./PaymentVerification";
 export default function Replay() {
@@ -27,15 +28,19 @@ export default function Replay() {
         <a href="/try">Try it yourself →</a>
       </header>
       <main>
-        <span className="eyebrow">
-          RECORDED GENUINE AI · NO NEW INFERENCE OR PAYMENTS
-        </span>
+        <span className="eyebrow">Recorded real AI negotiation</span>
         <h1>Agents negotiate. People decide.</h1>
         <p>
           Inspect actual model replies and host decisions from recorded tests.
           Replay controls reveal existing evidence; they do not stream a new
           negotiation.
         </p>
+        <nav className="evidence-chapters" aria-label="Evidence chapters">
+          <a href="#real-ai">1 · Real AI negotiation</a>
+          <a href="#agreement-demo">2 · Agreement & verification fixture</a>
+          <a href="#payment-proof">3 · Verified PayPal transaction</a>
+          <a href="#semantic-proof">Semantic critique evidence</a>
+        </nav>
         {error && <p role="alert">{error}</p>}
         {!data && !error && <p role="status">Loading recorded evidence…</p>}
         {run && data && (
@@ -68,7 +73,7 @@ export default function Replay() {
               }
               demo
             />
-            <section className="objective">
+            <section className="objective" id="real-ai">
               <div>
                 <span className="eyebrow">RECORDED PROJECT BRIEF</span>
                 <h2>{run.objective}</h2>
@@ -169,6 +174,7 @@ export default function Replay() {
                 </div>
               </section>
             )}
+            <GuidedAgreement />
             <PaymentVerification evidence={data} />
             <details className="secondary">
               <summary>What’s real in this demo?</summary>
@@ -206,7 +212,7 @@ export default function Replay() {
                 </p>
               ))}
             </details>
-            <details className="secondary">
+            <details className="secondary" id="semantic-proof">
               <summary>Separate semantic critique evidence & limits</summary>
               <p>{data.critique.scope}</p>
               <p>

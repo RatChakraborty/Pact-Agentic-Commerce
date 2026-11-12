@@ -31,6 +31,9 @@ for (const mobile of [false, true])
         ? { width: 390, height: 844 }
         : { width: 1280, height: 900 },
     });
+    const strangerContext = await browser.newContext();
+    const origin = process.env.PACT_TEST_URL || "http://127.0.0.1:8000";
+    const headers = { "X-Pact-Action": "1", Origin: origin };
     const seller = await sellerContext.newPage();
     if (mobile) await page.setViewportSize({ width: 390, height: 844 });
     const title = "Landing service " + Date.now();
@@ -43,6 +46,10 @@ for (const mobile of [false, true])
         .getByRole("button", { name: "Publish demo service" })
         .click();
       await expect(seller.getByRole("heading", { name: title })).toBeVisible();
+      await seller.screenshot({
+        path: `test-results/release-business-${mobile ? "mobile" : "desktop"}.png`,
+        fullPage: true,
+      });
       const invite = await seller
         .getByRole("link", { name: "Customer invitation link" })
         .last()
@@ -61,12 +68,28 @@ for (const mobile of [false, true])
         fullPage: true,
       });
       await page.getByRole("checkbox").check();
+      const createdRequest = page.waitForResponse(
+        (r) => r.request().method() === "POST" && r.url().endsWith("/requests"),
+      );
       await page
         .getByRole("button", { name: "Send negotiation request" })
         .click();
       await expect(
         page.locator(".status").filter({ hasText: "awaiting seller" }),
       ).toBeVisible();
+      const createdAgreement = await (await createdRequest).json();
+      await strangerContext.request.get(origin + "/api/demo-market/persona");
+      await strangerContext.request.post(origin + "/api/demo-market/persona", {
+        headers,
+        data: { role: "buyer", name: "Unrelated browser" },
+      });
+      expect(
+        (
+          await strangerContext.request.get(
+            origin + "/api/demo-market/agreements/" + createdAgreement.id,
+          )
+        ).status(),
+      ).toBe(404);
       await seller
         .getByRole("button", { name: "Refresh shared activity" })
         .click();
@@ -95,6 +118,32 @@ for (const mobile of [false, true])
       await expect(
         page.getByLabel("Human confirmations").locator(".approved"),
       ).toHaveCount(0);
+      const contractUrl =
+        origin + "/api/demo-market/agreements/" + createdAgreement.id;
+      const currentProposal = await (
+        await page.request.get(contractUrl)
+      ).json();
+      const consent = {
+        confirmed: true,
+        version: currentProposal.version,
+        terms_digest: currentProposal.terms_digest,
+      };
+      expect(
+        (
+          await page.request.post(contractUrl + "/approve", {
+            headers,
+            data: { ...consent, version: consent.version + 1 },
+          })
+        ).status(),
+      ).toBe(409);
+      expect(
+        (
+          await page.request.post(contractUrl + "/approve", {
+            headers,
+            data: { ...consent, amount_minor: 1 },
+          })
+        ).status(),
+      ).toBe(422);
       await page
         .getByRole("button", { name: "Confirm terms as customer" })
         .click();
@@ -122,6 +171,10 @@ for (const mobile of [false, true])
           .getByRole("navigation", { name: "Agreement progress" })
           .locator('[aria-current="step"]'),
       ).toContainText("Seller evidence");
+      await seller.screenshot({
+        path: `test-results/release-mutual-${mobile ? "mobile" : "desktop"}.png`,
+        fullPage: true,
+      });
       await seller
         .getByRole("button", { name: "Submit example evidence" })
         .click();
@@ -182,11 +235,19 @@ for (const mobile of [false, true])
         path: `test-results/two-sided-${mobile ? "mobile" : "desktop"}.png`,
         fullPage: true,
       });
+      await page
+        .getByText("Shared contractual history", { exact: true })
+        .click();
+      await page.screenshot({
+        path: `test-results/release-shared-history-${mobile ? "mobile" : "desktop"}.png`,
+        fullPage: true,
+      });
       await page.getByRole("button", { name: "End demo session" }).click();
       await expect(
-        page.getByRole("link", { name: "Explore the demo" }),
+        page.getByRole("link", { name: "Explore Pact" }),
       ).toBeVisible();
     } finally {
       await sellerContext.close();
+      await strangerContext.close();
     }
   });
