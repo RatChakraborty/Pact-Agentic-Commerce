@@ -1,5 +1,17 @@
 # Hosted startup diagnostics and acceptance status
 
+## Confirmed hosted configuration failure — November 12, 2026
+
+The user supplied actual `/api/health` JSON for core `ad31b00bcf2d3bddb532223061ed899c0b8df074`: `CONFIGURATION_INVALID`, Python **3.12.16**, `PUBLIC_DEMO=false`, session secret missing/short, and no database connection attempted by diagnostics. See [sanitized evidence](evidence/hosted-health-ad31b00.json). This supersedes the previously unknown startup category below. Neon is not established as the cause. The Python pin is working on this deployment.
+
+**Required account-side repair:** in existing `pact-agentic-commerce` Settings → Environment Variables, set `PUBLIC_DEMO=true` and a stable random `APP_SESSION_SECRET` of at least 32 characters, scoped to **Preview**, including any override for `feature/pact-core`. Keep `ENABLE_LIVE_OPERATIONS=false`, `LLM_MAX_CALLS=0`, and `LLM_BUDGET_USD=0`. Retain the existing Pact database binding. Do not add an operator password merely to suppress the secondary private-mode warning; it disappears in correctly configured public mode with live actions disabled. Do not weaken validators or store secrets in vercel.json/source control.
+
+Generate the session secret locally with `python -c "import secrets; print(secrets.token_urlsafe(48))"` and enter it directly in Vercel secure settings, never chat. If a valid stable secret already exists in another intended scope, securely configure it for Preview instead. Inspect branch-specific overrides, blank values, and exact variable names. Cloud execution environment variables do not automatically configure Vercel. Environment changes require a fresh Preview deployment.
+
+No Vercel management connector or authenticated CLI is available in this execution environment, so these account settings have **not** been changed here. Source edits cannot securely supply the missing secret. Regression fixtures reproduce the exact three-code failure before storage, and confirm public mode with a valid fixture secret starts without an operator password. This is not hosted health or persistence acceptance. After the Preview settings are corrected, require genuine `/api/health` PostgreSQL success and both-persona persistence checks; UI/sponsor work remains paused.
+
+## Historical investigation before the supplied response
+
 The user reports Ready builds at core `a9c7494369fb7a78f6eabc47bc2efa0838589d2f` and redesign `17b47a25679cbe017c6fe44e29708441b08d6554`, followed by the startup fallback message in customer/business views. The actual deployed response SHA and exception category are **unknown**; those source heads are not substituted for a measured deployment SHA.
 
 Fresh GET probes of the last-known supplied Preview (`pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app`) remain denied by the development proxy. This is not a Vercel-to-Neon error. Every requested hosted acceptance check is recorded **NOT VERIFIED** in [the 20-item matrix](evidence/hosted-startup-acceptance.json); the user-observed interactive failure is separately marked FAILED. No hosted agreement writes, database-reset fixtures, paid model calls or provider operations were attempted.

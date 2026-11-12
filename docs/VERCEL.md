@@ -5,7 +5,11 @@ The user has created the dedicated **pact-agentic-commerce** Vercel project and 
 Target Preview supplied by the user:
 https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app/
 
-## Actual verification status — November 11, 2026
+## Latest hosted evidence — November 12, 2026
+
+User-supplied health JSON confirms core ad31b00 runs Python 3.12.16 and fails configuration validation before storage access: PUBLIC_DEMO is false and APP_SESSION_SECRET is missing/short. Apply the Preview-scoped configuration repair in [startup diagnostics](STARTUP_DIAGNOSTICS.md). No Neon failure is established; persistence and both-persona hosted acceptance remain unverified.
+
+## Historical direct-probe status — November 11, 2026
 
 This execution environment cannot verify that deployment. Requests to `/` and `/api/health` failed at the outbound proxy with `Tunnel connection failed: 403 Forbidden`. That is a proxy CONNECT denial, **not** a Vercel application HTTP status. Read-only verified-TLS connection attempts using both configured Neon URLs failed DNS resolution. No hosted schema writes, destructive tests, or hosted acceptance mutations were attempted. See [deployment probe evidence](evidence/deployment-recovery-20261111.json).
 

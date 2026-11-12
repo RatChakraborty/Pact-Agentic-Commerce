@@ -127,3 +127,23 @@ def test_valid_startup_with_failed_storage_is_not_misclassified_as_startup_failu
     assert r["status"] == 503 and r["database_calls"] == 1
     assert "Persistent storage is unavailable" in r["body"]["detail"]
     assert "code" not in r["body"]
+
+
+def test_reported_preview_configuration_reproduces_failure_before_storage():
+    r = probe(
+        {"PUBLIC_DEMO": "false", "APP_SESSION_SECRET": "", "APP_ACCESS_PASSWORD": ""}
+    )
+    assert r["status"] == 503 and r["body"]["code"] == "CONFIGURATION_INVALID"
+    assert set(r["body"]["diagnostics"]["problems"]) == {
+        "PUBLIC_DEMO_REQUIRED",
+        "APP_SESSION_SECRET_MISSING_OR_SHORT",
+        "PRIVATE_OPERATOR_PASSWORD_REQUIRED",
+    }
+    assert r["database_calls"] == 0
+
+
+def test_preview_correction_starts_without_private_operator_password():
+    r = probe({"PUBLIC_DEMO": "true", "APP_ACCESS_PASSWORD": ""})
+    assert r["status"] == 200
+    assert r["body"]["application"] == "pact"
+    assert r["database_calls"] == 0

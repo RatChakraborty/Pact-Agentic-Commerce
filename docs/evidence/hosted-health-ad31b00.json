@@ -1,0 +1,30 @@
+{
+  "source": "User-supplied actual hosted /api/health JSON; not a direct agent probe",
+  "observed_deployment_sha": "ad31b00bcf2d3bddb532223061ed899c0b8df074",
+  "branch": "feature/pact-core",
+  "environment": "preview",
+  "status": "error",
+  "code": "CONFIGURATION_INVALID",
+  "python_version": "3.12.16",
+  "python_implementation": "CPython",
+  "diagnostics": {
+    "problems": [
+      "PUBLIC_DEMO_REQUIRED",
+      "APP_SESSION_SECRET_MISSING_OR_SHORT",
+      "PRIVATE_OPERATOR_PASSWORD_REQUIRED"
+    ],
+    "database_source": "PACT_DATABASE_URL",
+    "database_scheme_valid": true,
+    "session_secret_ready": false,
+    "hosted_origin_ready": true,
+    "public_demo": false,
+    "live_operations_enabled": false,
+    "backend_main_packaged": true,
+    "database_connection_attempted_by_diagnostic": false,
+    "exception_type": "ValidationError",
+    "location": "config.py:105",
+    "invalid_fields": []
+  },
+  "conclusion": "Hosted configuration validation failed before database access. Neon connectivity and persistence remain unverified.",
+  "configuration_change_applied_to_vercel": false
+}
