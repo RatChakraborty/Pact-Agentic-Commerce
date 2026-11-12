@@ -4,9 +4,9 @@
 
 Pact brings customer and business agents together around a service request. The agents propose terms; a trusted host checks them; people retain control of approval, evidence review and payment.
 
-[Current Preview](https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/) | [Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce)
+[Explore Pact — Ready Preview](https://pact-agentic-commerce-chdx18y8i-pact-83c7281c.vercel.app/demo) | [Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce)
 
-The Preview link shows the existing release. The revised seven-stage walkthrough on this branch awaits its own deployment review.
+This is the release-candidate Preview reported Ready by Vercel. Anonymous access and hosted workflow acceptance remain unverified here; Vercel Deployment Protection may require owner configuration. A public Production URL has not been verified.
 
 ![Actual local guided negotiation, using genuine recorded model offers](docs/screenshots/clarity/stage-2-desktop.png)
 
@@ -17,6 +17,50 @@ The Preview link shows the existing release. The revised seven-stage walkthrough
 3. Inspect authentic historical PayPal sandbox payment evidence.
 
 The walkthrough requires no Pact account, API credentials, second session or payment. Hosted access also requires the deployment owner to permit anonymous viewing in Vercel.
+
+## Follow the seven-stage guide
+
+Open [the guided demo](https://pact-agentic-commerce-chdx18y8i-pact-83c7281c.vercel.app/demo), or click **Explore Pact** on the landing page. Use one browser; navigation reveals saved evidence and never initiates model inference, approval or payment.
+
+| Stage                            | What to inspect                                                                                                | Action to continue                                              |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| 1 · Meet the participants        | Customer requirements and business listing; why the business’s asking price appears first.                     | **Watch the agents negotiate →**                                |
+| 2 · Genuine recorded AI          | Original offers in order. Use **Next offer →** until all three appear, or **Show full exchange**.              | **See what happens when an agent breaks the rules →**           |
+| 3 · Trusted host rejection       | An authentic invalid proposal from a separate limits test and the host’s refusal.                              | **See how the agreement is approved →**                         |
+| 4 · Captured human confirmations | A separate deterministic backend fixture: both people approved the same agreement version.                     | **See how Pact checks the deliverable →**                       |
+| 5 · Verification and review      | Structural checks and the customer’s separate review of the deliverable.                                       | **See how payment is authorized →**                             |
+| 6 · Historical PayPal payment    | **PAID / $300 received / $0 due**. Open **How Pact integrates PayPal** for the API and authorization sequence. | **See what Pact remembers →**                                   |
+| 7 · Audit and summary            | The three evidence sources remain separately attributed.                                                       | **Try the interactive marketplace**, or **Restart guided demo** |
+
+**Back** revisits the previous stage. **Previous offer** and **Restart offer replay** control the negotiation; **Restart guided demo** returns to stage one. Technical provenance and full payment details are optional disclosures.
+
+The private backend implements server-side OAuth, [PayPal Invoicing API](https://developer.paypal.com/docs/api/invoicing/v2/) operations, explicitly authorized checkout handoff and provider reconciliation. Stage six shows a previously completed sandbox transaction, not a new payment. The real AI recording, captured agreement fixture and historical payment are **three separate executions**.
+
+## Interactive marketplace — try both sides
+
+This separate working-backend demonstration uses deterministic public agents and creates actual demo service/agreement records. Use **two isolated browser sessions**—a regular window and an incognito window are sufficient—and keep both on the **same deployment hostname**. It creates no PayPal invoice or payment and makes no live AI calls. Hosted backend availability is required; the recorded guide works independently of it.
+
+1. In the regular window, open [Business](https://pact-agentic-commerce-chdx18y8i-pact-83c7281c.vercel.app/business). Enter a **Demo display name**, then click **Start business demo**.
+2. Open **Publish a demo service**. Keep **Studio landing page**, the default description, **Public asking price (USD)** `360` and **Private seller minimum (USD)** `240`. Click **Publish demo service**. Remember the business display name to distinguish your listing.
+3. In incognito, open [Customer](https://pact-agentic-commerce-chdx18y8i-pact-83c7281c.vercel.app/customer) on that same hostname. Enter a different **Demo display name** and click **Start customer demo**.
+4. Click **Refresh shared activity**, then select your **Studio landing page** listing, identified by its business name. The business’s **Customer invitation link** can also open that exact listing in the isolated customer window.
+5. Keep the default **Project objective** for a static landing page, set **Your private maximum (USD)** to `300`, and choose a **Delivery date** in the future. The required scope is hero, features and contact sections.
+6. Check **I authorize my buyer agent to negotiate this request.**, then click **Send negotiation request**.
+7. In the business window, click **Refresh shared activity** and select the incoming agreement by its project objective.
+8. Click **Authorize seller agent**.
+9. In the customer window, click **Refresh shared activity**, then **Run deterministic negotiation**. Inspect the offers and resulting proposed terms; use the amount shown rather than assuming a particular negotiated price.
+10. Review the scope, amount and version, then click **Confirm terms as customer**.
+11. In the business window, click **Refresh shared activity**, review the same terms and version, then **Confirm terms as seller**. Both confirmations are required before evidence submission.
+12. In the business window, click **Submit example evidence**. The structural checks produce **awaiting buyer review**.
+13. In the customer window, click **Refresh shared activity** and inspect the checks. Under **Decision**, choose **Accept deliverable (no payment)**. Enter a **Review reason** of 10–500 characters, such as “I inspected the three required sections and structural checks.” Click **Record customer review**.
+14. Inspect **Two-sided demo complete** (`DEMO_COMPLETE`) and the payment state **Not created**. Open **Shared contractual history**; refresh the business window to see the same final agreement and history.
+
+Activity updates through **Refresh shared activity**, not automatically. Keep each role in its original session; logging out or changing the hostname does not recover that persona’s agreements.
+
+| Mode                    | What is executed                                                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Guided demo             | Saved authentic model outputs, a captured agreement fixture and a separate historical PayPal payment; viewing makes no new approval, model or provider call. |
+| Interactive marketplace | Real customer/business actions in independent sessions, deterministic negotiation and persisted demo agreements; no new PayPal payment.                      |
 
 ## The problem
 
@@ -51,13 +95,13 @@ Supporting workflows keep the commitment inspectable:
 
 These are separate demonstrations, not one newly executed transaction.
 
-| Evidence | Execution mode | Outcome |
-| --- | --- | --- |
-| Feasible negotiation | Recorded real AI | Three offers reach a $300 proposal; people must still approve. |
-| Invalid proposal | Recorded real AI + trusted host | Actual unauthorized offer rejected. |
-| Agreement and delivery | Captured backend demonstration | Matching confirmations, structural checks, customer review; no invoice. |
-| Contract critique | Separate recorded evaluation | Contradictions flagged 6/6; legitimate proposals passed 7/8, including one false escalation. |
-| PayPal transaction | Historical verified sandbox evidence | PAID; $300 USD received; $0 due. |
+| Evidence               | Execution mode                       | Outcome                                                                                      |
+| ---------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------- |
+| Feasible negotiation   | Recorded real AI                     | Three offers reach a $300 proposal; people must still approve.                               |
+| Invalid proposal       | Recorded real AI + trusted host      | Actual unauthorized offer rejected.                                                          |
+| Agreement and delivery | Captured backend demonstration       | Matching confirmations, structural checks, customer review; no invoice.                      |
+| Contract critique      | Separate recorded evaluation         | Contradictions flagged 6/6; legitimate proposals passed 7/8, including one false escalation. |
+| PayPal transaction     | Historical verified sandbox evidence | PAID; $300 USD received; $0 due.                                                             |
 
 Agent negotiation → Human approval → PayPal invoice → Provider verification.
 
