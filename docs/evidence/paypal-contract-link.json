@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
+  "accepted_amount_minor": 30000,
+  "currency": "USD",
+  "agreement_version": 1,
+  "negotiation_mode": "deterministic",
+  "accepted_at": "2026-11-11T06:08:43.263651+00:00",
+  "payment_handoff_authorized_at": "2026-11-11T06:09:16.322028+00:00",
+  "provider_receipt_sha256": "332be2c3aa6ad4e552d90678e5b397252aebe50f7fd0f1cffdcf4eb857f9304e",
+  "source": "Read-only export from original persisted Pact agreement and audit; no provider request or state change.",
+  "authorization_scope": "Original single-player workflow: explicit buyer approval; a separate seller human confirmation was not recorded.",
+  "events": [
+    {
+      "action": "buyer_accepted_terms",
+      "timestamp": "2026-11-11T06:08:43.263665+00:00",
+      "prior_status": "PROPOSED",
+      "next_status": "ACCEPTED"
+    },
+    {
+      "action": "sandbox_invoice_created",
+      "timestamp": "2026-11-11T06:08:46.748137+00:00",
+      "prior_status": "ACCEPTED",
+      "next_status": "INVOICED"
+    },
+    {
+      "action": "artifact_verified",
+      "timestamp": "2026-11-11T06:09:11.220660+00:00",
+      "prior_status": "INVOICED",
+      "next_status": "VERIFIED"
+    },
+    {
+      "action": "buyer_authorized_paypal_handoff",
+      "timestamp": "2026-11-11T06:09:16.322078+00:00",
+      "prior_status": "VERIFIED",
+      "next_status": "PAYMENT_PENDING"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T06:09:18.171230+00:00",
+      "prior_status": "PAYMENT_PENDING",
+      "next_status": "PAYMENT_PENDING"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T06:19:40.526264+00:00",
+      "prior_status": "PAYMENT_PENDING",
+      "next_status": "PAYMENT_PENDING"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T07:07:30.908874+00:00",
+      "prior_status": "PAYMENT_PENDING",
+      "next_status": "PAYMENT_PENDING"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T07:07:32.058401+00:00",
+      "prior_status": "PAYMENT_PENDING",
+      "next_status": "PAYMENT_PENDING"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T19:04:23.621835+00:00",
+      "prior_status": "PAYMENT_PENDING",
+      "next_status": "PAID"
+    },
+    {
+      "action": "provider_status_checked",
+      "timestamp": "2026-11-11T19:04:24.660593+00:00",
+      "prior_status": "PAID",
+      "next_status": "PAID"
+    }
+  ]
+}

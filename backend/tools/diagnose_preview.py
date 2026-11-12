@@ -61,6 +61,7 @@ def diagnose(origin):
                                 "branch",
                                 "api_contract",
                                 "release",
+                                "diagnostics",
                             ]
                             if key in value
                         }
