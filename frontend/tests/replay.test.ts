@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { visibleOffers, type ReplayEvidence } from "../src/replay";
 const evidence: ReplayEvidence = JSON.parse(
   readFileSync(
-    new URL("../public/assets/pact-replay-v1.json", import.meta.url),
+    new URL("../public/assets/pact-replay-v2.json", import.meta.url),
     "utf8",
   ),
 );
@@ -28,9 +28,15 @@ it("pins each original receipt by SHA-256 and preserves actual live offers", () 
     const source = original.runs.find(
       (r: any) => r.execution === "live" && r.id === run.id,
     );
-    expect(run.offers).toEqual(
-      source.offers.map(({ recipient, ...o }: any) => o),
-    );
+    for (const [i, offer] of run.offers.entries()) {
+      const { recipient, ...originalOffer } = source.offers[i];
+      const { explanation_redacted, ...projected } = offer;
+      expect({ ...projected, explanation: originalOffer.explanation }).toEqual(
+        originalOffer,
+      );
+      if (explanation_redacted) expect(offer.explanation).toBe("");
+      else expect(offer.explanation).toBe(originalOffer.explanation);
+    }
     expect(run.model).toBe(source.provider_observations[0].model);
     expect(run.outcome).toBe(source.outcome);
   }
@@ -54,4 +60,17 @@ it("uses a genuine host block and keeps payment separate from proposals", () => 
   );
   expect(evidence.approval_boundary).toContain("not human approval");
   expect(evidence.payment.status).toBe("PAID");
+});
+
+it("public projection removes private strategy while preserving the linked payment proof", () => {
+  expect(evidence.schema_version).toBe(2);
+  for (const run of evidence.runs)
+    for (const offer of run.offers)
+      expect(offer.explanation).not.toMatch(
+        /seller floor|my budget|my floor|reservation price/i,
+      );
+  expect(evidence.payment.contract.accepted_amount_minor).toBe(30000);
+  expect(
+    evidence.payment.contract.events.some((e) => e.next_status === "PAID"),
+  ).toBe(true);
 });

@@ -49,7 +49,9 @@ test("brief, negotiation, explicit acceptance, safe invoice failure, history", a
   await page.getByText("Agreement history & details").click();
   await page.getByRole("button", { name: "Load audit history" }).click();
   await expect(
-    page.getByText("buyer accepted terms", { exact: true }),
+    page
+      .locator(".audit-row")
+      .getByText("buyer accepted terms", { exact: true }),
   ).toBeVisible();
   await page.screenshot({
     path: "test-results/desktop-accepted.png",

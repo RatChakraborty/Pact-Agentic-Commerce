@@ -4,6 +4,7 @@ Requires a URL explicitly identifying as Pact/public demo before any mutations.
 
 import argparse
 import json
+import re
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlparse
@@ -11,7 +12,11 @@ from urllib.parse import urlparse
 import httpx
 
 
-def check(url, allow_local=False):
+def check(url, allow_local=False, expected_commit=None):
+    if expected_commit is not None and not re.fullmatch(
+        r"[0-9a-f]{40}", expected_commit
+    ):
+        raise ValueError("Expected deployment commit must be a full lowercase Git SHA.")
     parsed = urlparse(url)
     if parsed.scheme != "https" and not (
         allow_local and parsed.hostname in {"127.0.0.1", "localhost"}
@@ -37,12 +42,18 @@ def check(url, allow_local=False):
         health.raise_for_status()
         metadata = health.json()
         if (
-            metadata.get("application") != "pact"
+            metadata.get("status") != "ok"
+            or metadata.get("application") != "pact"
             or metadata.get("public_demo") is not True
             or metadata.get("storage") != "postgresql"
         ):
             raise ValueError(
                 "Refusing writes: target is not the Pact public PostgreSQL demo."
+            )
+        release = metadata.get("release", {})
+        if expected_commit is not None and release.get("commit") != expected_commit:
+            raise ValueError(
+                "Refusing writes: deployment commit does not match expected release."
             )
         results["health"] = True
         page = c.get("/")
@@ -115,6 +126,11 @@ def check(url, allow_local=False):
             "target": url,
             "environment": "local_public_mode" if allow_local else "deployed_public",
             "checked_at": datetime.now(UTC).isoformat(),
+            "release": {
+                k: release[k]
+                for k in ["commit", "branch", "environment", "python_version"]
+                if k in release
+            },
             "results": results,
             "limitations": [
                 "Does not independently force a Vercel cold start or verify platform deployment protection.",
@@ -128,8 +144,12 @@ if __name__ == "__main__":
     parser.add_argument("url")
     parser.add_argument("--allow-local", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--expected-commit",
+        help="Require this full deployed SHA before any demo writes",
+    )
     args = parser.parse_args()
-    report = check(args.url, args.allow_local)
+    report = check(args.url, args.allow_local, args.expected_commit)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))

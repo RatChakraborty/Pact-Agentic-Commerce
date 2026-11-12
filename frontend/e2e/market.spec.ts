@@ -118,6 +118,26 @@ for (const mobile of [false, true])
         .getByRole("button", { name: "Record customer review" })
         .click();
       await expect(page.getByText(/Two-sided demo complete/)).toBeVisible();
+      const currentPayment = page.getByRole("region", {
+        name: "This agreement payment state",
+      });
+      await expect(currentPayment).toContainText("Not created");
+      await expect(currentPayment).toContainText(
+        "Not checked — no invoice exists",
+      );
+      await expect(
+        page.getByRole("region", {
+          name: "Separate historical PayPal evidence",
+        }),
+      ).toHaveCount(0);
+      await page
+        .getByText("Separate historical PayPal proof · PAID", { exact: true })
+        .click();
+      await expect(
+        page.getByRole("region", {
+          name: "Separate historical PayPal evidence",
+        }),
+      ).toContainText("Provider-confirmed PAID");
       await page.reload();
       await page
         .getByRole("button", {

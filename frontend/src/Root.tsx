@@ -1,6 +1,7 @@
 import App from "./App";
 import Market from "./Market";
 import Replay from "./Replay";
+import { PaymentPage } from "./PaymentVerification";
 
 export default function Root() {
   const path = window.location.pathname;
@@ -10,12 +11,14 @@ export default function Root() {
         "/customer": "customer",
         "/business": "business",
         "/demo": "demo",
+        "/payments": "payments",
         "/try": "try",
         "/sandbox": "workspace",
         "/agreements": "agreements",
       } as Record<string, string>
     )[path] || new URLSearchParams(window.location.search).get("view");
   if (view === "demo") return <Replay />;
+  if (view === "payments") return <PaymentPage />;
   if (view === "try")
     return (
       <>
@@ -55,7 +58,10 @@ export default function Root() {
         <a className="brand" href="/">
           <span className="mark">p</span>Pact
         </a>
-        <a href="/?view=agreements">Your agreements ↗</a>
+        <nav className="payment-navigation" aria-label="Primary navigation">
+          <a href="/payments">PayPal verification</a>
+          <a href="/?view=agreements">Your agreements →</a>
+        </nav>
       </header>
       <main className="landing">
         <span className="eyebrow">AGENTS NEGOTIATE. PEOPLE DECIDE.</span>

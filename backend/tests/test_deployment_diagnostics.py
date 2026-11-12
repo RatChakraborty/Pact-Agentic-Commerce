@@ -86,3 +86,36 @@ def test_spa_role_routes_do_not_intercept_unknown_api(client):
             result.status_code == 200 and "text/html" in result.headers["content-type"]
         )
     assert client.get("/api/nonexistent").status_code == 404
+
+
+@pytest.mark.parametrize("status,commit", [("error", "a" * 40), ("ok", "b" * 40)])
+def test_hosted_probe_rejects_unhealthy_or_wrong_release_before_writes(
+    monkeypatch, status, commit
+):
+    import httpx
+    from tools import check_hosted
+
+    requests = []
+    original = httpx.Client
+
+    def respond(request):
+        requests.append(request)
+        return httpx.Response(
+            200,
+            json={
+                "status": status,
+                "application": "pact",
+                "public_demo": True,
+                "storage": "postgresql",
+                "release": {"commit": commit},
+            },
+        )
+
+    monkeypatch.setattr(
+        check_hosted.httpx,
+        "Client",
+        lambda **kw: original(transport=httpx.MockTransport(respond), **kw),
+    )
+    with pytest.raises(ValueError, match="Refusing writes"):
+        check_hosted.check("https://pact-fixture.vercel.app", expected_commit="a" * 40)
+    assert len(requests) == 1 and requests[0].method == "GET"

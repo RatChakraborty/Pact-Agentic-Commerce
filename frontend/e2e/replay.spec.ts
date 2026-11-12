@@ -45,14 +45,25 @@ for (const width of [1440, 390])
     await expect(
       page.getByRole("heading", { name: "No agreement authorized" }),
     ).toBeVisible();
-    await page
-      .getByText("Separate verified PayPal sandbox evidence · PAID", {
-        exact: true,
-      })
-      .click();
+    await expect(
+      page.getByText("Provider-confirmed PAID", { exact: true }),
+    ).toBeVisible();
     await expect(
       page.getByText(/Separate original sandbox invoice/),
     ).toBeVisible();
+    await page
+      .getByText("Separate semantic critique evidence & limits", {
+        exact: true,
+      })
+      .click();
+    await expect(page.getByText(/Legitimate proposals passed:/)).toBeVisible();
+    await expect(
+      page.getByText(/one of eight legitimate proposals was falsely escalated/),
+    ).toBeVisible();
+    await page.getByText("What’s real in this demo?", { exact: true }).click();
+    await expect(
+      page.getByRole("link", { name: "docs/evidence/evaluation-live.json" }),
+    ).toHaveAttribute("href", /248004b6.*evaluation-live.json/);
     expect(apiCalls).toBe(0);
     expect(
       await page.evaluate(

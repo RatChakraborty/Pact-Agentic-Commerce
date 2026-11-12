@@ -6,18 +6,30 @@ const root = new URL("../../", import.meta.url);
 const sourceCommit = "248004b6e9f5c3d9556f994343a3a1f531ec43a8";
 export function buildEvidence() {
   const manifest = [];
-  function source(name) {
+  function source(name, commit = sourceCommit) {
     const bytes = readFileSync(new URL("docs/evidence/" + name, root));
     manifest.push({
       path: "docs/evidence/" + name,
       sha256: createHash("sha256").update(bytes).digest("hex"),
-      commit: sourceCommit,
+      commit,
     });
     return JSON.parse(bytes);
   }
   const matrix = source("negotiation-matrix-20261111.json");
   const payment = source("paypal-readback.json");
   const semantic = source("evaluation-live.json");
+  const linkage = source(
+    "paypal-contract-link.json",
+    "bce6d5acceb413fbe179091e3c6b286a692df868",
+  );
+  if (
+    linkage.provider_receipt_sha256 !==
+      manifest.find((p) => p.path.endsWith("/paypal-readback.json")).sha256 ||
+    linkage.currency !== payment.amount.currency_code ||
+    linkage.invoice_id !== payment.invoice_id ||
+    linkage.accepted_amount_minor !== Number(payment.amount.value) * 100
+  )
+    throw Error("Original accepted contract and provider receipt do not match");
   const runs = matrix.runs
     .filter((r) => r.execution === "live")
     .map((r) => ({
@@ -41,15 +53,24 @@ export function buildEvidence() {
         amount_minor: o.amount_minor,
         currency: o.currency,
         criteria: o.criteria,
-        explanation: o.explanation,
+        explanation:
+          /budget|floor|reservation|minimum|maximum|at (most|least)/i.test(
+            o.explanation,
+          )
+            ? ""
+            : o.explanation,
+        explanation_redacted:
+          /budget|floor|reservation|minimum|maximum|at (most|least)/i.test(
+            o.explanation,
+          ),
         blocked: o.blocked,
       })),
     }));
   if (runs.length !== 2 || !runs.some((r) => r.offers.some((o) => o.blocked)))
     throw Error("Missing actual live/block evidence");
   return {
-    schema_version: 1,
-    evidence_version: "pact-recorded-20261111-v1",
+    schema_version: 2,
+    evidence_version: "pact-recorded-20261111-v2",
     recorded_at: matrix.at,
     provenance: manifest,
     runs,
@@ -57,6 +78,7 @@ export function buildEvidence() {
       "Agent acceptance is a proposal, not human approval. This replay does not create, approve, lock or pay a new contract.",
     payment: {
       invoice_id: payment.invoice_id,
+      contract: linkage,
       status: payment.status,
       amount: payment.amount.value,
       currency: payment.amount.currency_code,
@@ -77,13 +99,13 @@ export function buildEvidence() {
         "Small fixed evaluation; one of eight legitimate proposals was falsely escalated. No trained dedicated SLM.",
     },
     limitations: [
-      "Historical synthetic demo constraints can appear in recorded explanations. Current shared demo uses deterministic agents and role-filtered private data.",
+      "Private strategy is explicitly redacted from this public projection. Structured offers, unredacted explanations and host decisions remain authentic; archived synthetic source receipts are hash-verifiable.",
       "The infeasible model output contradicts its own explanation; the host rejected it. No contract or payment was authorized.",
       "Token costs are configured estimates, not billing receipts.",
     ],
   };
 }
-const target = new URL("../public/assets/pact-replay-v1.json", import.meta.url);
+const target = new URL("../public/assets/pact-replay-v2.json", import.meta.url);
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const expected = JSON.stringify(buildEvidence(), null, 2) + "\n";
   if (process.argv.includes("--check")) {

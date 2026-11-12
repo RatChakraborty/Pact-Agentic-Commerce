@@ -1,10 +1,6 @@
 {
   "preview_url": "https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app/",
   "tested_deployment_sha": null,
-  "reported_ready_source_heads": {
-    "feature/pact-core": "a9c7494369fb7a78f6eabc47bc2efa0838589d2f",
-    "feature/pact-ui-redesign": "17b47a25679cbe017c6fe44e29708441b08d6554"
-  },
   "application_status_obtained": true,
   "probe": {
     "origin": "https://pact-agentic-commerce-8b9e5vy1j-pact-83c7281c.vercel.app/",
@@ -35,114 +31,121 @@
   "hosted_tests": [
     {
       "test": "API health/PostgreSQL storage",
-      "status": "FAILED",
-      "reason": "Actual user-supplied /api/health runtime log reports TLS_CONNECTION_FAILED; no successful PostgreSQL health yet."
+      "status": "PASSED",
+      "reason": "User-verified actual health: status=ok, application=pact, storage=postgresql; release.commit=c894ebe78330d3e4ebda96dbd4ac1657a86b33d2.",
+      "deployment_sha": "c894ebe78330d3e4ebda96dbd4ac1657a86b33d2"
     },
     {
       "test": "Neon schema initialization",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Customer persona",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Seller persona",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Service listing",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Directory/invitation",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Negotiation request",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Seller authorization",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Bounded negotiation",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Shared transcript",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Separate human confirmations",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Unauthorized change rejection",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Persistence after refresh",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Seller evidence submission",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Customer verification review",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Agreement history in both dashboards",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Cross-session rejection",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Private constraint isolation",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Session expiry/logout",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     },
     {
       "test": "Errors/mobile/navigation",
       "status": "NOT VERIFIED",
-      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
+      "reason": "Core hosted PostgreSQL health passed at c894ebe (user verified). Full hosted workflow is not agent-tested: Preview HTTPS access is proxy denied and exact healthy URL is pending."
     }
   ],
   "user_reported_interactive_result": {
-    "status": "FAILED",
-    "evidence": "Actual /api/health on ad31b00 reports CONFIGURATION_INVALID; PUBLIC_DEMO false and session secret not ready."
+    "status": "NOT VERIFIED",
+    "evidence": "User verified successful PostgreSQL health after TLS repair. Full customer/seller workflow and redesigned Preview await verification."
   },
   "provider_actions_in_this_phase": false,
-  "observed_deployment_sha": "ad31b00bcf2d3bddb532223061ed899c0b8df074",
+  "observed_deployment_sha": "c894ebe78330d3e4ebda96dbd4ac1657a86b33d2",
   "application_status_source": "User-supplied actual hosted /api/health JSON; not a direct agent probe",
-  "latest_health_evidence": "User-supplied TLS failure logs; exact newer release SHA unavailable",
-  "latest_runtime_evidence": {
+  "latest_health_evidence": "hosted-health-c894ebe.json",
+  "hosted_health_verified": true,
+  "hosted_health_source": "User-verified actual hosted /api/health response fields supplied in chat",
+  "historical_reported_ready_source_heads": {
+    "feature/pact-core": "a9c7494369fb7a78f6eabc47bc2efa0838589d2f",
+    "feature/pact-ui-redesign": "17b47a25679cbe017c6fe44e29708441b08d6554"
+  },
+  "historical_runtime_failure": {
     "source": "User-supplied Vercel runtime logs after Preview configuration repair",
     "deployment_sha": null,
     "code": "TLS_CONNECTION_FAILED",
@@ -153,6 +156,12 @@
       "/api/agreements",
       "/api/demo-market/persona"
     ],
-    "hosted_fix_verified": false
+    "hosted_fix_verified": false,
+    "superseded_by_healthy_core_response": true
+  },
+  "agent_release_probe": {
+    "target_scope": "Previously supplied Preview hostname, not established as the latest healthy deployment",
+    "requests": "/assets/pact-build.json, /api/version, /api/health, /api/demo-market/persona",
+    "result": "Proxy CONNECT denied before application response; no writes performed"
   }
 }

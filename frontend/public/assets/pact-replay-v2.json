@@ -1,0 +1,281 @@
+{
+  "schema_version": 2,
+  "evidence_version": "pact-recorded-20261111-v2",
+  "recorded_at": "2026-11-11T21:11:42.171761+00:00",
+  "provenance": [
+    {
+      "path": "docs/evidence/negotiation-matrix-20261111.json",
+      "sha256": "26895afe92cf006356deebf61d71ca98775f2b704b80020e8140ae646553a48e",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    },
+    {
+      "path": "docs/evidence/paypal-readback.json",
+      "sha256": "332be2c3aa6ad4e552d90678e5b397252aebe50f7fd0f1cffdcf4eb857f9304e",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    },
+    {
+      "path": "docs/evidence/evaluation-live.json",
+      "sha256": "5793d0a1f11c765820a631e705aa73d8b5cc5c6ad22b4a099a4aebe130e6b8b6",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    },
+    {
+      "path": "docs/evidence/paypal-contract-link.json",
+      "sha256": "9a95767be90b99d1fd0f3a65b4ff0a07af6e5935c790bc1113572397da088e21",
+      "commit": "bce6d5acceb413fbe179091e3c6b286a692df868"
+    }
+  ],
+  "runs": [
+    {
+      "id": "feasible-300",
+      "objective": "Build a static studio landing page with all required sections.",
+      "budget_minor": 30000,
+      "asking_minor": 36000,
+      "criteria": [
+        "hero",
+        "features",
+        "contact"
+      ],
+      "deadline": "2026-12-01T23:59:59Z",
+      "execution": "recorded_genuine_ai",
+      "outcome": "agreement",
+      "amount_minor": 30000,
+      "reason": null,
+      "model": "gpt-4.1-mini-2025-04-14",
+      "prompt_tokens": 1344,
+      "completion_tokens": 232,
+      "estimated_usd": 0.002272,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 36000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The project involves building a static landing page with all required sections (hero, features, contact). I begin with my asking price of $360.00, which reflects the full scope and quality you expect. We can discuss and adjust if needed.",
+          "explanation_redacted": false,
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "",
+          "explanation_redacted": true,
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "accept",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "",
+          "explanation_redacted": true,
+          "blocked": null
+        }
+      ]
+    },
+    {
+      "id": "infeasible",
+      "objective": "Build a static studio landing page with all required sections.",
+      "budget_minor": 20000,
+      "asking_minor": 38000,
+      "criteria": [
+        "hero",
+        "features",
+        "contact"
+      ],
+      "deadline": "2026-12-01T23:59:59Z",
+      "execution": "recorded_genuine_ai",
+      "outcome": "blocked",
+      "amount_minor": null,
+      "reason": "Seller minimum price violated.",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "prompt_tokens": 1312,
+      "completion_tokens": 215,
+      "estimated_usd": 0.002172,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 38000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "Starting at the asking price of $380.00, which reflects the full scope and quality assurance for the landing page with the hero, features, and contact sections included.",
+          "explanation_redacted": false,
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 20000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "",
+          "explanation_redacted": true,
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "accept",
+          "amount_minor": 20000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "",
+          "explanation_redacted": true,
+          "blocked": "Seller minimum price violated."
+        }
+      ]
+    }
+  ],
+  "approval_boundary": "Agent acceptance is a proposal, not human approval. This replay does not create, approve, lock or pay a new contract.",
+  "payment": {
+    "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
+    "contract": {
+      "schema_version": 1,
+      "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
+      "accepted_amount_minor": 30000,
+      "currency": "USD",
+      "agreement_version": 1,
+      "negotiation_mode": "deterministic",
+      "accepted_at": "2026-11-11T06:08:43.263651+00:00",
+      "payment_handoff_authorized_at": "2026-11-11T06:09:16.322028+00:00",
+      "provider_receipt_sha256": "332be2c3aa6ad4e552d90678e5b397252aebe50f7fd0f1cffdcf4eb857f9304e",
+      "source": "Read-only export from original persisted Pact agreement and audit; no provider request or state change.",
+      "authorization_scope": "Original single-player workflow: explicit buyer approval; a separate seller human confirmation was not recorded.",
+      "events": [
+        {
+          "action": "buyer_accepted_terms",
+          "timestamp": "2026-11-11T06:08:43.263665+00:00",
+          "prior_status": "PROPOSED",
+          "next_status": "ACCEPTED"
+        },
+        {
+          "action": "sandbox_invoice_created",
+          "timestamp": "2026-11-11T06:08:46.748137+00:00",
+          "prior_status": "ACCEPTED",
+          "next_status": "INVOICED"
+        },
+        {
+          "action": "artifact_verified",
+          "timestamp": "2026-11-11T06:09:11.220660+00:00",
+          "prior_status": "INVOICED",
+          "next_status": "VERIFIED"
+        },
+        {
+          "action": "buyer_authorized_paypal_handoff",
+          "timestamp": "2026-11-11T06:09:16.322078+00:00",
+          "prior_status": "VERIFIED",
+          "next_status": "PAYMENT_PENDING"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T06:09:18.171230+00:00",
+          "prior_status": "PAYMENT_PENDING",
+          "next_status": "PAYMENT_PENDING"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T06:19:40.526264+00:00",
+          "prior_status": "PAYMENT_PENDING",
+          "next_status": "PAYMENT_PENDING"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T07:07:30.908874+00:00",
+          "prior_status": "PAYMENT_PENDING",
+          "next_status": "PAYMENT_PENDING"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T07:07:32.058401+00:00",
+          "prior_status": "PAYMENT_PENDING",
+          "next_status": "PAYMENT_PENDING"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T19:04:23.621835+00:00",
+          "prior_status": "PAYMENT_PENDING",
+          "next_status": "PAID"
+        },
+        {
+          "action": "provider_status_checked",
+          "timestamp": "2026-11-11T19:04:24.660593+00:00",
+          "prior_status": "PAID",
+          "next_status": "PAID"
+        }
+      ]
+    },
+    "status": "PAID",
+    "amount": "300.00",
+    "currency": "USD",
+    "due": "0.00",
+    "payment_id": "48G26200EN969023U",
+    "checked_at": "2026-11-11T19:03:52.230853+00:00",
+    "attribution": "Separate original sandbox invoice. It was not created by either replayed negotiation or by your interactive demo."
+  },
+  "critique": {
+    "scope": "Separate recorded semantic evaluation; not a critique of these replayed contracts.",
+    "execution": "live_model_with_deterministic_guardrails",
+    "metrics": {
+      "valid_workflow_completion": {
+        "numerator": 8,
+        "denominator": 8
+      },
+      "valid_proposal_pass_rate": {
+        "numerator": 7,
+        "denominator": 8
+      },
+      "false_rejection": {
+        "numerator": 1,
+        "denominator": 8
+      },
+      "unauthorized_action_rejection": {
+        "numerator": 8,
+        "denominator": 8
+      },
+      "contradiction_detection": {
+        "numerator": 6,
+        "denominator": 6
+      },
+      "ambiguity_or_abstention": {
+        "numerator": 6,
+        "denominator": 6
+      }
+    },
+    "successful_model_calls": 20,
+    "attempted_model_calls": 27,
+    "limitation": "Small fixed evaluation; one of eight legitimate proposals was falsely escalated. No trained dedicated SLM."
+  },
+  "limitations": [
+    "Private strategy is explicitly redacted from this public projection. Structured offers, unredacted explanations and host decisions remain authentic; archived synthetic source receipts are hash-verifiable.",
+    "The infeasible model output contradicts its own explanation; the host rejected it. No contract or payment was authorized.",
+    "Token costs are configured estimates, not billing receipts."
+  ]
+}
