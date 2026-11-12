@@ -17,15 +17,3 @@ No Render API key is required to prepare files or use the dashboard. API-based d
 SQLite is at **`/var/data/pact.db`**, inside the mounted disk, not the ephemeral checkout. Retain that disk and session secret across deploys. Use one service instance; do not horizontally scale or run multiple replicas against separate SQLite files. In-flight negotiation does not survive process replacement. Stop activity before redeploying, and reconcile provider invoice state after startup.
 
 Disk attachment is not a backup. Before changing/removing a service or disk, use SQLite's online backup API (or stop writes and take a consistent backup), transfer it to approved durable storage, and test restoration. Never copy a live SQLite database incompletely. Verify the disk path after a restart by creating and retrieving an agreement with the same browser session; an open port alone does not establish persistence.
-
-## Authorized deployment checklist for later
-
-1. Review the current Render blueprint schema and plan pricing; create the service only after deployment approval.
-2. Enter the secure bindings and exact `PUBLIC_ORIGIN`; confirm the persistent disk is attached.
-3. Build the locked backend and frontend. `startCommand` serves both from one origin on Render's `PORT`.
-4. Check `/api/health` (deliberately public, no secrets). All workspace/API routes require the operator password when configured.
-5. Verify unauthenticated workspace access returns 401, the session cookie is Secure, cross-origin mutations return 403, and the UI makes same-origin API requests over HTTPS.
-6. Verify SQLite survives a restart and the operator's browser can reload its agreement. Then repeat sandbox-only invoice readback and browser tests.
-7. Keep automatic deployment disabled during recording/submission. Do not expose a public unauthenticated financial demo or imply production readiness.
-
-The local production build, backend tests and hosted-mode validation tests pass. Actual Render build/deploy, control-plane schema validation, TLS issuance, disk persistence and restoration remain **unverified**.

@@ -1,3 +1,4 @@
+import PayPalIntegration from "./PayPalIntegration";
 import { useEffect, useRef, useState } from "react";
 import {
   loadReplay,
@@ -76,13 +77,13 @@ export default function Replay() {
   const step = DEMO_STAGES[stage];
   const ready = Boolean(
     data &&
-    fixture &&
-    run &&
-    invalid &&
-    blocked &&
-    approved &&
-    checked &&
-    reviewed,
+      fixture &&
+      run &&
+      invalid &&
+      blocked &&
+      approved &&
+      checked &&
+      reviewed,
   );
   function move(next: number) {
     setStage(storyStage(next));
@@ -498,6 +499,7 @@ export default function Replay() {
                         This is a dated receipt, not a new provider query.
                       </p>
                     </section>
+                    <PayPalIntegration invoiceId={data.payment.invoice_id} />
                     <details
                       onToggle={(e) => setPaymentDetails(e.currentTarget.open)}
                     >

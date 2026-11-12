@@ -16,7 +16,7 @@ The Preview link shows the existing release. The revised seven-stage walkthrough
 2. Inspect Pact blocking an invalid proposal and the separate agreement/verification workflow.
 3. Inspect authentic historical PayPal sandbox payment evidence.
 
-The walkthrough is free and anonymous: one browser, no signup, API credentials, second session or payment.
+The walkthrough requires no Pact account, API credentials, second session or payment. Hosted access also requires the deployment owner to permit anonymous viewing in Vercel.
 
 ## The problem
 
@@ -58,6 +58,8 @@ These are separate demonstrations, not one newly executed transaction.
 | Agreement and delivery | Captured backend demonstration | Matching confirmations, structural checks, customer review; no invoice. |
 | Contract critique | Separate recorded evaluation | Contradictions flagged 6/6; legitimate proposals passed 7/8, including one false escalation. |
 | PayPal transaction | Historical verified sandbox evidence | PAID; $300 USD received; $0 due. |
+
+Agent negotiation → Human approval → PayPal invoice → Provider verification.
 
 The private PayPal adapter implements OAuth, invoice creation, idempotency and recovery, draft sending, provider-hosted checkout handoff, invoice readback and reconciliation. Buyer handoff authorization remains explicit.
 
@@ -112,7 +114,7 @@ npm test
 npm run build
 ```
 
-[Current test and browser results](docs/DEMO_CLARITY.md) · [Recorded critic evaluation](docs/EVALUATION.md) · [Three-minute demo script](docs/DEMO.md).
+[Reproduce the critic evaluation](docs/EVALUATION.md) · [Customer/business lifecycle](docs/TWO_SIDED.md).
 
 PostgreSQL reset fixtures require a disposable **local** test database. Never run them against hosted Neon.
 
@@ -126,6 +128,6 @@ PostgreSQL reset fixtures require a disposable **local** test database. Never ru
 
 ## Security and license
 
-Host policy, private-data filtering, version-bound consent, secure sessions, verified PostgreSQL TLS and provider reconciliation remain authoritative. [Technical security and release details](docs/FINAL_RELEASE.md) · [.env.example](.env.example).
+Host policy, private-data filtering, version-bound consent, secure sessions, verified PostgreSQL TLS and provider reconciliation remain authoritative. [Security contracts](docs/CONTRACTS.md) · [Deployment instructions](docs/VERCEL.md) · [.env.example](.env.example).
 
 MIT licensed; see [LICENSE](LICENSE).

@@ -6,7 +6,7 @@ These are small frozen demonstrations, not evidence of universal safety or produ
 
 ```bash
 cd backend
-uv run --frozen --extra test python evaluate.py --output ../docs/evidence/evaluation-offline.json
+uv run --frozen --extra test python evaluate.py --output /tmp/pact-evaluation-offline.json
 ```
 
 The default path is entirely offline. All financial actions use a local fake, even with live language review enabled. The 28 cases comprise 8 legitimate workflow variants, 8 unauthorized economic actions, 6 contradictory clauses and 6 ambiguous/underspecified clauses. Unit tests forbid model access from the offline runner.
@@ -40,10 +40,6 @@ Model: `gpt-4.1-mini-2025-04-14`, requested as `gpt-4.1-mini`.
 
 A separate genuine negotiation initially exhausted six turns without agreement. After clarifying the seller's final-turn strategy, a second bounded run received four actual responses: seller $360 → buyer $300 → seller $300 → buyer accepts $300. Both complete transcripts, token usage and pricing estimates are in `live-negotiation.json`. No invoice was created for either evaluation negotiation.
 
-The session preserved six earlier failed-attempt call reservations. Deliberate development settings increased the cumulative allowance rather than deleting history. At completion of paid tests the ledger held **45 reserved calls including the six historical reservations**, and **$0.54 reserved** under the **$0.90 configured ceiling / $1 user authorization**. A nonsecret, Git-ignored root `.env` sets conservative $1/$4 per-million token estimates and a 54-call allowance so one additional six-call negotiation remains possible; no further inference was made for that adjustment. Details are in `session-budget.json`.
-
-Secondary current LiteLLM metadata lists $0.40/$1.60 per million input/output tokens for this model. The official model pricing page was blocked by the proxy, so these are explicitly **secondary estimates**, not independently confirmed billing. Reservations use 2.5× those rates. Usage estimates cover retained successful responses; seven initial failed attempts lack response usage and are covered conservatively by their retained reservations.
-
 ## Explicit paid reruns
 
 Do not run these commands during ordinary tests or against unreviewed prices. The counters are cumulative; inspect them before deliberately increasing the allowance. Do not reset SQLite or delete audit history to bypass a limit.
@@ -65,13 +61,13 @@ The model-critique provider is replaceable through a small structured interface.
 
 ## Multi-scenario negotiation — November 11 final recovery
 
-Frozen cases and reproduction: `app.evaluate_negotiation` (offline by default). Run from backend with `python -m app.evaluate_negotiation --output ../docs/evidence/NEW-FILE.json`. Existing evidence is never overwritten. `--live` is explicit, reserves at most six calls in the existing durable budget before use, and must not be rerun casually. No payment operations occur.
+Frozen cases and reproduction: `app.evaluate_negotiation` (offline by default). Run from backend with `python -m app.evaluate_negotiation --output /tmp/pact-negotiation-evaluation.json`. Existing evidence is never overwritten. `--live` is explicit, reserves at most six calls in the existing durable budget before use, and must not be rerun casually. No payment operations occur.
 
 Ten varied offline cases cover three feasible overlaps, an infeasible gap, scope/budget/recipient attacks, false acceptance, malformed-provider failure and turn exhaustion. The original run passed 9/10 expectations: tight overlap did not converge. The buyer rule now accepts a seller counteroffer within its own maximum on a later turn, without accessing the seller minimum. The separately retained corrected offline rerun passes **10/10**, with zero unauthorized agreements. These deterministic/mocked results are not measurements of general model reasoning. The malformed case injects the engine error; real malformed HTTP parsing is separately tested in the provider contract suite.
 
 Two independently configured live cases used `gpt-4.1-mini-2025-04-14`, three calls each. Feasible budget $300 / ask $360 / floor $240 reached a $300 agreement. Infeasible budget $200 / ask $380 / floor $260 did **not** yield a contract: the model emitted structured `accept` at $200 while its explanation said it must abstain. The host blocked it for violating seller minimum. This is a model protocol failure, preserved as `expectation_met=false`, not a reasoning success. Neither scenario violated final financial authorization. The sample is too small for accuracy/generalization claims.
 
-Actual response usage: **2,656 prompt / 447 completion tokens** across six calls. Configured conservative estimate: **$0.004444**, not a provider billing receipt. Six calls reserved **$0.0864**. The durable ledger increased from **45 calls / $0.54** reserved to **51 calls / $0.6264**; unchanged caps are 54 calls / $0.90. No budget reset, reservation release or uncontrolled retry occurred. The requested additional $1 ceiling was respected.
+Response usage and configured cost estimates are retained in the source receipts; estimates are not provider billing receipts.
 
 The original live run also disclosed private limits in free-text explanations despite prompt instructions. The evidence retains those synthetic demo limits. The subsequent host filter removes recognizable private-limit reasoning before exchange and has four regression cases; it was **not live-retested** and is not a semantic confidentiality proof. Shared two-persona mode therefore remains deterministic-only. Role-specific model input tests prove that each model receives only its own private constraint, not the opposite limit directly.
 

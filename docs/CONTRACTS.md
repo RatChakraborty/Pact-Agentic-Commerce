@@ -1,4 +1,4 @@
-# Data and API contracts (v0)
+# Agreement and payment security contracts
 
 ## Agreement
 id: UUID
@@ -26,23 +26,15 @@ agreement_id, checks:[{name,passed,evidence}], overall: PASS|FAIL|NEEDS_REVIEW, 
 ## AuditEvent
 id, timestamp, agreement_id, actor, action, prior_status, next_status, structured_details, provider_reference|null.
 
-## Minimal API proposals
-POST /api/agreements
-POST /api/agreements/{id}/negotiate
-POST /api/agreements/{id}/accept
-POST /api/agreements/{id}/invoice
-GET /api/agreements/{id}
-POST /api/agreements/{id}/evidence
-POST /api/agreements/{id}/payment-approval
-GET /api/agreements/{id}/paypal-status
-GET /api/agreements/{id}/audit
-GET /api/health
+## API reference
+
+FastAPI generates the current endpoint schemas at `/openapi.json` and `/docs` in a local development instance. Public hosted access remains subject to application authorization. The original owner-only agreement API and shared two-persona API are separate; a shared demo ID never enables provider writes. See [the two-persona lifecycle](TWO_SIDED.md).
 
 ## Hard gates
 - Never trust browser-supplied agreement totals, seller recipient, status or payment success.
 - Monetary values as integer minor units, never float.
 - Require buyer approval before invoice creation and any payment workflow.
-- Verify PayPal payment status via server-side provider retrieval/webhook verification, not client callbacks alone.
+- Verify PayPal payment status via server-side provider retrieval, not client callbacks alone.
 - Don't mark PAID from invoice existence, invoice send, a model answer, or return URL alone.
 - Reject mutated terms after acceptance unless re-approved as a new version.
 - Retry-safe external writes with durable idempotency and status checks.

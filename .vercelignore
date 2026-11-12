@@ -9,7 +9,7 @@ backend/.venv
 **/*.db-*
 backend/tests
 backend/tools
-frontend/test-results
+frontend/test-results*
 frontend/playwright-report
 docs/screenshots
 backend/evaluate.py
@@ -17,3 +17,8 @@ backend/evaluation_cases.json
 
 # Frontend auto-pip target is not the Python function environment.
 .vercel_python_packages
+
+# Local test and lint reports are never deployment inputs.
+**/.pytest_cache
+**/.ruff_cache
+**/__pycache__

@@ -194,3 +194,15 @@
   outline: 2px solid #a9d6ff;
   outline-offset: 4px;
 }
+
+.paypal-integration {
+  margin: 18px 0;
+  overflow-wrap: anywhere;
+}
+.paypal-integration summary {
+  color: #9dccff;
+  cursor: pointer;
+}
+.paypal-integration li {
+  margin: 10px 0;
+}

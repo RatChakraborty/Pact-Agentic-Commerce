@@ -50,9 +50,7 @@ for (const width of [1440, 390])
     await expect(
       page.getByText(/separate seller human confirmation was not recorded/),
     ).toBeVisible();
-    await page
-      .getByText("How Pact reconciles PayPal status", { exact: true })
-      .click();
+    await page.getByText("How Pact integrates PayPal", { exact: true }).click();
     await expect(
       page.getByText("GET /v2/invoicing/invoices/INV2-N6CJ-RJXM-96WT-XDVG", {
         exact: true,

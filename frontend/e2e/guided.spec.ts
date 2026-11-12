@@ -17,6 +17,11 @@ for (const width of [1440, 390])
     const explore = page
       .getByRole("link", { name: "Explore Pact", exact: false })
       .first();
+    await expect(
+      page.getByText(
+        /Agent negotiation → Human approval → PayPal invoice → Provider/,
+      ),
+    ).toBeVisible();
     await explore.focus();
     await page.keyboard.press("Enter");
     const progress = page.getByRole("navigation", {
@@ -197,6 +202,32 @@ for (const width of [1440, 390])
       path: `test-results/clarity-stage-6-${width}.png`,
       fullPage: true,
     });
+    const integration = page.locator("details.paypal-integration").first();
+    await integration
+      .getByText("How Pact integrates PayPal", { exact: true })
+      .click();
+    await expect(
+      integration
+        .getByRole("list", { name: "Original transaction sequence" })
+        .locator("li"),
+    ).toHaveCount(7);
+    await expect(integration).toContainText("POST /v1/oauth2/token");
+    await expect(integration).toContainText("PayPal-Request-Id");
+    await expect(integration).toContainText("search-invoices");
+    await expect(integration).toContainText(
+      "Public provider writes and paid inference remain disabled",
+    );
+    await expect(
+      integration.locator(".payment-paid, [data-confirmed=true]"),
+    ).toHaveCount(0);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await integration
+      .getByText("How Pact integrates PayPal", { exact: true })
+      .click();
     const paymentDetail = page.getByText(
       "Inspect original invoice, checkout flow and provider readback",
       { exact: true },

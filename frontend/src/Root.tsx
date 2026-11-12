@@ -47,12 +47,13 @@ function Landing() {
               <em>People decide.</em>
             </h1>
             <p className="hero-intro">
-              Let agents find common ground. Review every offer, approve the
-              commitments, and follow the evidence through to payment.
+              AI agents negotiate service agreements. Pact enforces trusted
+              authorization, then integrates PayPal’s Invoicing API for payment
+              requests, authorized checkout and provider-confirmed status.
             </p>
             <p className="hero-support">
-              Pact enforces the budget, recipient and scope—even when a model
-              gets it wrong.
+              Agent negotiation → Human approval → PayPal invoice → Provider
+              verification. Budget, recipient and scope stay enforced by Pact.
             </p>
             <div className="hero-actions">
               <a className="primary" href="/demo">

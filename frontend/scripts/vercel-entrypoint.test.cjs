@@ -150,4 +150,12 @@ test("ignore rules retain required Python runtime files and exclude the frontend
     assert.equal(ignored(file), false, file + " must survive upload rules");
   }
   assert.equal(ignored(".vercel_python_packages/pydantic_core/core.so"), true);
+  for (const file of [
+    "frontend/test-results/error-context.md",
+    "frontend/test-results-integrated-private/example/error-context.md",
+    "frontend/test-results-corrections/results.json",
+    "backend/.pytest_cache/README.md",
+    "backend/app/__pycache__/main.pyc",
+  ])
+    assert.equal(ignored(file), true, file + " must not be uploaded");
 });

@@ -34,21 +34,3 @@ Shared events reside in the serialized demo record under the same database trans
 The shared flow exposes conservative pattern-based critique and blocks confirmation on non-CLEAR results. Existing replaceable live semantic critique and its recorded evaluation remain in the single-player workspace. No dedicated Dialectic-SLM is trained/deployed; no deterministic check is labeled model reasoning.
 
 Role workspaces contain requests/listings and status-driven actions, not invented revenue/activity metrics. There is one frontend bundle and the original negotiation workspace remains available. Real two-role account authentication, verified business onboarding, shared live AI, shared PayPal handoff, account recovery, notification/push updates, richer service constraints and independently hosted agents are explicitly deferred.
-
-## Acceptance matrix
-
-| Requirement | Result / evidence |
-| --- | --- |
-| Distinct entry paths and role workspaces | Implemented customer/business routes; browser desktop/mobile walkthrough |
-| Seller discovery/invite | Persisted demo service directory and direct invitation link |
-| Explicit seller agent authorization | Required before negotiation; buyer cannot invoke seller authorization |
-| Shared transcript / exactly two participants | Same record/offer list; unrelated users and legacy routes denied |
-| Private strategy | Role-filtered API/prompt tests, public digest excludes limits, host-only policy seal |
-| Both human confirmations | Version/fingerprint checked separately; seller evidence denied until both confirm |
-| Milestone/evidence permissions | Seller submits; customer reviews; retained pass/fail evidence |
-| Payment truth | Demo NOT_CREATED; no shared provider routes; independent real sandbox receipt preserved |
-| Logout / expiry / role spoofing | Revoked-cookie, fixed-role, expiry, cross-role/user denial tests |
-| Hosted Vercel/Neon | Blocked by proxy/DNS; actual local PostgreSQL lifecycle tested |
-| Real authentication / shared live payment | Deferred, honestly labeled in UI |
-
-See `backend/tests/test_two_sided.py`, `test_agent_privacy.py`, the PostgreSQL lifecycle regression, `frontend/e2e/market.spec.ts`, and [acceptance evidence](ACCEPTANCE.md).

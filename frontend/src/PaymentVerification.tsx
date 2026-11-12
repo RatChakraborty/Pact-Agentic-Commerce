@@ -9,6 +9,7 @@ import {
 } from "./payments";
 import { money } from "./workflow";
 import "./payment.css";
+import PayPalIntegration from "./PayPalIntegration";
 
 export default function PaymentVerification({
   agreement,
@@ -223,8 +224,9 @@ export default function PaymentVerification({
               <div>
                 <dt>Created / sent evidence</dt>
                 <dd>
-                  Creation is in the original Pact audit. Sending is documented
-                  in the original integration acceptance record.
+                  Creation is in the original Pact audit. Draft sending is an
+                  implemented adapter operation; this receipt does not include a
+                  separate send response.
                 </dd>
               </div>
               <div>
@@ -272,46 +274,8 @@ export default function PaymentVerification({
                 completed on the actual PayPal sandbox page. The two-persona
                 demo does not perform those provider actions.
               </p>
-              <a
-                href="https://github.com/RatChakraborty/Pact-Agentic-Commerce/blob/248004b6e9f5c3d9556f994343a3a1f531ec43a8/docs/ACCEPTANCE.md"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Inspect original integration acceptance evidence →
-              </a>
             </details>
-            <details>
-              <summary>How Pact reconciles PayPal status</summary>
-              <p>
-                The backend authenticates server-side and retrieves the invoice
-                using the Invoicing API:
-              </p>
-              <code className="payment-endpoint">
-                GET /v2/invoicing/invoices/{data.payment.invoice_id}
-              </code>
-              <ol>
-                <li>
-                  Match the invoice ID, amount, currency, merchant and buyer
-                  against accepted terms.
-                </li>
-                <li>
-                  Read PayPal's actual status. An invoice request, pending
-                  checkout or manually marked-paid state is not
-                  provider-confirmed PAID.
-                </li>
-                <li>
-                  Persist the provider status and readback time, update Pact's
-                  transaction state, and append an audit event. Repeated reads
-                  reconcile the same invoice.
-                </li>
-              </ol>
-              <p>
-                No escrow is held and no verifier automatically releases money.
-                The original receipt records two successful normal
-                reconciliations to PAID. This public evidence viewer performs no
-                provider calls.
-              </p>
-            </details>
+            <PayPalIntegration invoiceId={data.payment.invoice_id} />
           </section>
         </details>
       )}
