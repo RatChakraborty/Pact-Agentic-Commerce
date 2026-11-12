@@ -1,13 +1,17 @@
 import { test, expect } from "@playwright/test";
 for (const width of [1440, 390])
-  test(`one-session Explore Pact completes all evidence chapters at ${width}px`, async ({
+  test(`one-session seven-stage Explore Pact at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 1000 });
-    let calls = 0;
-    await page.route("**/api/**", (route) => {
-      calls++;
-      return route.fulfill({ status: 503, body: "Unavailable" });
+    let apiCalls = 0;
+    const errors: string[] = [];
+    const failed: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("requestfailed", (r) => failed.push(r.url()));
+    await page.route("**/api/**", (r) => {
+      apiCalls++;
+      return r.fulfill({ status: 503, body: "Unavailable" });
     });
     await page.goto("/");
     const explore = page
@@ -15,93 +19,253 @@ for (const width of [1440, 390])
       .first();
     await explore.focus();
     await page.keyboard.press("Enter");
+    const progress = page.getByRole("navigation", {
+      name: "Guided demo progress",
+    });
+    await expect(progress.locator("li")).toHaveCount(7);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "A customer needs a landing page. A business can build it.",
+    );
     await expect(
-      page.getByText("Recorded real AI negotiation", { exact: true }),
+      page.getByText("Customer (buyer)", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Business (seller)", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/That is why the business’s price appears first/),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-1-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", {
+        name: "Watch the agents negotiate →",
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.getByText("Recorded real AI", { exact: true }),
     ).toBeVisible();
     await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
-    await page
-      .getByRole("button", { name: "Show complete transcript" })
-      .click();
     await expect(
-      page.getByRole("heading", {
-        name: "$300.00 proposed — human approval still required",
-      }),
-    ).toBeVisible();
-    await page.getByLabel("Recorded scenario").selectOption("1");
-    await page
-      .getByRole("button", { name: "Show complete transcript" })
-      .click();
-    await expect(
-      page.getByText("Host blocked · Seller minimum price violated.", {
-        exact: true,
-      }),
-    ).toBeVisible();
-    await page
-      .getByRole("link", { name: "2 · Agreement & verification fixture" })
-      .click();
-    await expect(
-      page.getByText("Interactive deterministic demonstration", {
-        exact: true,
-      }),
-    ).toBeVisible();
-    const contract = page.getByRole("region", {
-      name: "Captured fixture contract",
-    });
-    await expect(contract).toContainText("0/2 · none");
-    const next = page.getByRole("button", {
-      name: "Next agreement step",
+      page
+        .getByRole("list", { name: "Recorded negotiation offers" })
+        .locator("li"),
+    ).toHaveCount(1);
+    const nextOffer = page.getByRole("button", {
+      name: "Next offer →",
       exact: true,
     });
-    for (let i = 0; i < 2; i++) await next.click();
-    const digest = await contract.locator(".digest").textContent();
-    await next.focus();
+    await nextOffer.focus();
     await page.keyboard.press("Enter");
-    await expect(contract).toContainText("1/2 · buyer");
-    await next.click();
-    await expect(contract).toContainText("2/2 · buyer and seller");
-    await expect(contract.locator(".digest")).toHaveText(digest!);
-    await page.screenshot({
-      path: `test-results/guided-confirmations-${width}.png`,
-    });
-    await next.click();
-    await expect(
-      page.getByRole("heading", { name: "Recorded structural checks · PASS" }),
-    ).toBeVisible();
-    await page.screenshot({
-      path: `test-results/guided-verification-${width}.png`,
-    });
-    await next.click();
-    await expect(
-      page.getByText(/Captured customer review: accepted/),
-    ).toBeVisible();
-    await expect(contract).toContainText("Not created · NOT_CREATED");
+    await expect(page.getByText("Offer 2 of 3", { exact: true })).toBeVisible();
     await page
-      .getByText("Captured agreement audit and provenance", { exact: true })
+      .getByRole("button", { name: "Previous offer", exact: true })
+      .click();
+    await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
+    await page
+      .getByRole("button", { name: "Show full exchange", exact: true })
+      .click();
+    await expect(page.getByText("Offer 3 of 3", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText(
+        "Agents reached a $300.00 proposal. Human approval is still required.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-2-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", {
+        name: "See what happens when an agent breaks the rules →",
+      })
       .click();
     await expect(
-      page.getByText(/buyer · buyer reviewed deliverable/),
+      page.getByRole("region", { name: "Actual host decision" }),
+    ).toContainText("Seller minimum price violated.");
+    await expect(
+      page.getByText("Recorded real AI · separate limits test", {
+        exact: true,
+      }),
     ).toBeVisible();
-    await page.screenshot({ path: `test-results/guided-audit-${width}.png` });
-    await page.reload();
-    await expect(page.getByText(/Captured step 7 of 7/)).toBeVisible();
     await page
-      .getByRole("link", { name: "3 · Verified PayPal transaction" })
+      .getByText("Inspect the complete infeasible exchange", { exact: true })
       .click();
+    await expect(
+      page.getByText("Customer cap $200.00 · business asking $380.00."),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-3-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "See how the agreement is approved →" })
+      .click();
+    await expect(
+      page.getByText("Captured backend demonstration", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Captured agreement terms" }),
+    ).toContainText("Version 1");
+    await expect(
+      page.getByText("✓ Customer confirmation captured", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("✓ Business confirmation captured", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByText("Inspect fingerprint and captured authorization rejections", {
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.getByText("stale version · captured HTTP 409", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByText("Optional: semantic critique evidence", { exact: true })
+      .click();
+    await expect(
+      page.getByText(/one of eight legitimate proposals was falsely escalated/),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-4-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "See how Pact checks the deliverable →" })
+      .click();
+    await expect(
+      page.getByRole("region", { name: "Captured structural verification" }),
+    ).toContainText("PASS · hero");
+    await expect(
+      page.getByRole("region", { name: "Captured customer review" }),
+    ).toContainText("Customer review: accepted");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-5-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "See how payment is authorized →" })
+      .click();
+    await expect(
+      page.getByText("Historical verified PayPal sandbox evidence", {
+        exact: true,
+      }),
+    ).toBeVisible();
     await expect(
       page.getByText("Provider-confirmed PAID", { exact: true }),
     ).toBeVisible();
     await expect(
       page.getByText("INV2-N6CJ-RJXM-96WT-XDVG", { exact: true }),
     ).toBeVisible();
-    await expect(page.getByText(/not a new provider query/)).toBeVisible();
+    await expect(page.getByText(/different completed agreement/)).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-6-${width}.png`,
+      fullPage: true,
+    });
+    const paymentDetail = page.getByText(
+      "Inspect original invoice, checkout flow and provider readback",
+      { exact: true },
+    );
+    await paymentDetail.click();
+    await expect(
+      page.getByRole("region", { name: "Separate historical PayPal evidence" }),
+    ).toContainText("INV2-N6CJ-RJXM-96WT-XDVG");
+    await paymentDetail.click();
     await page
-      .getByRole("button", { name: "Restart agreement example" })
+      .getByRole("button", { name: "See what Pact remembers →" })
       .click();
-    await expect(contract).toContainText("0/2 · none");
-    expect(calls).toBe(0);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Every important decision leaves evidence.",
+    );
+    await expect(
+      page.getByText("Stage 7 of 7 · Audit", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", {
+        name: "Try the interactive marketplace",
+        exact: true,
+      }),
+    ).toHaveAttribute("href", "/try");
+    await page.getByText("Captured agreement audit", { exact: true }).click();
+    await expect(
+      page.getByText(/Customer · buyer reviewed deliverable/),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `test-results/clarity-stage-7-${width}.png`,
+      fullPage: true,
+    });
+    await page.getByRole("button", { name: "Back", exact: true }).click();
+    await expect(
+      page.getByText("Stage 6 of 7 · Payment", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Restart guided demo", exact: true })
+      .click();
+    await expect(
+      page.getByText("Stage 1 of 7 · People", { exact: true }),
+    ).toBeVisible();
+    expect(apiCalls).toBe(0);
+    expect(errors).toEqual([]);
+    expect(failed).toEqual([]);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
   });
+
+test("recorded artifact failure offers a working retry instead of an empty stage", async ({
+  page,
+}) => {
+  let fail = true;
+  await page.route("**/assets/pact-guided-v1.json", (r) =>
+    fail ? r.fulfill({ status: 503, body: "Unavailable" }) : r.continue(),
+  );
+  await page.goto("/demo");
+  await expect(page.getByRole("alert")).toContainText("could not be loaded");
+  fail = false;
+  await page.getByRole("button", { name: "Retry evidence loading" }).click();
+  await expect(
+    page.getByText("Stage 1 of 7 · People", { exact: true }),
+  ).toBeVisible();
+});

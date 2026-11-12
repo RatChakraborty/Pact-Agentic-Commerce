@@ -1,0 +1,238 @@
+.demo-story {
+  max-width: 1050px;
+  padding-bottom: 20px;
+}
+.story-progress ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0;
+  margin: 24px 0 12px;
+  gap: 8px;
+}
+.story-progress li {
+  color: #aab6ae;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+.story-progress li > span {
+  border: 1px solid #506057;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.story-progress li[aria-current] {
+  color: #e7bf74;
+}
+.story-progress li[aria-current] > span {
+  border-color: #e7bf74;
+  background: #352d1b;
+}
+.story-position {
+  font-size: 13px;
+  color: #d3c3a2;
+  margin: 14px 0 24px;
+}
+.story-mode {
+  display: inline-block;
+  font-size: 12px;
+  color: #c5d1c8;
+  border-left: 3px solid #96b4a1;
+  padding-left: 10px;
+}
+.story-stage h1 {
+  font-size: clamp(29px, 4.5vw, 46px);
+  line-height: 1.2;
+  max-width: 900px;
+  margin: 20px 0 25px;
+}
+.story-stage h1:focus {
+  outline: none;
+}
+.story-stage h2 {
+  font-size: 22px;
+}
+.story-stage p {
+  line-height: 1.75;
+}
+.story-participants {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 26px 0;
+}
+.story-participants section,
+.story-contract,
+.story-audit > section {
+  border: 1px solid #3b4c40;
+  background: #171e1a;
+  padding: 22px;
+  border-radius: 8px;
+}
+.story-participants h2 small {
+  font: inherit;
+  font-size: 14px;
+  color: #b1beb5;
+}
+.story-takeaway,
+.story-transition {
+  border-left: 3px solid #d9b16b;
+  padding: 10px 18px;
+  background: #201f18;
+}
+.story-exchange {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.story-offer {
+  padding: 20px 22px;
+  margin: 12px 0;
+  background: #171e1a;
+  border-left: 3px solid #afc6b6;
+}
+.story-offer.customer-offer {
+  border-color: #d4ba88;
+}
+.story-offer > strong {
+  display: block;
+  font-size: 27px;
+  margin: 7px 0;
+}
+.story-offer small {
+  color: #b4c0b7;
+}
+.story-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.story-rejection {
+  border: 1px solid #b36e6b;
+  background: #2b1b1b;
+  padding: 22px;
+  border-radius: 7px;
+}
+.story-rejection .eyebrow {
+  color: #efb6b1;
+}
+.story-confirmations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  color: #b8dec2;
+  font-weight: 600;
+}
+.story-milestones {
+  padding-left: 22px;
+  line-height: 2;
+}
+.story-checks {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.story-checks li {
+  border-bottom: 1px solid #39473d;
+  padding: 12px 0;
+}
+.story-checks li strong,
+.story-checks li span {
+  display: block;
+}
+.story-checks li strong {
+  color: #b8dec2;
+}
+.story-checks li span {
+  font-size: 14px;
+  color: #b8c3bc;
+}
+.story-audit {
+  display: grid;
+  gap: 16px;
+}
+.story-stage details {
+  border-top: 1px solid #3a493f;
+  padding: 18px 0;
+  margin-top: 20px;
+}
+.story-stage summary {
+  cursor: pointer;
+}
+.story-provenance li {
+  padding: 8px 0;
+}
+.story-provenance .digest {
+  display: block;
+}
+.story-actions {
+  position: sticky;
+  bottom: 0;
+  background: #101413;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid #4a584e;
+  padding: 18px 0;
+  margin-top: 28px;
+  z-index: 2;
+}
+.story-actions .primary {
+  margin-left: auto;
+  max-width: 100%;
+  text-align: center;
+}
+.story-stage button:focus-visible,
+.story-actions button:focus-visible,
+.story-actions a:focus-visible,
+.story-stage summary:focus-visible {
+  outline: 2px solid #e7bf74;
+  outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .story-participants {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .story-progress small {
+    display: none;
+  }
+  .story-progress li {
+    justify-content: center;
+  }
+  .story-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .story-actions .primary {
+    grid-column: 1/-1;
+    margin-left: 0;
+  }
+  .story-actions button {
+    font-size: 12px;
+    padding: 10px;
+  }
+  .story-stage h1 {
+    font-size: 30px;
+  }
+  .story-offer {
+    padding: 16px;
+  }
+}
+
+.story-payment-summary h2 {
+  font-size: clamp(25px, 4vw, 34px);
+  margin: 14px 0;
+}
+.story-payment-summary .payment-paid {
+  font-size: 18px;
+}

@@ -1,0 +1,19 @@
+{
+  "source": "Owner-verified Preview health fields supplied in presentation directive; not direct agent capture",
+  "preview_url": "https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/",
+  "response_fields": {
+    "status": "ok",
+    "application": "pact",
+    "release": {
+      "commit": "cb8b64e45e31b8ce4e246dd0cb7f1273ae4a74ae",
+      "environment": "preview",
+      "python_version": "3.12.16"
+    },
+    "storage": "postgresql",
+    "public_demo": true,
+    "paypal_environment": "sandbox",
+    "paypal_configured": false,
+    "live_ai_configured": false
+  },
+  "scope": "Infrastructure only. Owner reported confusing guided UX; revised branch usability and Production not verified."
+}

@@ -1,102 +1,96 @@
 # Pact
 
-Buyer and seller agents negotiate service agreements; trusted host enforcement protects private limits, contract integrity, human consent and PayPal payment authorization.
+**AI agents negotiate a contract. Pact makes sure they can’t overspend, expose private limits, change approved terms, or pay without human consent.**
 
-[Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce) | [Demonstration evidence](docs/FINAL_RELEASE.md)
+Pact brings customer and business agents together around a service request. The agents propose terms; a trusted host checks them; people retain control of approval, evidence review and payment.
 
-Pact is a PayPal AI Hackathon prototype. **Explore Pact** presents genuine recorded AI, a separate deterministic agreement walkthrough and a separate verified sandbox payment in one browser, without credentials or paid services. **Try it yourself** preserves the independent customer/business workflow.
+[Current Preview](https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/) | [Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce)
 
-The owner verified integrated Preview infrastructure health at `02294a5`: PostgreSQL, Python 3.12.16 and public demo mode. Guided/marketplace hosted acceptance and Production remain separate, unverified gates. No final live-demo or video URL is claimed; see the [release checklist](docs/FINAL_POLISH.md).
+The Preview link shows the existing release. The revised seven-stage walkthrough on this branch awaits its own deployment review.
+
+![Actual local guided negotiation, using genuine recorded model offers](docs/screenshots/clarity/stage-2-desktop.png)
+
+## Try Pact in 60 seconds
+
+1. Open **Explore Pact** and watch actual recorded AI agents negotiate.
+2. Inspect Pact blocking an invalid proposal and the separate agreement/verification workflow.
+3. Inspect authentic historical PayPal sandbox payment evidence.
+
+The walkthrough is free and anonymous: one browser, no signup, API credentials, second session or payment.
 
 ## The problem
 
-Agents can propose commitments while exceeding budgets, leaking private limits, changing scope or recipients, introducing contradictions, confusing proposals with approvals, or misrepresenting payment. Pact separates model proposals from the trusted authority to accept terms and authorize financial operations.
+A persuasive conversation is not permission to spend. An agent may exceed a budget, reveal a private limit, change the scope or recipient, introduce contradictory terms, or mistake a proposal for an approved contract. Pact makes those boundaries visible and enforces them outside the model.
 
-## End-to-end workflow
+## How Pact works
 
 Discover → Negotiate → Validate → Approve → Verify → Pay → Audit
 
-1. Discover a service and submit a bounded request.
-2. Negotiate through structured buyer/seller offers.
-3. Validate price, recipient, scope and contractual language.
-4. Approve the same agreement version/fingerprint as each required party.
-5. Verify submitted structural evidence and record human review.
-6. Pay through an explicitly authorized, private PayPal sandbox handoff.
-7. Audit decisions and reconciled provider state.
+The **business publishes a service**; the **customer initiates a project request**. A public $360 asking price starts the example, so the business agent speaks first. The customer agent counters at $300. The agents reach a proposal—not human contractual approval.
 
-The public deterministic workflow creates no invoice or payment. Its demonstration and the historical provider transaction are distinct evidence chapters.
+The seven-stage guide then shows the host refusing an invalid offer, a separate captured agreement with both confirmations, deliverable checks and review, separate PayPal evidence, and a closing audit. Each screen has one clear next action, Back and Restart.
 
-## Features
+## Core features
 
-### Buyer and seller negotiating agents
+### Agent-mediated negotiation
 
-Different incentives, private economic limits, structured offers and bounded turns. Genuine recorded model replies remain inspectable; the public interactive workflow uses labeled deterministic agents. Model output cannot authorize payment.
+Buyer and seller agents have different incentives, structured offers, private economic limits and bounded turns. Inspect genuine saved model replies in their original order, or use the advanced customer/business marketplace with deterministic public agents.
 
-### Trusted agreement engine
+### Trusted host authorization
 
-Economic policy gates reject unauthorized offers. Version/fingerprint-bound confirmations, session/role isolation, PostgreSQL transactions and append-only audit preserve inspectable commitments. A fingerprint detects changes; it is not identity authentication or legal certification.
+Model output cannot authorize a payment. Pact validates economic limits, recipients, scope and structured offers, rejects unauthorized proposals, and binds human confirmations to the same contract version and fingerprint.
 
-### Semantic contract critique
+Supporting workflows keep the commitment inspectable:
 
-A replaceable advisory critic checks contradictory and ambiguous wording. Deterministic fallback and model-backed evidence are labeled separately. The fixed evaluation includes failed attempts and false positives; no Dialectic-SLM has been trained or deployed.
+- **Human agreement:** separate confirmations, role/session isolation and shared saved history.
+- **Advisory critique:** contradictory or ambiguous wording checks, with model/rule execution labels and measured false positives.
+- **Deliverable review:** HTML structural checks followed by distinct customer review; seller code is not executed.
+- **Audit and evidence:** PostgreSQL transactions, append-only history and source-linked receipts.
 
-### Deliverable verification
+## Real evidence and PayPal integration
 
-Seller HTML is parsed for supported sections, content and active-code indicators without executing it. Human review remains separate. Structural PASS does not prove quality, accessibility or legal compliance.
+These are separate demonstrations, not one newly executed transaction.
 
-### PayPal sandbox integration
-
-OAuth; invoice creation; idempotency and invoice-number recovery; draft sending when needed; invoice readback; provider-returned checkout links; explicit buyer handoff authorization; validated status reconciliation. [Exact operations and boundaries](docs/FINAL_RELEASE.md#paypal-and-branding-review).
-
-Historical invoice `INV2-N6CJ-RJXM-96WT-XDVG` is provider-confirmed **PAID: $300 USD received, $0 due**. It belongs to its original buyer-approved agreement—not the AI replay or a visitor's contract. No escrow, automatic release or anonymous real-money capability is claimed.
-
-### Interactive marketplace and guided demo
-
-One-click Explore Pact needs no second session or Neon for replay. Advanced demo personas support service directory/invitations, requests, seller authorization, mutual confirmation, evidence review and shared history. Truly independent participants use separate browser contexts; isolation is preserved.
-
-## Demonstrations
-
-These are separate studies/transactions, not one continuous real transaction.
-
-| Demonstration | Mode | Evidence-backed outcome |
+| Evidence | Execution mode | Outcome |
 | --- | --- | --- |
-| Buyer/seller negotiation | Recorded genuine AI | Three-turn $300 proposal; human approval remains required. |
-| Unauthorized offer | Recorded genuine AI + host enforcement | Infeasible run rejected by the host. |
-| Shared agreement | Captured deterministic backend fixture | Same version/fingerprint, both confirmations, no payment. |
-| Semantic critique | Separate recorded model evaluation | Contradictions 6/6; legitimate proposals passed 7/8, including one false escalation. |
-| Deliverable checks | Deterministic fixture | Structural checks and captured customer review; limited quality assurance. |
-| PayPal transaction | Historical genuine sandbox provider evidence | PAID, $300 received, zero due, dated readback and audit. |
+| Feasible negotiation | Recorded real AI | Three offers reach a $300 proposal; people must still approve. |
+| Invalid proposal | Recorded real AI + trusted host | Actual unauthorized offer rejected. |
+| Agreement and delivery | Captured backend demonstration | Matching confirmations, structural checks, customer review; no invoice. |
+| Contract critique | Separate recorded evaluation | Contradictions flagged 6/6; legitimate proposals passed 7/8, including one false escalation. |
+| PayPal transaction | Historical verified sandbox evidence | PAID; $300 USD received; $0 due. |
 
-![Actual local Explore Pact negotiation; not hosted acceptance evidence](docs/screenshots/polish/negotiation-desktop.png)
+The private PayPal adapter implements OAuth, invoice creation, idempotency and recovery, draft sending, provider-hosted checkout handoff, invoice readback and reconciliation. Buyer handoff authorization remains explicit.
 
-![Actual local historical PayPal evidence; not a visitor payment](docs/screenshots/polish/payment-desktop.png)
+Historical invoice **INV2-N6CJ-RJXM-96WT-XDVG** belongs to its original agreement. It did not pay for the AI replay or a visitor’s guided contract. [Provider receipt](docs/evidence/paypal-readback.json) · [Original agreement/audit](docs/evidence/paypal-contract-link.json) · [Model evidence](docs/evidence/negotiation-matrix-20261111.json).
 
-[Original AI receipts](docs/evidence/negotiation-matrix-20261111.json) · [Critic results](docs/evidence/evaluation-live.json) · [Provider receipt](docs/evidence/paypal-readback.json)
+<details>
+<summary>See the actual host rejection and historical payment screens</summary>
+
+![Actual local host rejection using genuine saved evidence](docs/screenshots/clarity/stage-3-desktop.png)
+
+![Actual local historical PayPal evidence, not a visitor payment](docs/screenshots/clarity/stage-6-desktop.png)
+
+</details>
 
 ## Architecture
 
 ```text
-React / TypeScript frontend
-    |
-FastAPI application — session and role authorization
-    |
-Buyer/seller negotiation → trusted host policy
-    |                         ^
-Agreement and evidence workflows ← advisory semantic critic
-    |
-PostgreSQL persistence — transactions, sessions, append-only audit
-    |
-Private PayPal sandbox adapter — explicit buyer authorization
-    |
-Provider-hosted checkout and validated invoice reconciliation
-
-Model proposals and verification results cannot authorize payments.
-Recorded public chapters use static evidence, not provider operations.
+React / TypeScript
+  ├─ Seven-stage guide ← static, provenance-labeled evidence
+  └─ Independent customer/business sessions
+       ↓
+FastAPI → buyer/seller agents → trusted host policy
+       ↓                       ↑ advisory semantic critic
+Version-bound agreement → evidence checks → human review
+       ↓
+PostgreSQL transactions and append-only audit
+       ↓ explicit buyer authorization, private sandbox workflow
+PayPal-hosted checkout → validated provider reconciliation
 ```
 
-## Install and run
+## Local installation
 
-Requires Python 3.12, uv and compatible Node (20/22/24 supported by the test runner).
+Python 3.12, uv and compatible Node are required. The recorded walkthrough needs no private credentials.
 
 ```bash
 uv sync --project backend --frozen --extra test
@@ -106,9 +100,9 @@ cd backend
 uv run --frozen uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Open `http://127.0.0.1:8000`. Recorded chapters require no private credentials. See [.env.example](.env.example) and [hosted configuration](docs/VERCEL.md); never commit secrets.
+Open `http://127.0.0.1:8000`. **Try it yourself** retains service listings, invitations, project requests, shared contracts and history. Independent participants use separate browser contexts; the main guide does not require them.
 
-## Testing and limits
+## Testing
 
 ```bash
 cd backend
@@ -118,12 +112,20 @@ npm test
 npm run build
 ```
 
-The `02294a5` checkpoint passed 169 backend tests, 26 frontend tests, nine deployment checks and 21 distinct browser scenarios. New refinement results are tracked [separately](docs/FINAL_POLISH.md). Optional PostgreSQL reset fixtures require a disposable **local** `pact_*_test` database; never use hosted Neon.
+[Current test and browser results](docs/DEMO_CLARITY.md) · [Recorded critic evaluation](docs/EVALUATION.md) · [Three-minute demo script](docs/DEMO.md).
 
-Recorded evidence is historical, public personas are not verified accounts, and evaluation samples are small. The critic recorded 20 successful reviews across 27 attempts; costs are estimates, not bills. Hosted private operator checkout and Production remain unverified. [Evaluation limits](docs/EVALUATION.md) · [Demo script](docs/DEMO.md) · [Devpost draft](docs/DEVPOST.md).
+PostgreSQL reset fixtures require a disposable **local** test database. Never run them against hosted Neon.
+
+## Limitations and evidence provenance
+
+- The guide’s AI responses are genuinely recorded, not new inference; public marketplace agents are deterministic.
+- The captured agreement fixture and historical PayPal transaction are separate demonstrations. Guide controls reveal evidence, not new consent.
+- Public PayPal operations and paid inference are disabled. Hosted private operator checkout remains unverified; no escrow or automatic funds release is claimed.
+- The advisory critic uses small fixed evaluations with false positives/failed attempts; structural checks do not prove design quality.
+- Demo personas are not verified real-world identities. New-branch hosted acceptance and Production review remain pending.
 
 ## Security and license
 
-Preserve host policy, role filtering, version-bound consent, secure sessions, verified PostgreSQL TLS and provider reconciliation. Anonymous paid AI/provider operations stay disabled. Production requires the exact accepted SHA gate after final hosted acceptance. [Release safeguards](docs/FINAL_RELEASE.md#hosted-and-production-handoff).
+Host policy, private-data filtering, version-bound consent, secure sessions, verified PostgreSQL TLS and provider reconciliation remain authoritative. [Technical security and release details](docs/FINAL_RELEASE.md) · [.env.example](.env.example).
 
 MIT licensed; see [LICENSE](LICENSE).

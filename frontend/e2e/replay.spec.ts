@@ -18,49 +18,56 @@ for (const width of [1440, 390])
       .getByRole("link", { name: "Explore Pact", exact: false })
       .first()
       .click();
-    await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Next", exact: true }).click();
-    await expect(page.locator(".timeline li")).toHaveCount(2);
-    await page.getByRole("button", { name: "Previous", exact: true }).click();
-    await expect(page.locator(".timeline li")).toHaveCount(1);
-    await page.getByRole("button", { name: "Restart", exact: true }).click();
-    await expect(page.locator(".timeline li")).toHaveCount(0);
     await page
-      .getByRole("button", { name: "Show complete transcript" })
-      .click();
-    await expect(
-      page.getByRole("heading", {
-        name: "$300.00 proposed — human approval still required",
-      }),
-    ).toBeVisible();
-    await page.getByLabel("Recorded scenario").selectOption("1");
-    await page
-      .getByRole("button", { name: "Show complete transcript" })
-      .click();
-    await expect(
-      page.getByText("Host blocked · Seller minimum price violated.", {
-        exact: true,
-      }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "No agreement authorized" }),
-    ).toBeVisible();
-    await expect(
-      page.getByText("Provider-confirmed PAID", { exact: true }),
-    ).toBeVisible();
-    await expect(
-      page.getByText(/Separate original sandbox invoice/),
-    ).toBeVisible();
-    await page
-      .getByText("Separate semantic critique evidence & limits", {
+      .getByRole("button", {
+        name: "Watch the agents negotiate →",
         exact: true,
       })
       .click();
-    await expect(page.getByText(/Legitimate proposals passed:/)).toBeVisible();
+    await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
+    await page
+      .getByRole("button", { name: "Next offer →", exact: true })
+      .click();
     await expect(
-      page.getByText(/one of eight legitimate proposals was falsely escalated/),
+      page
+        .getByRole("list", { name: "Recorded negotiation offers" })
+        .locator("li"),
+    ).toHaveCount(2);
+    await page
+      .getByRole("button", { name: "Previous offer", exact: true })
+      .click();
+    await expect(
+      page
+        .getByRole("list", { name: "Recorded negotiation offers" })
+        .locator("li"),
+    ).toHaveCount(1);
+    await page
+      .getByRole("button", { name: "Show full exchange", exact: true })
+      .click();
+    await expect(
+      page.getByText(
+        "Agents reached a $300.00 proposal. Human approval is still required.",
+        { exact: true },
+      ),
     ).toBeVisible();
-    await page.getByText("What’s real in this demo?", { exact: true }).click();
+    await page
+      .getByRole("button", { name: "Restart offer replay", exact: true })
+      .click();
+    await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
+    await page
+      .getByRole("button", { name: "Show full exchange", exact: true })
+      .click();
+    await page
+      .getByRole("button", {
+        name: "See what happens when an agent breaks the rules →",
+      })
+      .click();
+    await expect(
+      page.getByRole("region", { name: "Actual host decision" }),
+    ).toContainText("Seller minimum price violated.");
+    await page
+      .getByText("Technical evidence and provenance", { exact: true })
+      .click();
     await expect(
       page.getByRole("link", { name: "docs/evidence/evaluation-live.json" }),
     ).toHaveAttribute("href", /248004b6.*evaluation-live.json/);
@@ -126,5 +133,7 @@ test("startup diagnostic is visible without exposing secrets or falling back to 
     .getByRole("link", { name: "Explore recorded demo" })
     .first()
     .click();
-  await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Stage 1 of 7 · People", { exact: true }),
+  ).toBeVisible();
 });

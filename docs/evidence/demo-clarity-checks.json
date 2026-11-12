@@ -1,0 +1,60 @@
+{
+  "branch": "feature/pact-final-demo-clarity",
+  "base_commit": "cb8b64e45e31b8ce4e246dd0cb7f1273ae4a74ae",
+  "results": {
+    "backend_passed": 169,
+    "frontend_passed": 29,
+    "deployment_checks_passed": 9,
+    "distinct_browser_scenarios_passed": 22,
+    "private_browser": {
+      "passed": 18,
+      "configuration_skipped": 4
+    },
+    "public_postgresql_browser": {
+      "passed": 5,
+      "overlap_with_private": 2
+    },
+    "mock_paypal_browser": {
+      "passed": 1,
+      "real_provider_call": false
+    },
+    "typescript": "passed",
+    "production_build": "passed",
+    "backend_lint": "passed",
+    "backend_format_files": 37,
+    "frontend_format": "passed",
+    "dependency_lock": "passed"
+  },
+  "guided_demo": {
+    "stages": 7,
+    "desktop_and_mobile_screenshots": 14,
+    "api_requests": "blocked in replay tests",
+    "javascript_errors": 0,
+    "failed_resources": 0,
+    "mobile_overflow_each_stage": false,
+    "artifact_error_retry": "passed",
+    "keyboard_navigation": "passed"
+  },
+  "scope": {
+    "backend_or_deployment_changes": false,
+    "new_dependencies": false,
+    "new_paid_inference": false,
+    "new_payments": false,
+    "main_merged": false,
+    "production_promoted": false
+  },
+  "audits": {
+    "production_npm_vulnerabilities": 0,
+    "full_npm_high_build_only": 3,
+    "full_npm_critical": 0,
+    "secret_scan": "No findings in targeted source/built-asset scan; not an exhaustive guarantee"
+  },
+  "hosted": {
+    "existing_preview": "https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/",
+    "base_health": "owner verified; separate infrastructure evidence",
+    "network_probe": "proxy CONNECT denied before application response",
+    "new_branch_preview": "not verified",
+    "human_usability_review": "pending"
+  },
+  "screenshots": "../screenshots/clarity/"
+}
