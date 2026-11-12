@@ -4,16 +4,14 @@ afterEach(() => vi.unstubAllGlobals());
 it("distinguishes rewritten HTML from a database JSON error", async () => {
   vi.stubGlobal(
     "fetch",
-    vi
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve(
-          new Response("<html>PRIVATE platform error</html>", {
-            status: 200,
-            headers: { "content-type": "text/html" },
-          }),
-        ),
+    vi.fn().mockImplementation(() =>
+      Promise.resolve(
+        new Response("<html>PRIVATE platform error</html>", {
+          status: 200,
+          headers: { "content-type": "text/html" },
+        }),
       ),
+    ),
   );
   await expect(api("/demo-market/persona")).rejects.toThrow(
     "HTTP 200; API_NON_JSON",
