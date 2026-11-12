@@ -4,7 +4,7 @@
 
 Pact brings customer and business agents together around a service request. The agents propose terms; a trusted host checks them; people retain control of approval, evidence review and payment.
 
-[Current Preview](https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/) | [Source repository](https://github.com/RatChakraborty/Pact-Agentic-Commerce)
+[Current Preview](https://pact-agentic-commerce-r1efmgcym-pact-83c7281c.vercel.app/)
 
 The Preview link shows the existing release. The revised seven-stage walkthrough on this branch awaits its own deployment review.
 
