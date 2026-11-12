@@ -16,6 +16,7 @@ from .agents import NegotiationError, negotiate
 from .config import settings
 from .critique import CritiqueRequest
 from .critique import review as critique_terms
+from .deployment import release
 from .domain import Approval, Evidence, Negotiate, NewAgreement, Review, now
 from .integrity import IntegrityError, canonical_terms, digest, verify_accepted
 from .paypal import ProviderError, paypal
@@ -172,6 +173,11 @@ def provider_error(request, exc):
     return JSONResponse({"detail": str(exc)}, status_code=502)
 
 
+@app.get("/api/version")
+def version():
+    return {"application": "pact", "release": release(), "database_checked": False}
+
+
 @app.get("/api/health")
 def health():
     with transaction() as db:
@@ -179,6 +185,7 @@ def health():
     return {
         "status": "ok",
         "application": "pact",
+        "release": release(),
         "public_demo": settings.public_demo,
         "storage": "postgresql" if settings.pact_database_url else "sqlite",
         "paypal_environment": "sandbox",
@@ -643,6 +650,20 @@ def cancel(id: str, user: Annotated[str, Depends(owner)]):
         return a
 
 
+class FrontendFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        if path.rstrip("/") in {
+            "demo",
+            "try",
+            "customer",
+            "business",
+            "sandbox",
+            "agreements",
+        }:
+            path = "index.html"
+        return await super().get_response(path, scope)
+
+
 assets = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 if assets.exists():
-    app.mount("/", StaticFiles(directory=assets, html=True), name="frontend")
+    app.mount("/", FrontendFiles(directory=assets, html=True), name="frontend")

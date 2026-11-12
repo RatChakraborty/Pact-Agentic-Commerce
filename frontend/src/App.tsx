@@ -1,4 +1,5 @@
 import { useState, useEffect, type FormEvent } from "react";
+import { api } from "./api";
 import { money, nextAction } from "./workflow";
 type Agreement = {
   id: string;
@@ -45,27 +46,6 @@ type Agreement = {
     limitation: string;
   };
 };
-export async function api(path: string, body?: unknown, signal?: AbortSignal) {
-  const r = await fetch("/api" + path, {
-    signal,
-    method: body === undefined ? "GET" : "POST",
-    headers: { "Content-Type": "application/json", "X-Pact-Action": "1" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  let d;
-  try {
-    d = await r.json();
-  } catch {
-    throw Error("The service is temporarily unavailable. Please try again.");
-  }
-  if (!r.ok)
-    throw Error(
-      typeof d.detail === "string"
-        ? d.detail
-        : "Check the required fields and try again.",
-    );
-  return d;
-}
 const labels: Record<string, string> = {
   DRAFT: "Ready to negotiate",
   NEGOTIATING: "Agents are negotiating",

@@ -2,6 +2,7 @@
 The new dedicated Pact database uses its own schema; no Redis/other project is read.
 """
 
+import logging
 import re
 from contextlib import contextmanager
 from urllib.parse import urlparse
@@ -84,6 +85,22 @@ class Database:
         self.connection.rollback()
 
 
+def failure_code(exc):
+    # Only categorical diagnostics reach logs; driver messages can contain DSNs.
+    message = str(exc).lower()
+    if "resolve" in message or "name or service" in message:
+        return "DNS_RESOLUTION_FAILED"
+    if "certificate" in message or "ssl" in message:
+        return "TLS_CONNECTION_FAILED"
+    if "timeout" in message or "timed out" in message:
+        return "CONNECTION_TIMEOUT"
+    if getattr(exc, "sqlstate", None) == "42501":
+        return "DATABASE_PERMISSION_DENIED"
+    if getattr(exc, "sqlstate", None) in {"42P01", "3F000"}:
+        return "DATABASE_OBJECT_MISSING"
+    return "DATABASE_OPERATION_FAILED"
+
+
 @contextmanager
 def transaction(url, hosted=False):
     connection = None
@@ -106,6 +123,12 @@ def transaction(url, hosted=False):
         yield Database(connection)
         connection.commit()
     except psycopg.Error as exc:
+        logging.getLogger("pact.storage").error(
+            "PACT_STORAGE_FAILURE code=%s sqlstate=%s type=%s",
+            failure_code(exc),
+            getattr(exc, "sqlstate", None),
+            type(exc).__name__,
+        )
         if connection:
             connection.rollback()
         raise StorageUnavailable(

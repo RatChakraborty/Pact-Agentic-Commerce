@@ -1,8 +1,51 @@
 import App from "./App";
 import Market from "./Market";
+import Replay from "./Replay";
 
 export default function Root() {
-  const view = new URLSearchParams(window.location.search).get("view");
+  const path = window.location.pathname;
+  const view =
+    (
+      {
+        "/customer": "customer",
+        "/business": "business",
+        "/demo": "demo",
+        "/try": "try",
+        "/sandbox": "workspace",
+        "/agreements": "agreements",
+      } as Record<string, string>
+    )[path] || new URLSearchParams(window.location.search).get("view");
+  if (view === "demo") return <Replay />;
+  if (view === "try")
+    return (
+      <>
+        <header>
+          <a className="brand" href="/">
+            Pact
+          </a>
+          <a href="/demo">Explore recorded demo</a>
+        </header>
+        <main>
+          <h1>Which side of the agreement are you on?</h1>
+          <p>
+            Create a browser-bound demo identity. Use separate browser contexts
+            for both parties. No real accounts, live AI or payments in this
+            interactive flow.
+          </p>
+          <div className="action-row">
+            <a className="primary" href="/customer">
+              I’m a customer
+            </a>
+            <a className="quiet" href="/business">
+              I’m a business
+            </a>
+          </div>
+          <p>
+            <a href="/sandbox">Advanced single-player sandbox</a>
+          </p>
+        </main>
+      </>
+    );
   if (view === "customer" || view === "business")
     return <Market entry={view === "customer" ? "buyer" : "seller"} />;
   if (view === "workspace" || view === "agreements") return <App />;
@@ -27,17 +70,17 @@ export default function Root() {
           milestone evidence, and authorize payment.
         </p>
         <div className="action-row">
-          <a className="primary" href="/?view=workspace">
-            Try interactive demo →
+          <a className="primary" href="/demo">
+            Explore the demo →
           </a>
           <a className="quiet" href="/?view=agreements">
             Your agreements
           </a>
         </div>
         <p className="muted">
-          The interactive demo uses deterministic agents and creates no
-          payments. Separate recorded evidence shows real AI negotiation and a
-          PayPal sandbox invoice confirmed PAID.
+          Explore genuine recorded AI replies without credentials or a database.
+          Replay creates no contracts or payments. The separate sandbox payment
+          receipt is clearly attributed to its original invoice.
         </p>
         <section className="landing-steps">
           <article>
@@ -66,7 +109,7 @@ export default function Root() {
           </article>
         </section>
         <section className="evidence">
-          <span className="eyebrow">OPTIONAL · TWO-PERSONA DEMO</span>
+          <span className="eyebrow">TRY IT YOURSELF</span>
           <h2>Explore both sides of an agreement.</h2>
           <p>
             Create a demo listing as a business, then use a separate browser
@@ -75,14 +118,9 @@ export default function Root() {
             identities, not registered accounts or verified businesses. No live
             AI or payments in this flow.
           </p>
-          <div className="action-row">
-            <a className="primary" href="/?view=customer">
-              I'm a customer →
-            </a>
-            <a className="primary" href="/?view=business">
-              I'm a business →
-            </a>
-          </div>
+          <a className="quiet" href="/try">
+            Try it yourself →
+          </a>
         </section>
         <footer>
           <span>Pact · Intent into agreement.</span>

@@ -1,6 +1,6 @@
 # Pact — Agreements, with intent
 
-The landing page opens the original **Try interactive demo** workspace, session-based **Your agreements**, and an optional **customer/business two-persona demo**. The latter supports real shared records and separate human confirmations, but uses unverified demo identities, deterministic agents and **no payments**. See [two-sided scope and acceptance](docs/TWO_SIDED.md).
+The primary **Explore the demo** action opens genuine recorded AI evidence from a static, versioned asset with no API/database dependency. **Try it yourself** opens customer/business role selection; the original single-player sandbox and session-based agreement history remain secondary. The latter supports real shared records and separate human confirmations, but uses unverified demo identities, deterministic agents and **no payments**. See [two-sided scope and acceptance](docs/TWO_SIDED.md).
 
 The existing dedicated Vercel project and Neon database were created by the user. Hosted recovery remains **unverified** here because the Preview hostname is denied by the proxy and Neon DNS fails. [Recovery instructions](docs/VERCEL.md) reuse those resources; no new cloud infrastructure is needed. Local PostgreSQL tests are not hosted acceptance.
 
@@ -138,3 +138,10 @@ PACT_PUBLIC_DEMO=1 PACT_TEST_URL=ACTUAL_TARGET_ORIGIN PACT_CHROMIUM_PATH=/usr/bi
 ```
 
 The deployment guide includes the no-provider HTTP acceptance probe. Hosted behavior, managed-database TLS and actual Vercel cold starts remain unverified until account access is supplied.
+
+
+## Final recovery / replay
+
+[Recovery evidence and exact Vercel log/configuration request](docs/RECOVERY.md). The old visitor message indicates failed API JSON parsing, not proof of a Neon error. Backend startup/storage diagnostics, static/frontend/backend release IDs, separate role routes and the database-independent replay are implemented. Hosted P0 remains open until the actual Preview commit, function log and genuine Neon health are verified. No Production deployment is authorized by this change.
+
+`npm --prefix frontend run evidence:check` verifies the replay against hashed committed provider receipts. Browser tests run it at desktop/mobile sizes with all API endpoints unavailable and assert zero API calls. It preserves a genuine host block, the human approval boundary, separate semantic-evaluation limits and the separately PAID sandbox receipt. No additional paid inference or payment was made.

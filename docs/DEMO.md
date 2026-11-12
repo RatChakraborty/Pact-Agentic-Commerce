@@ -73,3 +73,8 @@ Until a merge is separately authorized, link judges to the actual implementation
 Recorded live matrix: 6 actual calls, 2,656 prompt + 447 completion tokens, $0.004444 conservative configured estimate (not a billing receipt). The frozen original and corrected offline rerun are both retained. No further paid recording run is necessary.
 
 Current architecture also supports dedicated PostgreSQL with verified remote TLS for Vercel, durable sessions/budgets and atomic transitions. The two-sided record is a separate nonpayable demo capability; it cannot inherit the private provider workflow's permissions. Real accounts, shared live AI/payment and optional replay are deferred. Public deployment recovery requires the exact network/account actions in VERCEL.md. Finish recording, uploading and submitting by November 12, 2026, 3 PM Eastern / 20:00 UTC.
+
+
+## Recorded-first recovery sequence
+
+Use Explore the demo → Next/Previous/Restart → Show complete transcript. Explicitly call it recorded genuine AI, not live streaming. Switch to the infeasible scenario and reveal the actual seller-minimum host block. Explain agent acceptance is not human approval. Open the separate dated PayPal PAID receipt and semantic-evaluation disclosures; neither is claimed to belong to a newly authorized replay contract. Try it yourself then shows role choice and the real interactive customer/business flows, whose hosted health must be verified first. The static replay itself requires no Neon or paid API requests.

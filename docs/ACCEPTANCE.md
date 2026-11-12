@@ -104,3 +104,10 @@ Two-sided implementation/limitations and detailed verification mapping: [TWO_SID
 Final visual checks: landing captured at 1440px and 390px with no horizontal overflow; shared agreement captured at desktop/mobile widths after reload and before session logout. Images are in `docs/screenshots/`. No screenshot of mocked payment is represented as real provider evidence.
 
 Repository visibility rechecked unauthenticated in this final phase: GitHub HTTP 200 with a public-repository marker; tracked license is MIT. Configured-secret scanning across source and production assets passed. No new sponsor runtime or public cloud resource was created.
+
+
+## Recovery / static replay checkpoint
+
+Core recovery validation: **115 backend tests** (including six actual local PostgreSQL tests), **11 frontend tests**, production build, lint and formatting pass. **14 distinct browser scenarios** passed across private/public/mocked configurations: the prior 10 plus recorded replay at 1440px/390px with all API endpoints unavailable and customer/business HTML-error regressions. Repeated configuration coverage is not counted as additional unique tests. No new paid model/provider writes occurred.
+
+P0 hosted acceptance is **still OPEN**: the user confirms failures, while the environment cannot obtain application responses or logs due proxy denial. No Neon root cause is assumed. See RECOVERY.md for confirmed findings, exact account evidence needed, current source/deployment inventory and the immutable-URL staleness hypothesis. Static replay functionality is independently verified; that does not establish a working hosted interactive product.

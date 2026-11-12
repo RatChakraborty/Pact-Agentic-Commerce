@@ -1,7 +1,44 @@
-"""Vercel Python Function entrypoint. No local database fallback is allowed on Vercel."""
+"""Vercel ASGI entrypoint with sanitized, fail-closed startup diagnostics."""
 
+import logging
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
-from app.main import app  # noqa: F401
+
+try:
+    from app.main import app
+except Exception as exc:  # noqa: BLE001 - fail-closed ASGI startup boundary
+    # Import/configuration failures used to leave a platform HTML response. Return
+    # JSON 503 instead; never pretend storage or startup succeeded, never log DSNs.
+    from app.deployment import release
+    from fastapi import FastAPI
+    from fastapi.responses import JSONResponse
+
+    category = (
+        "CONFIGURATION_INVALID"
+        if type(exc).__name__ == "ValidationError"
+        else "DEPENDENCY_IMPORT_FAILED"
+        if isinstance(exc, ImportError)
+        else "APPLICATION_STARTUP_FAILED"
+    )
+    logging.getLogger("pact.startup").error(
+        "PACT_STARTUP_FAILED code=%s type=%s commit=%s",
+        category,
+        type(exc).__name__,
+        release()["commit"],
+    )
+    app = FastAPI(title="Pact startup failure")
+
+    @app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+    def startup_failed(path: str):
+        return JSONResponse(
+            {
+                "detail": "The interactive service could not start. Use the recorded demo while configuration is reviewed.",
+                "code": category,
+                "release": release(),
+                "status": "error",
+            },
+            status_code=503,
+            headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
+        )

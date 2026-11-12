@@ -622,3 +622,15 @@ input[type="checkbox"] {
     margin: 32px 0;
   }
 }
+
+.replay-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 24px 0;
+}
+code {
+  font-family: ui-monospace, monospace;
+  overflow-wrap: anywhere;
+}

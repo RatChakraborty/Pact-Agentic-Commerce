@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { api } from "./App";
+import { api } from "./api";
 import { money } from "./workflow";
 
 const base = "/demo-market";
@@ -66,7 +66,7 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
         <a className="brand" href="/">
           <span className="mark">p</span>Pact
         </a>
-        <a href="/?view=workspace">Single-player demo ↗</a>
+        <a href="/demo">Explore recorded demo →</a>
       </header>
       <main>
         <span className="eyebrow">
@@ -88,9 +88,20 @@ export default function Market({ entry }: { entry: "buyer" | "seller" }) {
           Agents run within Pact.
         </p>
         {error && (
-          <p role="alert" className="blocked-label">
-            {error}
-          </p>
+          <div className="service-error">
+            <p role="alert" className="blocked-label">
+              {error}
+            </p>
+            <a className="quiet" href="/demo">
+              Explore recorded demo →
+            </a>
+            <button
+              disabled={busy}
+              onClick={() => run(() => Promise.resolve({}))}
+            >
+              Retry interactive service
+            </button>
+          </div>
         )}
         {!ready ? (
           <p role="status">Loading demo workspace…</p>

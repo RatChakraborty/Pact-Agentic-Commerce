@@ -232,3 +232,7 @@ frontend/playwright-report/
 
 # Isolated deployment metadata and caches
 .vercel/
+
+# Generated public release metadata
+backend/app/build_info.json
+frontend/public/assets/pact-build.json

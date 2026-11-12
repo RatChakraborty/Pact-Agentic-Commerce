@@ -9,10 +9,8 @@ test("landing distinguishes the public demo from real provider receipts", async 
       name: "Find common ground. Keep control of the deal.",
     }),
   ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "I'm a customer" }),
-  ).toHaveAttribute("href", "/?view=customer");
-  await page.getByRole("link", { name: "Try interactive demo" }).click();
+
+  await page.goto("/sandbox");
   await expect(
     page.getByRole("button", { name: "Workspace +", exact: true }),
   ).toBeVisible();
@@ -143,7 +141,7 @@ for (const mobile of [false, true])
       });
       await page.getByRole("button", { name: "End demo session" }).click();
       await expect(
-        page.getByRole("link", { name: "Try interactive demo" }),
+        page.getByRole("link", { name: "Explore the demo" }),
       ).toBeVisible();
     } finally {
       await sellerContext.close();

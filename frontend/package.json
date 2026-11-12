@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/build-info.mjs && node scripts/build-replay.mjs --check && tsc --noEmit && vite build",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "evidence:check": "node scripts/build-replay.mjs --check"
   },
   "dependencies": {
     "react": "^19.0.0",

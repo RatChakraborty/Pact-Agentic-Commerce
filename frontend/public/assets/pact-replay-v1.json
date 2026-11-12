@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "evidence_version": "pact-recorded-20261111-v1",
+  "recorded_at": "2026-11-11T21:11:42.171761+00:00",
+  "provenance": [
+    {
+      "path": "docs/evidence/negotiation-matrix-20261111.json",
+      "sha256": "26895afe92cf006356deebf61d71ca98775f2b704b80020e8140ae646553a48e",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    },
+    {
+      "path": "docs/evidence/paypal-readback.json",
+      "sha256": "332be2c3aa6ad4e552d90678e5b397252aebe50f7fd0f1cffdcf4eb857f9304e",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    },
+    {
+      "path": "docs/evidence/evaluation-live.json",
+      "sha256": "5793d0a1f11c765820a631e705aa73d8b5cc5c6ad22b4a099a4aebe130e6b8b6",
+      "commit": "248004b6e9f5c3d9556f994343a3a1f531ec43a8"
+    }
+  ],
+  "runs": [
+    {
+      "id": "feasible-300",
+      "objective": "Build a static studio landing page with all required sections.",
+      "budget_minor": 30000,
+      "asking_minor": 36000,
+      "criteria": [
+        "hero",
+        "features",
+        "contact"
+      ],
+      "deadline": "2026-12-01T23:59:59Z",
+      "execution": "recorded_genuine_ai",
+      "outcome": "agreement",
+      "amount_minor": 30000,
+      "reason": null,
+      "model": "gpt-4.1-mini-2025-04-14",
+      "prompt_tokens": 1344,
+      "completion_tokens": 232,
+      "estimated_usd": 0.002272,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 36000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The project involves building a static landing page with all required sections (hero, features, contact). I begin with my asking price of $360.00, which reflects the full scope and quality you expect. We can discuss and adjust if needed.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "I must stay within my budget of $300.00 while including all required sections. This offer keeps the full scope but lowers cost, balancing quality and budget limits.",
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "accept",
+          "amount_minor": 30000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The buyer's offer of $300.00 meets all scope criteria and exceeds my seller floor of $240.00, so I accept this fair price to close the deal on the fixed-scope landing page.",
+          "blocked": null
+        }
+      ]
+    },
+    {
+      "id": "infeasible",
+      "objective": "Build a static studio landing page with all required sections.",
+      "budget_minor": 20000,
+      "asking_minor": 38000,
+      "criteria": [
+        "hero",
+        "features",
+        "contact"
+      ],
+      "deadline": "2026-12-01T23:59:59Z",
+      "execution": "recorded_genuine_ai",
+      "outcome": "blocked",
+      "amount_minor": null,
+      "reason": "Seller minimum price violated.",
+      "model": "gpt-4.1-mini-2025-04-14",
+      "prompt_tokens": 1312,
+      "completion_tokens": 215,
+      "estimated_usd": 0.002172,
+      "offers": [
+        {
+          "role": "seller",
+          "action": "counter",
+          "amount_minor": 38000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "Starting at the asking price of $380.00, which reflects the full scope and quality assurance for the landing page with the hero, features, and contact sections included.",
+          "blocked": null
+        },
+        {
+          "role": "buyer",
+          "action": "counter",
+          "amount_minor": 20000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "To stay within budget while meeting the required sections, this offer reflects a fair price for a fixed-scope landing page, maintaining quality but limiting extra features.",
+          "blocked": null
+        },
+        {
+          "role": "seller",
+          "action": "accept",
+          "amount_minor": 20000,
+          "currency": "USD",
+          "criteria": [
+            "hero",
+            "features",
+            "contact"
+          ],
+          "explanation": "The buyer's offer of $200.00 is below my seller floor of $260.00, so I cannot accept it while maintaining fair compensation for the full scope. I thus must abstain from agreement.",
+          "blocked": "Seller minimum price violated."
+        }
+      ]
+    }
+  ],
+  "approval_boundary": "Agent acceptance is a proposal, not human approval. This replay does not create, approve, lock or pay a new contract.",
+  "payment": {
+    "invoice_id": "INV2-N6CJ-RJXM-96WT-XDVG",
+    "status": "PAID",
+    "amount": "300.00",
+    "currency": "USD",
+    "due": "0.00",
+    "payment_id": "48G26200EN969023U",
+    "checked_at": "2026-11-11T19:03:52.230853+00:00",
+    "attribution": "Separate original sandbox invoice. It was not created by either replayed negotiation or by your interactive demo."
+  },
+  "critique": {
+    "scope": "Separate recorded semantic evaluation; not a critique of these replayed contracts.",
+    "execution": "live_model_with_deterministic_guardrails",
+    "metrics": {
+      "valid_workflow_completion": {
+        "numerator": 8,
+        "denominator": 8
+      },
+      "valid_proposal_pass_rate": {
+        "numerator": 7,
+        "denominator": 8
+      },
+      "false_rejection": {
+        "numerator": 1,
+        "denominator": 8
+      },
+      "unauthorized_action_rejection": {
+        "numerator": 8,
+        "denominator": 8
+      },
+      "contradiction_detection": {
+        "numerator": 6,
+        "denominator": 6
+      },
+      "ambiguity_or_abstention": {
+        "numerator": 6,
+        "denominator": 6
+      }
+    },
+    "successful_model_calls": 20,
+    "attempted_model_calls": 27,
+    "limitation": "Small fixed evaluation; one of eight legitimate proposals was falsely escalated. No trained dedicated SLM."
+  },
+  "limitations": [
+    "Historical synthetic demo constraints can appear in recorded explanations. Current shared demo uses deterministic agents and role-filtered private data.",
+    "The infeasible model output contradicts its own explanation; the host rejected it. No contract or payment was authorized.",
+    "Token costs are configured estimates, not billing receipts."
+  ]
+}
