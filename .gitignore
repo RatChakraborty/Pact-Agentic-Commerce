@@ -236,3 +236,6 @@ frontend/playwright-report/
 # Generated public release metadata
 backend/app/build_info.json
 frontend/public/assets/pact-build.json
+
+# Frontend auto-pip output must not become application source.
+.vercel_python_packages/

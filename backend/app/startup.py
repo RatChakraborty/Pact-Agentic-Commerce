@@ -1,6 +1,7 @@
 """Value-free diagnostics available even when Settings/app.main cannot import."""
 
 import os
+import platform
 import re
 from pathlib import Path
 from urllib.parse import urlparse
@@ -89,6 +90,8 @@ def configuration_report():
 
 def describe_failure(exc):
     report = configuration_report()
+    report["python_version"] = platform.python_version()
+    report["python_implementation"] = platform.python_implementation()
     report["exception_type"] = type(exc).__name__
     module = getattr(exc, "name", None)
     if (

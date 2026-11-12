@@ -36,3 +36,7 @@ The existing private workflow supports a server-enforced Basic operator gate, HT
 The original provider flow records explicit **buyer** approval, not two independent human confirmations. It creates the invoice before evidence verification, sends a draft during buyer-authorized handoff when needed, opens a real sandbox provider URL and reconciles provider state through validated GETs. New shared agreements require both human confirmations but intentionally have no provider-write adapter. These are distinct capabilities; neither is misrepresented as a fully deployed mutually approved paid workflow.
 
 A safe hosted operator pathway still needs verified hosted startup, actual operator authentication/session testing, provider configuration and agreement ownership mapping. No additional invoice/payment should be created for filming. Until that is verified, use the read-only original contract/provider proof and keep live actions private. No escrow or automatic release is claimed.
+
+## Python build-phase investigation
+
+See [the Python selection investigation](VERCEL_PYTHON_INVESTIGATION.md) for the CLI implementation evidence, explicit Node-only frontend install, retained supported 3.12 function pin, ignore-rule review and isolated exact-3.14.8 comparison. Both healthy release metadata and startup fallback diagnostics now include actual interpreter version/implementation. The client displays only safe whitelisted startup references. This does not establish the interpreter or cause of the currently deployed failure.

@@ -51,3 +51,102 @@ test("React output and API rewrite coexist with the discovered Python function",
   );
   assert.equal(config.rewrites[apiIndex].destination, "/api/index.py");
 });
+
+test("official Python selector honors 3.12 even when 3.14 is available/default", async () => {
+  const {
+    discoverPythonPackage,
+    selectPythonVersion,
+  } = require("@vercel/python-analysis");
+  const pkg = await discoverPythonPackage({
+    entrypointDir: resolve(root, "api"),
+    rootDir: root,
+  });
+  const available = [14, 13, 12].map((minor) => ({
+    version: { major: 3, minor },
+    implementation: "cpython",
+    variant: "default",
+    os: "linux",
+    architecture: "x86_64",
+    libc: "gnu",
+  }));
+  const result = selectPythonVersion({
+    constraints: pkg.requiresPython,
+    availableBuilds: available,
+    allBuilds: available,
+    defaultBuild: available[0],
+    majorMinorOnly: true,
+  });
+  assert.equal(result.build.version.minor, 12);
+  assert.equal(result.source, ".python-version");
+  for (const name of [
+    "fastapi",
+    "starlette",
+    "pydantic",
+    "psycopg",
+    "itsdangerous",
+  ]) {
+    assert.ok(
+      pkg.manifest.data.project.dependencies.some((dep) =>
+        dep.startsWith(name + "=="),
+      ),
+      name + " runtime dependency must remain declared",
+    );
+  }
+  assert.equal(
+    pkg.manifest.origin.path,
+    "requirements.txt",
+    "Keep the locked Python dependency manifest",
+  );
+});
+
+test("Vite installs Node dependencies explicitly and cannot auto-pip root requirements", () => {
+  const config = JSON.parse(readFileSync(resolve(root, "vercel.json"), "utf8"));
+  assert.equal(config.installCommand, "npm --prefix frontend ci");
+  assert.equal(config.buildCommand, "npm --prefix frontend run build");
+  assert.equal(
+    config.functions["api/index.py"].excludeFiles,
+    ".vercel_python_packages/**",
+  );
+});
+
+test("ignore rules retain required Python runtime files and exclude the frontend pip target", () => {
+  const { createRequire } = require("node:module");
+  const dependencyRequire = createRequire(
+    require.resolve("@vercel/python-analysis"),
+  );
+  const { minimatch } = dependencyRequire("minimatch");
+  const rules = readFileSync(resolve(root, ".vercelignore"), "utf8")
+    .split(/\r?\n/)
+    .map((s) => s.trim())
+    .filter((s) => s && !s.startsWith("#"));
+  function ignored(file) {
+    let value = false;
+    for (const line of rules) {
+      const negative = line.startsWith("!");
+      const pattern = negative ? line.slice(1) : line;
+      if (
+        minimatch(file, pattern, { dot: true }) ||
+        minimatch(file, pattern.replace(/\/$/, "") + "/**", { dot: true })
+      )
+        value = !negative;
+    }
+    return value;
+  }
+  for (const file of [
+    ".python-version",
+    "requirements.txt",
+    "api/index.py",
+    "backend/app/main.py",
+    "backend/app/config.py",
+    "backend/app/startup.py",
+    "backend/app/postgres.py",
+    "docs/evidence/paypal-readback.json",
+  ]) {
+    assert.ok(
+      existsSync(resolve(root, file)),
+      file + " must exist at repository root",
+    );
+    assert.equal(ignored(file), false, file + " must survive upload rules");
+  }
+  assert.equal(ignored(".vercel_python_packages/pydantic_core/core.so"), true);
+});
