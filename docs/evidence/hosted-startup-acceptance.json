@@ -36,102 +36,102 @@
     {
       "test": "API health/PostgreSQL storage",
       "status": "FAILED",
-      "reason": "User-supplied /api/health returns CONFIGURATION_INVALID on ad31b00; PostgreSQL connectivity has not been tested."
+      "reason": "Actual user-supplied /api/health runtime log reports TLS_CONNECTION_FAILED; no successful PostgreSQL health yet."
     },
     {
       "test": "Neon schema initialization",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Customer persona",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Seller persona",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Service listing",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Directory/invitation",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Negotiation request",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Seller authorization",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Bounded negotiation",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Shared transcript",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Separate human confirmations",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Unauthorized change rejection",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Persistence after refresh",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Seller evidence submission",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Customer verification review",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Agreement history in both dashboards",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Cross-session rejection",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Private constraint isolation",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Session expiry/logout",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     },
     {
       "test": "Errors/mobile/navigation",
       "status": "NOT VERIFIED",
-      "reason": "Hosted configuration validation fails before storage access on user-observed ad31b00. This workflow check has not run against a corrected Preview."
+      "reason": "Newer user-supplied hosted logs show TLS_CONNECTION_FAILED. Corrected TLS deployment and this workflow have not been verified."
     }
   ],
   "user_reported_interactive_result": {
@@ -141,5 +141,18 @@
   "provider_actions_in_this_phase": false,
   "observed_deployment_sha": "ad31b00bcf2d3bddb532223061ed899c0b8df074",
   "application_status_source": "User-supplied actual hosted /api/health JSON; not a direct agent probe",
-  "latest_health_evidence": "hosted-health-ad31b00.json"
+  "latest_health_evidence": "User-supplied TLS failure logs; exact newer release SHA unavailable",
+  "latest_runtime_evidence": {
+    "source": "User-supplied Vercel runtime logs after Preview configuration repair",
+    "deployment_sha": null,
+    "code": "TLS_CONNECTION_FAILED",
+    "type": "OperationalError",
+    "sqlstate": null,
+    "paths": [
+      "/api/health",
+      "/api/agreements",
+      "/api/demo-market/persona"
+    ],
+    "hosted_fix_verified": false
+  }
 }

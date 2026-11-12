@@ -1,5 +1,7 @@
 # Hosted startup diagnostics and acceptance status
 
+**Latest blocker:** newer user-supplied runtime logs show `TLS_CONNECTION_FAILED` after Preview configuration repair. See [secure Neon TLS correction and hosted acceptance gate](NEON_TLS_RECOVERY.md). Hosted recovery remains unverified. Earlier configuration observations below are historical.
+
 ## Confirmed hosted configuration failure — November 12, 2026
 
 The user supplied actual `/api/health` JSON for core `ad31b00bcf2d3bddb532223061ed899c0b8df074`: `CONFIGURATION_INVALID`, Python **3.12.16**, `PUBLIC_DEMO=false`, session secret missing/short, and no database connection attempted by diagnostics. See [sanitized evidence](evidence/hosted-health-ad31b00.json). This supersedes the previously unknown startup category below. Neon is not established as the cause. The Python pin is working on this deployment.

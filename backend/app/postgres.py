@@ -3,11 +3,15 @@ The new dedicated Pact database uses its own schema; no Redis/other project is r
 """
 
 import logging
+import os
 import re
 from contextlib import contextmanager
+from pathlib import Path
 from urllib.parse import urlparse
 
+import certifi
 import psycopg
+from psycopg.conninfo import conninfo_to_dict
 from psycopg.rows import dict_row
 
 LOCK_ID = 174334001
@@ -101,6 +105,55 @@ def failure_code(exc):
     return "DATABASE_OPERATION_FAILED"
 
 
+def tls_failure_reason(exc):
+    # Fixed categories only: never log the raw libpq message or connection URL.
+    message = str(exc).lower()
+    if "does not match host name" in message or "hostname mismatch" in message:
+        return "HOSTNAME_MISMATCH"
+    if "root certificate file" in message and "does not exist" in message:
+        return "CA_FILE_MISSING"
+    if (
+        "could not read root certificate" in message
+        or "could not load root certificate" in message
+    ):
+        return "CA_FILE_UNREADABLE"
+    if (
+        "certificate verify failed" in message
+        or "certificate verification failed" in message
+    ):
+        return "CERTIFICATE_VERIFY_FAILED"
+    if "server does not support ssl" in message:
+        return "SERVER_TLS_UNAVAILABLE"
+    return (
+        "OTHER_TLS_FAILURE"
+        if failure_code(exc) == "TLS_CONNECTION_FAILED"
+        else "NOT_TLS"
+    )
+
+
+def binding_diagnostics(url):
+    """Value-free observations; matching fields do not verify a live database."""
+    explicit = os.environ.get("PACT_DATABASE_URL", "")
+    generic = os.environ.get("DATABASE_URL", "")
+    source = (
+        "PACT_DATABASE_URL"
+        if explicit and url == explicit
+        else ("DATABASE_URL" if generic and url == generic else "application")
+    )
+    match = None
+    if explicit and generic:
+        try:
+            a, b = conninfo_to_dict(explicit), conninfo_to_dict(generic)
+            match = all(
+                a.get(k, "") == b.get(k, "")
+                for k in ["host", "hostaddr", "dbname", "user", "service"]
+            )
+            match = match and a.get("port", "5432") == b.get("port", "5432")
+        except psycopg.Error:
+            match = False
+    return source, match
+
+
 @contextmanager
 def transaction(url, hosted=False):
     connection = None
@@ -114,7 +167,10 @@ def transaction(url, hosted=False):
             prepare_threshold=None,
             row_factory=dict_row,
             sslmode="disable" if local else "verify-full",
-            **({} if local else {"sslrootcert": "system"}),
+            # Explicit packaged trust works with binary libpq's private OpenSSL,
+            # whose compiled default CA locations need not exist on Vercel.
+            # Keywords override weaker/stale URL TLS parameters; no retry/downgrade.
+            **({} if local else {"sslrootcert": certifi.where()}),
         )
         connection.execute("SET LOCAL lock_timeout = '8s'")
         connection.execute("SET LOCAL statement_timeout = '15s'")
@@ -123,11 +179,17 @@ def transaction(url, hosted=False):
         yield Database(connection)
         connection.commit()
     except psycopg.Error as exc:
+        source, bindings_match = binding_diagnostics(url)
         logging.getLogger("pact.storage").error(
-            "PACT_STORAGE_FAILURE code=%s sqlstate=%s type=%s",
+            "PACT_STORAGE_FAILURE code=%s sqlstate=%s type=%s tls_reason=%s libpq=%s trust_store=certifi ca_bundle_present=%s database_source=%s binding_target_fields_match=%s",
             failure_code(exc),
             getattr(exc, "sqlstate", None),
             type(exc).__name__,
+            tls_failure_reason(exc),
+            psycopg.pq.version(),
+            Path(certifi.where()).is_file(),
+            source,
+            bindings_match,
         )
         if connection:
             connection.rollback()
