@@ -1,12 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm --prefix frontend ci && npm --prefix frontend run build",
+  "buildCommand": "npm --prefix frontend run build",
   "outputDirectory": "frontend/dist",
   "framework": "vite",
   "functions": {
     "api/index.py": {
       "maxDuration": 60,
-      "includeFiles": "{backend/app/**,docs/evidence/**}"
+      "includeFiles": "{backend/app/**,docs/evidence/**}",
+      "excludeFiles": ".vercel_python_packages/**"
     }
   },
   "rewrites": [
@@ -54,5 +55,6 @@
         }
       ]
     }
-  ]
+  ],
+  "installCommand": "npm --prefix frontend ci"
 }

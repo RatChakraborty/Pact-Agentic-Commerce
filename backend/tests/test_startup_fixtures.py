@@ -26,7 +26,7 @@ VALID = {
 }
 
 
-def probe(overrides, block_module=None):
+def probe(overrides, block_module=None, path="/api/version", unexpected=False):
     code = """import importlib.util,json
 from unittest.mock import patch
 from fastapi.testclient import TestClient
@@ -36,15 +36,17 @@ import psycopg
         code += f"""import builtins
 original_import=builtins.__import__
 def guarded(name,*args,**kwargs):
- if name=={block_module!r}: raise ModuleNotFoundError("PRIVATE_IMPORT_ERROR",name=name)
+ if name=={block_module!r}:
+  if {unexpected!r}: raise RuntimeError("PRIVATE_IMPORT_ERROR")
+  raise ModuleNotFoundError("PRIVATE_IMPORT_ERROR",name=name)
  return original_import(name,*args,**kwargs)
 builtins.__import__=guarded
 """
     code += f"""
-with patch.object(psycopg,"connect",side_effect=RuntimeError("DATABASE_CONNECTION_MUST_NOT_OCCUR")) as db:
+with patch.object(psycopg,"connect",side_effect=psycopg.OperationalError("PRIVATE_DATABASE_FAILURE")) as db:
  spec=importlib.util.spec_from_file_location("fixture_entry",{str(ENTRY)!r})
  m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
- r=TestClient(m.app).get("/api/version")
+ r=TestClient(m.app).get({path!r})
  print(json.dumps({{"status":r.status_code,"body":r.json(),"database_calls":db.call_count}}))
 """
     result = subprocess.run(
@@ -58,6 +60,7 @@ with patch.object(psycopg,"connect",side_effect=RuntimeError("DATABASE_CONNECTIO
         "PRIVATE_IMPORT_ERROR",
         VALID["APP_SESSION_SECRET"],
         "postgresql://",
+        "PRIVATE_DATABASE_FAILURE",
     ]:
         assert private not in result.stderr + result.stdout
     return json.loads(result.stdout)
@@ -67,6 +70,7 @@ def test_valid_vercel_neon_configuration_imports_without_contacting_database():
     r = probe({})
     assert r["status"] == 200 and r["body"]["application"] == "pact"
     assert r["database_calls"] == 0
+    assert r["body"]["release"]["python_version"] == sys.version.split()[0]
 
 
 @pytest.mark.parametrize(
@@ -90,6 +94,7 @@ def test_invalid_hosted_settings_fail_closed_with_actionable_value_free_diagnost
     r = probe(overrides)
     assert r["status"] == 503 and r["body"]["code"] == "CONFIGURATION_INVALID"
     assert problem in r["body"]["diagnostics"]["problems"]
+    assert r["body"]["diagnostics"]["python_version"] == sys.version.split()[0]
     assert r["database_calls"] == 0
 
 
@@ -109,3 +114,16 @@ def test_missing_runtime_dependency_is_classified_without_exposing_error_message
     assert r["status"] == 503 and r["body"]["code"] == "DEPENDENCY_IMPORT_FAILED"
     assert r["body"]["diagnostics"]["missing_module"] == "itsdangerous"
     assert r["database_calls"] == 0
+
+
+def test_unexpected_startup_error_is_sanitized_without_becoming_fake_health():
+    r = probe({}, "itsdangerous", unexpected=True)
+    assert r["status"] == 503 and r["body"]["code"] == "APPLICATION_STARTUP_FAILED"
+    assert r["database_calls"] == 0
+
+
+def test_valid_startup_with_failed_storage_is_not_misclassified_as_startup_failure():
+    r = probe({}, path="/api/health")
+    assert r["status"] == 503 and r["database_calls"] == 1
+    assert "Persistent storage is unavailable" in r["body"]["detail"]
+    assert "code" not in r["body"]

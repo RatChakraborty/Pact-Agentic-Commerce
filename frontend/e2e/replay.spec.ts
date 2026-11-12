@@ -83,3 +83,36 @@ for (const role of ["customer", "business"])
     await expect(page.getByLabel("Sandbox merchant email")).toHaveCount(0);
     await expect(page.getByText("do not render")).toHaveCount(0);
   });
+
+test("startup diagnostic is visible without exposing secrets or falling back to sandbox", async ({
+  page,
+}) => {
+  await page.route("**/api/**", (route) =>
+    route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: JSON.stringify({
+        detail:
+          "The interactive service could not start. Use the recorded demo while configuration is reviewed.",
+        code: "CONFIGURATION_INVALID",
+        diagnostics: {
+          problems: ["APP_SESSION_SECRET_MISSING_OR_SHORT", "PRIVATE_SECRET"],
+          python_version: "3.14.8",
+          private: "DO_NOT_RENDER",
+        },
+      }),
+    }),
+  );
+  await page.goto("/customer");
+  await expect(page.getByRole("alert")).toContainText(
+    "Diagnostic: CONFIGURATION_INVALID / Python 3.14.8 / APP_SESSION_SECRET_MISSING_OR_SHORT",
+  );
+  await expect(page.getByText("DO_NOT_RENDER")).toHaveCount(0);
+  await expect(page.getByText("PRIVATE_SECRET")).toHaveCount(0);
+  await expect(page.getByLabel("Sandbox buyer email")).toHaveCount(0);
+  await page
+    .getByRole("link", { name: "Explore recorded demo" })
+    .first()
+    .click();
+  await expect(page.getByText("Offer 1 of 3", { exact: true })).toBeVisible();
+});

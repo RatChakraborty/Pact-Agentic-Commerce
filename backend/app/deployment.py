@@ -2,6 +2,7 @@
 
 import json
 import os
+import platform
 from pathlib import Path
 
 
@@ -17,4 +18,6 @@ def release():
         or built.get("branch", "unknown"),
         "environment": os.environ.get("VERCEL_ENV", "local"),
         "api_contract": "pact-v2-personas",
+        "python_version": platform.python_version(),
+        "python_implementation": platform.python_implementation(),
     }
