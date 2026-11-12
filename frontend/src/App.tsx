@@ -86,7 +86,8 @@ export default function App() {
     [notice, setNotice] = useState(""),
     [menu, setMenu] = useState(false),
     [historyView, setHistoryView] = useState(
-      new URLSearchParams(location.search).get("view") === "agreements",
+      window.location.pathname === "/agreements" ||
+        new URLSearchParams(location.search).get("view") === "agreements",
     ),
     [fresh, setFresh] = useState(false),
     [customize, setCustomize] = useState(false),

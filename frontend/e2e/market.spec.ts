@@ -14,7 +14,7 @@ test("landing distinguishes the public demo from real provider receipts", async 
   await expect(
     page.getByRole("button", { name: "Workspace +", exact: true }),
   ).toBeVisible();
-  await page.goto("/?view=agreements");
+  await page.goto("/agreements");
   await expect(
     page.getByRole("heading", { name: "Your agreements" }),
   ).toBeVisible();
